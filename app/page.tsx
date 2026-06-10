@@ -1,33 +1,38 @@
+import type { Metadata } from "next";
 import HeroSection from "@/components/home/HeroSection";
-import StatsBar from "@/components/home/StatsBar";
-import ServicesGrid from "@/components/home/ServicesGrid";
-import CDFASpotlight from "@/components/home/CDFASpotlight";
-import ExpertSupport from "@/components/home/ExpertSupport";
 import TaxSeasonSection from "@/components/home/TaxSeasonSection";
-import FounderTeaser from "@/components/home/FounderTeaser";
+import StatsBar from "@/components/home/StatsBar";
+import SpotlightSection from "@/components/home/SpotlightSection";
+import ServicesGrid from "@/components/home/ServicesGrid";
 import PricingTeaser from "@/components/home/PricingTeaser";
-import BookingSection from "@/components/home/BookingSection";
+import ExpertSupport from "@/components/home/ExpertSupport";
+import TestimonialsBar from "@/components/home/TestimonialsBar";
 import EventsTeaser from "@/components/home/EventsTeaser";
 import TeachingsTeaser from "@/components/home/TeachingsTeaser";
-import TestimonialsBar from "@/components/home/TestimonialsBar";
-import ConversationCTA from "@/components/home/ConversationCTA";
+import BookingSection from "@/components/home/BookingSection";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "CPA-DMV | Certified Public Accountant — Fairfax, VA",
+  description:
+    "Expert accounting, tax, CDFA divorce financial analysis, audits, bookkeeping, and payroll services in Fairfax, VA. CPA and CDFA certified. Free consultation.",
+};
+
+export default function HomePage() {
   return (
-    <main>
+    <>
       <HeroSection />
-      <StatsBar />
-      <ServicesGrid />
-      <CDFASpotlight />
-      <ExpertSupport />
       <TaxSeasonSection />
-      <FounderTeaser />
+      <StatsBar />
+      <SpotlightSection />
+      <div style={{ width: "min(1080px, calc(100vw - 32px))", height: "1px", margin: "0 auto", background: "rgba(8, 43, 92, 0.08)" }} />
+      <ServicesGrid />
       <PricingTeaser />
-      <BookingSection />
+      <div style={{ width: "min(1080px, calc(100vw - 32px))", height: "1px", margin: "0 auto", background: "rgba(8, 43, 92, 0.08)" }} />
+      <ExpertSupport />
+      <TestimonialsBar />
       <EventsTeaser />
       <TeachingsTeaser />
-      <TestimonialsBar />
-      <ConversationCTA />
-    </main>
+      <BookingSection />
+    </>
   );
 }
