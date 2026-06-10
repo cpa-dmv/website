@@ -1,38 +1,33 @@
-import type { Metadata } from "next";
 import HeroSection from "@/components/home/HeroSection";
-import TaxSeasonSection from "@/components/home/TaxSeasonSection";
 import StatsBar from "@/components/home/StatsBar";
-import SpotlightSection from "@/components/home/SpotlightSection";
 import ServicesGrid from "@/components/home/ServicesGrid";
-import PricingTeaser from "@/components/home/PricingTeaser";
+import CDFASpotlight from "@/components/home/CDFASpotlight";
 import ExpertSupport from "@/components/home/ExpertSupport";
-import TestimonialsBar from "@/components/home/TestimonialsBar";
+import TaxSeasonSection from "@/components/home/TaxSeasonSection";
+import FounderTeaser from "@/components/home/FounderTeaser";
+import PricingTeaser from "@/components/home/PricingTeaser";
+import BookingSection from "@/components/home/BookingSection";
 import EventsTeaser from "@/components/home/EventsTeaser";
 import TeachingsTeaser from "@/components/home/TeachingsTeaser";
-import BookingSection from "@/components/home/BookingSection";
+import TestimonialsBar from "@/components/home/TestimonialsBar";
+import ConversationCTA from "@/components/home/ConversationCTA";
 
-export const metadata: Metadata = {
-  title: "CPA-DMV | Certified Public Accountant — Fairfax, VA",
-  description:
-    "Expert accounting, tax, CDFA divorce financial analysis, audits, bookkeeping, and payroll services in Fairfax, VA. CPA and CDFA certified. Free consultation.",
-};
-
-export default function HomePage() {
+export default function Home() {
   return (
-    <>
+    <main>
       <HeroSection />
-      <TaxSeasonSection />
       <StatsBar />
-      <SpotlightSection />
-      <div style={{ width: "min(1080px, calc(100vw - 32px))", height: "1px", margin: "0 auto", background: "rgba(8, 43, 92, 0.08)" }} />
       <ServicesGrid />
-      <PricingTeaser />
-      <div style={{ width: "min(1080px, calc(100vw - 32px))", height: "1px", margin: "0 auto", background: "rgba(8, 43, 92, 0.08)" }} />
+      <CDFASpotlight />
       <ExpertSupport />
-      <TestimonialsBar />
+      <TaxSeasonSection />
+      <FounderTeaser />
+      <PricingTeaser />
+      <BookingSection />
       <EventsTeaser />
       <TeachingsTeaser />
-      <BookingSection />
-    </>
+      <TestimonialsBar />
+      <ConversationCTA />
+    </main>
   );
 }
