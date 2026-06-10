@@ -54,7 +54,7 @@ export default function PricingTeaser() {
 
           {/* Right — animated dashboard card */}
           <AnimatedSection direction="right">
-            <div className="relative h-[440px] flex items-center justify-center">
+            <div className="relative h-[352px] flex items-center justify-center">
 
               {/* Shadow card behind */}
               <div className="absolute top-5 left-5 right-5 bottom-1 bg-[#082B5C]/10 rounded-3xl rotate-2 scale-[0.98]" />
@@ -62,7 +62,7 @@ export default function PricingTeaser() {
               {/* Main blue card */}
               <motion.div
                 className="relative w-full rounded-3xl overflow-hidden shadow-2xl bg-[#082B5C]"
-                style={{ height: 380 }}
+                style={{ height: 304 }}
                 whileHover={{ scale: 1.015, boxShadow: "0 32px 64px rgba(8,43,92,0.35)" }}
                 transition={{ duration: 0.3 }}
               >
@@ -81,7 +81,7 @@ export default function PricingTeaser() {
                 </svg>
 
                 {/* Card content */}
-                <div className="relative z-10 p-8 h-full flex flex-col justify-between">
+                <div className="relative z-10 p-6 h-full flex flex-col justify-between">
 
                   {/* Top */}
                   <div>
