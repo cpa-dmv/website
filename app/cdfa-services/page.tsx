@@ -65,8 +65,8 @@ export default function CDFAPage() {
                     <circle cx="32" cy="32" r="28" fill="none" stroke="rgba(217,119,6,0.22)" strokeWidth="4" />
                     <motion.circle cx="32" cy="32" r="28" fill="none" stroke="#D97706" strokeWidth="4"
                       strokeLinecap="round" strokeDasharray={175.9}
-                      animate={{ strokeDashoffset: [175.9, 0, 175.9] }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
+                      animate={{ strokeDashoffset: [175.9, 43.97, 175.9] }}
+                      transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}>
@@ -85,24 +85,6 @@ export default function CDFAPage() {
           </div>
         </div>
       </section>
-
-      {/* 72hr attention strip */}
-      <div className="bg-amber-50 border-b border-amber-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1.6, repeat: Infinity }}>
-              <Zap size={15} className="text-[#D97706] fill-[#D97706]" />
-            </motion.div>
-            <p className="text-[#92400E] text-sm font-medium">
-              <strong>72-hour turnaround</strong> — preliminary divorce financial report when it matters most.
-            </p>
-          </div>
-          <Link href="/contact"
-            className="flex-shrink-0 bg-[#D97706] hover:bg-[#B45309] text-white font-bold text-xs px-4 py-2 rounded-full transition-colors">
-            Request Report
-          </Link>
-        </div>
-      </div>
 
       {/* Services grid */}
       <section className="py-14">
@@ -163,9 +145,6 @@ export default function CDFAPage() {
       <section className="py-14">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <AnimatedSection>
-            <div className="flex justify-center mb-6">
-              <TurnaroundBadge size="lg" />
-            </div>
             <h2 className="font-display font-bold text-[#082B5C] text-2xl lg:text-3xl mb-3">
               Ready to get started?
             </h2>
@@ -183,7 +162,7 @@ export default function CDFAPage() {
                 Email Us
               </a>
             </div>
-            <p className="text-[#9CA3AF] text-xs mt-5">$180/hr · Confidential · IDFA Certified</p>
+            <p className="text-[#9CA3AF] text-xs mt-5">Confidential · IDFA Certified · Contact for pricing</p>
           </AnimatedSection>
         </div>
       </section>

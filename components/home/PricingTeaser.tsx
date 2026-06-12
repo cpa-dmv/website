@@ -117,11 +117,10 @@ export default function PricingTeaser() {
                     <div className="flex items-end gap-1">
                       <span
                         className="font-display font-bold text-[#F59E0B] leading-none"
-                        style={{ fontSize: "clamp(2.8rem, 5vw, 3.8rem)" }}
+                        style={{ fontSize: "clamp(1.6rem, 3vw, 2rem)" }}
                       >
-                        $180
+                        Contact for pricing
                       </span>
-                      <span className="text-white/50 text-base mb-2">/hr</span>
                     </div>
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
                       <Link
@@ -140,8 +139,8 @@ export default function PricingTeaser() {
                     viewport={{ once: true }} transition={{ delay: 0.55 }}
                   >
                     {[
-                      { label: "Payroll", val: "$100/cycle" },
-                      { label: "AP / AR", val: "$20/hr" },
+                      { label: "Payroll",  val: "Contact" },
+                      { label: "AP / AR", val: "Contact" },
                       { label: "Audits",  val: "Contact" },
                     ].map((s) => (
                       <div key={s.label}>
@@ -156,8 +155,8 @@ export default function PricingTeaser() {
 
               {/* Floating chips */}
               {[
-                { label: "CDFA", rate: "$180/hr", pos: "-top-3 -right-3", delay: 0 },
-                { label: "HR",   rate: "$20/hr",  pos: "-bottom-3 -left-3", delay: 1 },
+                { label: "CDFA", rate: "Contact", pos: "-top-3 -right-3", delay: 0 },
+                { label: "HR",   rate: "Contact", pos: "-bottom-3 -left-3", delay: 1 },
               ].map((chip) => (
                 <motion.div
                   key={chip.label}

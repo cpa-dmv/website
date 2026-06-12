@@ -1,10 +1,10 @@
 "use client";
 
 import AnimatedSection from "@/components/shared/AnimatedSection";
+import TurnaroundBadge from "@/components/shared/TurnaroundBadge";
 import { CheckCircle, Shield, Award } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import TurnaroundBadge from "@/components/shared/TurnaroundBadge";
 
 const cpaPoints = [
   "Tax planning, compliance, and reporting",
@@ -132,11 +132,13 @@ export default function SpotlightSection() {
                   ))}
                 </ul>
 
-                <TurnaroundBadge size="md" />
+                <div className="mb-4">
+                  <TurnaroundBadge size="md" />
+                </div>
 
-                <div className="flex items-center justify-between pt-4 mt-4 border-t border-amber-100">
+                <div className="flex items-center justify-between pt-4 border-t border-amber-100">
                   <div className="flex items-center gap-2">
-                    {["IDFA", "Court-Ready", "$180/hr"].map((tag) => (
+                    {["IDFA", "Court-Ready", "Contact for pricing"].map((tag) => (
                       <span key={tag} className="text-[10px] font-semibold text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-full">
                         {tag}
                       </span>

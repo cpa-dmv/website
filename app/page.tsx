@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/home/HeroSection";
-import TaxSeasonSection from "@/components/home/TaxSeasonSection";
-import StatsBar from "@/components/home/StatsBar";
 import SpotlightSection from "@/components/home/SpotlightSection";
 import ServicesGrid from "@/components/home/ServicesGrid";
 import PricingTeaser from "@/components/home/PricingTeaser";
@@ -21,8 +19,6 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <TaxSeasonSection />
-      <StatsBar />
       <SpotlightSection />
       <div style={{ width: "min(1080px, calc(100vw - 32px))", height: "1px", margin: "0 auto", background: "rgba(8, 43, 92, 0.08)" }} />
       <ServicesGrid />

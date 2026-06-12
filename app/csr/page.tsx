@@ -176,29 +176,6 @@ export default function CSRPage() {
         </div>
       </AnimatedSection>
 
-      {/* ── Why it matters ── */}
-      <section className="bg-[#082B5C] py-14">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <AnimatedSection>
-            <p className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-3">Why It Matters</p>
-            <h2 className="font-display font-bold text-white text-2xl lg:text-3xl mb-5">
-              Accounting beyond the balance sheet
-            </h2>
-            <p className="text-white/60 text-base leading-relaxed mb-8">
-              The DMV region is home to thousands of small businesses, immigrant entrepreneurs, non-profits, and families
-              navigating complex financial decisions without professional guidance. CPA-DMV exists to serve them — not just
-              those who can afford premium rates. The 2:2:2 model is our structured, accountable way of making that real every year.
-            </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 bg-[#F59E0B] hover:bg-[#e08e00] text-[#082B5C] font-bold px-7 py-3.5 rounded-full text-sm transition-all group"
-            >
-              Partner with us or inquire about pro-bono eligibility
-              <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-            </Link>
-          </AnimatedSection>
-        </div>
-      </section>
 
     </div>
   );

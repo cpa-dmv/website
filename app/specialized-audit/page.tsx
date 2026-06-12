@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 };
 
 const tiers = [
-  { name: "Hourly", price: "$180/hr", desc: "Flexible hourly engagement for smaller or exploratory engagements.", tag: "" },
-  { name: "Standard Fixed", price: "$2,500", desc: "25-hour fixed engagement. Ideal for most supervisory committee and review engagements.", tag: "Most Common" },
-  { name: "Enterprise Fixed", price: "$10,000", desc: "100-hour fixed engagement for complex organizations requiring deep audit fieldwork.", tag: "" },
+  { name: "Hourly", price: "Contact for pricing", desc: "Flexible hourly engagement for smaller or exploratory engagements.", tag: "" },
+  { name: "Standard Fixed", price: "Contact for pricing", desc: "25-hour fixed engagement. Ideal for most supervisory committee and review engagements.", tag: "Most Common" },
+  { name: "Enterprise Fixed", price: "Contact for pricing", desc: "100-hour fixed engagement for complex organizations requiring deep audit fieldwork.", tag: "" },
 ];
 
 const industries = [

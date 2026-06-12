@@ -107,8 +107,7 @@ export default function Footer() {
               <li className="flex items-start gap-2.5">
                 <Clock size={14} className="text-white/50 flex-shrink-0 mt-0.5" />
                 <span className="text-white/50 text-[15px] leading-relaxed">
-                  Mon – Fri: 9 AM – 6 PM<br />
-                  <span className="text-white/30 text-[13px]">Weekend urgent matters by appointment only</span>
+                  Mon – Fri: 9 AM – 6 PM
                 </span>
               </li>
             </ul>
