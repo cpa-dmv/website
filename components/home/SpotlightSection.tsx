@@ -4,6 +4,7 @@ import AnimatedSection from "@/components/shared/AnimatedSection";
 import { CheckCircle, Shield, Award } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import TurnaroundBadge from "@/components/shared/TurnaroundBadge";
 
 const cpaPoints = [
   "Tax planning, compliance, and reporting",
@@ -122,7 +123,7 @@ export default function SpotlightSection() {
               <div className="relative z-10 flex flex-col h-full">
                 <CertBadge label="CDFA" sub="Certified Divorce Financial Analyst" icon={Award} accent="#D97706" />
 
-                <ul className="space-y-2.5 mb-6 flex-1">
+                <ul className="space-y-2.5 mb-4 flex-1">
                   {cdfaPoints.map((b) => (
                     <li key={b} className="flex items-start gap-2.5">
                       <CheckCircle size={14} className="text-[#D97706]/60 flex-shrink-0 mt-0.5" />
@@ -131,7 +132,9 @@ export default function SpotlightSection() {
                   ))}
                 </ul>
 
-                <div className="flex items-center justify-between pt-4 border-t border-amber-100">
+                <TurnaroundBadge size="md" />
+
+                <div className="flex items-center justify-between pt-4 mt-4 border-t border-amber-100">
                   <div className="flex items-center gap-2">
                     {["IDFA", "Court-Ready", "$180/hr"].map((tag) => (
                       <span key={tag} className="text-[10px] font-semibold text-[#D97706] bg-amber-50 px-2 py-0.5 rounded-full">

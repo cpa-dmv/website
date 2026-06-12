@@ -15,7 +15,7 @@ const company = [
   { name: "About",     href: "/about" },
   { name: "Teachings", href: "/teachings" },
   { name: "Events",    href: "/events" },
-  { name: "Pricing",   href: "/contact#pricing" },
+  { name: "CSR",       href: "/csr" },
   { name: "Contact",   href: "/contact" },
 ];
 

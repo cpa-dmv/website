@@ -90,7 +90,7 @@ export default function Header() {
 
             {[
               { label: "Teachings", href: "/teachings" },
-              { label: "Pricing", href: "/contact#pricing" },
+              { label: "CSR", href: "/csr" },
               { label: "About", href: "/about" },
               { label: "Contact", href: "/contact" },
             ].map((l) => (
@@ -156,7 +156,7 @@ export default function Header() {
                 </div>
                 {[
                   { label: "Teachings", href: "/teachings" },
-                  { label: "Pricing", href: "/contact#pricing" },
+                  { label: "CSR", href: "/csr" },
                   { label: "About", href: "/about" },
                   { label: "Contact", href: "/contact" },
                 ].map((l) => (
