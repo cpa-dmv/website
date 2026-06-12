@@ -4,22 +4,23 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   BookOpen, FileText, BarChart3, Users, ArrowLeftRight,
-  Briefcase, Monitor, Building2, ClipboardCheck, Search, Scale,
+  Briefcase, Monitor, Building2, ClipboardCheck, Search, Scale, TrendingUp,
 } from "lucide-react";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const homeServices = [
-  { icon: BookOpen,       label: "Bookkeeping",               slug: "ap-ar",                 desc: "Accurate, organized books every month." },
-  { icon: FileText,       label: "Taxes",                     slug: "taxation",              desc: "Individual and business tax preparation." },
-  { icon: BarChart3,      label: "Accounting",                slug: "specialized-audit",     desc: "Financial reporting and general ledger." },
-  { icon: Users,          label: "Payroll",                   slug: "payroll",               desc: "Accurate payroll processing every cycle." },
-  { icon: ArrowLeftRight, label: "AP / AR",                   slug: "ap-ar",                 desc: "Cash flow management and reconciliation." },
-  { icon: Briefcase,      label: "HR Advisory",               slug: "hr-advisory",           desc: "Practical HR support for small businesses." },
-  { icon: Monitor,        label: "QuickBooks Setup",          slug: "quickbooks",            desc: "ProAdvisor setup, training, and cleanup." },
-  { icon: Building2,      label: "Business Registration",     slug: "business-registration", desc: "Entity formation and state filing." },
-  { icon: ClipboardCheck, label: "Audits & Attestations",     slug: "specialized-audit",     desc: "Rigorous audits for regulated industries." },
-  { icon: Search,         label: "Forensics",                 slug: "forensics-accounting",  desc: "Investigation and expert court witness." },
-  { icon: Scale,          label: "Divorce Financial Analysis",slug: "cdfa-services",         desc: "CDFA-certified settlement analysis." },
+  { icon: Scale,          label: "Divorce Financial Analysis", slug: "cdfa-services",         desc: "CDFA-certified settlement analysis." },
+  { icon: ClipboardCheck, label: "Audits & Attestations",      slug: "specialized-audit",     desc: "Rigorous audits for regulated industries." },
+  { icon: Search,         label: "Forensics Audits",           slug: "forensics-accounting",  desc: "Investigation and expert court witness." },
+  { icon: TrendingUp,     label: "Business Valuation",         slug: "business-valuation",    desc: "Fair market value for transactions & disputes." },
+  { icon: Monitor,        label: "QuickBooks Setup",           slug: "quickbooks",            desc: "ProAdvisor setup, training, and cleanup." },
+  { icon: BarChart3,      label: "Accounting",                 slug: "specialized-audit",     desc: "Financial reporting and general ledger." },
+  { icon: Users,          label: "Payroll",                    slug: "payroll",               desc: "Accurate payroll processing every cycle." },
+  { icon: Building2,      label: "Business Registration",      slug: "business-registration", desc: "Entity formation and state filing." },
+  { icon: ArrowLeftRight, label: "AP / AR",                    slug: "ap-ar",                 desc: "Cash flow management and reconciliation." },
+  { icon: Briefcase,      label: "HR Advisory",                slug: "hr-advisory",           desc: "Practical HR support for small businesses." },
+  { icon: FileText,       label: "Taxes",                      slug: "taxation",              desc: "Individual and business tax preparation." },
+  { icon: BookOpen,       label: "Bookkeeping",                slug: "ap-ar",                 desc: "Accurate, organized books every month." },
 ];
 
 export default function ServicesGrid() {
@@ -52,22 +53,17 @@ export default function ServicesGrid() {
             >
               <Link
                 href={`/${s.slug}`}
-                className="flex flex-col items-start p-5 rounded-2xl border border-gray-100 bg-[#F7F8FA] hover:bg-white hover:border-[#082B5C]/20 hover:shadow-lg transition-all h-full"
+                className="flex flex-col items-start p-5 rounded-2xl border border-gray-200 bg-[#F0F2F5] hover:bg-white hover:border-[#082B5C]/20 hover:shadow-lg transition-all h-full"
               >
-                {/* Icon */}
-                <div className="w-10 h-10 rounded-xl bg-[#082B5C]/6 group-hover:bg-[#EEF2FF] flex items-center justify-center mb-4 transition-colors flex-shrink-0">
-                  <s.icon size={19} className="text-[#082B5C] group-hover:text-[#082B5C]" strokeWidth={1.8} />
+                <div className="w-10 h-10 rounded-xl bg-[#082B5C]/7 group-hover:bg-[#EEF2FF] flex items-center justify-center mb-4 transition-colors flex-shrink-0">
+                  <s.icon size={19} className="text-[#082B5C]" strokeWidth={1.8} />
                 </div>
-
-                {/* Title — Roboto, larger */}
                 <h3
                   className="font-roboto font-bold text-[#1F2937] group-hover:text-[#082B5C] leading-snug mb-1.5 transition-colors"
                   style={{ fontSize: "15px" }}
                 >
                   {s.label}
                 </h3>
-
-                {/* Desc — Roboto, smaller */}
                 <p className="font-roboto text-[#6B7280] text-xs leading-relaxed">
                   {s.desc}
                 </p>

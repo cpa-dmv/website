@@ -235,7 +235,7 @@ export default function SpotlightSection() {
 
           {/* CPA */}
           <AnimatedSection direction="left">
-            <div className="bg-white rounded-2xl p-7 border border-gray-200 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+            <div className="rounded-2xl p-7 border border-[#082B5C]/12 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col" style={{ background: "linear-gradient(135deg, #EEF4FF 0%, #F5F8FF 60%, #EDF3FF 100%)" }}>
 
               {/* Header */}
               <div className="flex items-center gap-3 mb-6">

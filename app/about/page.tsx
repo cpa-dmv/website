@@ -1,175 +1,415 @@
-import type { Metadata } from "next";
-import AnimatedSection from "@/components/shared/AnimatedSection";
-import Link from "next/link";
-import { Shield, Award, GraduationCap, BookOpen, Users } from "lucide-react";
+"use client";
 
-export const metadata: Metadata = {
-  title: "About & Founder | CPA-DMV — Fairfax, VA",
-  description:
-    "Meet the CPA-DMV founder — a licensed CPA and Certified Divorce Financial Analyst serving individuals and businesses in Fairfax, VA.",
+import Link from "next/link";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import {
+  Shield, Award, Star, CheckCircle, ArrowRight,
+  BookOpen, Search, Scale, BarChart3, Monitor, FileText,
+} from "lucide-react";
+
+// ── Data ──────────────────────────────────────────────────────────────────────
+
+const PRAVEEN = {
+  name: "Dr. Praveen Singhal",
+  role: "Founder & Principal",
+  cert: "CDFA",
+  certFull: "Certified Divorce Financial Analyst",
+  certColor: "#D97706",
+  certBg: "#FFF8EC",
+  affiliation: "IDFA Certified",
+  specialties: [
+    { icon: Scale,    text: "Forensic & Financial Investigations" },
+    { icon: Search,   text: "Divorce Financial Analysis" },
+    { icon: BarChart3,text: "Government Accounting Systems" },
+    { icon: FileText, text: "Individuals Taxation & Compliance" },
+    { icon: Shield,   text: "Court-Ready Financial Reporting" },
+  ],
+  highlights: [
+    "Forensic accounting & financial investigations for individuals and businesses.",
+    "Divorce financial analysis for asset division, income analysis & support calculations.",
+    "Government accounting systems and compliance with accuracy and control.",
+    "Court-ready financial reports — reliable, professional, and easy to understand.",
+    "Tax planning, compliance, and IRS representation with precision and care.",
+  ],
 };
 
-const credentials = [
-  { icon: Shield, label: "CPA Licensed", sub: "Virginia Board of Accountancy" },
-  { icon: Award, label: "CDFA Certified", sub: "Institute for Divorce Financial Analysts" },
-  { icon: BookOpen, label: "AICPA Member", sub: "American Institute of CPAs" },
-  { icon: Users, label: "VA Society of CPAs", sub: "Virginia Society of CPAs" },
-  { icon: GraduationCap, label: "QuickBooks ProAdvisor", sub: "Intuit Certified" },
+const HIMANSHU = {
+  name: "Himanshu Kalra",
+  role: "CPA Partner",
+  cert: "CPA",
+  certFull: "Certified Public Accountant",
+  certColor: "#082B5C",
+  certBg: "#EEF4FF",
+  affiliation: "AICPA Member",
+  specialties: [
+    { icon: Monitor,  text: "ERP, QuickBooks & Excel Expert" },
+    { icon: FileText, text: "Tax Support & Compliance" },
+    { icon: Search,   text: "Audit Support & Documentation" },
+    { icon: BookOpen, text: "Bookkeeping" },
+    { icon: BarChart3,text: "Reconciliations & Month-End Close" },
+  ],
+  highlights: [
+    "Managed accounting operations including AP, vendor invoices, reconciliations, and month-end close for 150+ retail outlets.",
+    "Prepared audit working papers and supported statutory audits, GST, and TDS compliance.",
+    "Built automation tools using Excel & Outlook to improve workflows and reduce manual effort.",
+    "Experienced with QuickBooks, ERP systems, and advanced Excel for efficient and reliable reporting.",
+  ],
+};
+
+const TRUST_VALUES = [
+  { icon: "🎯", label: "Accurate & Reliable",      desc: "We focus on quality, accuracy, and detail." },
+  { icon: "🔒", label: "Confidential & Secure",    desc: "Your information is safe and always protected." },
+  { icon: "⚡", label: "Timely & Dependable",      desc: "On-time reporting and quick turnaround." },
+  { icon: "🤝", label: "Personalized Approach",    desc: "Every client is unique. Every solution is tailored." },
+  { icon: "📊", label: "Insightful & Strategic",   desc: "Data-driven insights that help you grow." },
 ];
 
-const values = [
-  { title: "Integrity", desc: "Every recommendation is given with honesty and your best financial interest at heart." },
-  { title: "Precision", desc: "Numbers must be right. We don't estimate where we can verify." },
-  { title: "Proactive Growth", desc: "We don't just react to your situation — we help you anticipate and plan ahead." },
+const TOOLS = [
+  { name: "QuickBooks", color: "#2CA01C" },
+  { name: "SAP",        color: "#007DB8" },
+  { name: "Zoho Books", color: "#E8432D" },
+  { name: "Excel",      color: "#217346" },
 ];
+
+const COMBINED = [
+  { icon: "🏆", label: "Combined Expertise",    sub: "Accounting · Tax · Audit · Forensics · Advisory" },
+  { icon: "✅", label: "Certified. Credible.",  sub: "Professionals you can rely on." },
+  { icon: "🎯", label: "Client Focused",        sub: "Timely, confidential, accurate." },
+  { icon: "📍", label: "Local Commitment",      sub: "Fairfax, VA — serving the DMV area." },
+];
+
+// ── Sub-components ────────────────────────────────────────────────────────────
+
+function CertBadge({ cert, color, bg }: { cert: string; color: string; bg: string }) {
+  return (
+    <div className="relative flex-shrink-0 w-[88px] h-[88px]">
+      <svg width="88" height="88" viewBox="0 0 88 88" className="absolute inset-0">
+        <circle cx="44" cy="44" r="40" fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="5 3" opacity="0.35" />
+        <circle cx="44" cy="44" r="33" fill="none" stroke={color} strokeWidth="2.5" opacity="0.8" />
+        <circle cx="44" cy="44" r="30" fill={bg} />
+        {Array.from({ length: 8 }).map((_, i) => {
+          const a = (i * 45 * Math.PI) / 180;
+          return (
+            <line key={i}
+              x1={44 + 37 * Math.cos(a)} y1={44 + 37 * Math.sin(a)}
+              x2={44 + 40 * Math.cos(a)} y2={44 + 40 * Math.sin(a)}
+              stroke={color} strokeWidth="1.8" opacity="0.45"
+            />
+          );
+        })}
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="font-display font-extrabold leading-none tracking-tight"
+          style={{ color, fontSize: cert === "CDFA" ? "14px" : "18px" }}>
+          {cert}
+        </span>
+        <Star size={9} fill={color} color={color} className="mt-0.5" />
+      </div>
+      <div className="absolute -bottom-1 -right-1 w-[20px] h-[20px] rounded-full flex items-center justify-center border-2 border-white shadow-sm"
+        style={{ backgroundColor: color }}>
+        <CheckCircle size={11} className="text-white" strokeWidth={2.5} />
+      </div>
+    </div>
+  );
+}
+
+function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const isFounder = index === 0;
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+      className="relative rounded-3xl overflow-hidden border flex flex-col"
+      style={{
+        borderColor: `${person.certColor}25`,
+        background: `linear-gradient(160deg, ${person.certBg} 0%, #FFFFFF 45%)`,
+        boxShadow: `0 4px 32px ${person.certColor}12`,
+      }}
+    >
+      {/* Top accent bar */}
+      <motion.div
+        className="h-1 w-full"
+        style={{ background: `linear-gradient(90deg, ${person.certColor}, ${person.certColor}60)` }}
+        initial={{ scaleX: 0, originX: 0 }}
+        animate={inView ? { scaleX: 1 } : {}}
+        transition={{ duration: 0.8, delay: index * 0.15 + 0.3 }}
+      />
+
+      {/* Founder ribbon */}
+      {isFounder && (
+        <div
+          className="absolute top-5 right-0 px-3 py-1 text-white text-[10px] font-bold uppercase tracking-widest rounded-l-full shadow"
+          style={{ backgroundColor: person.certColor }}
+        >
+          Founder
+        </div>
+      )}
+
+      <div className="p-7 flex flex-col flex-1 gap-5">
+
+        {/* Header */}
+        <div className="flex items-start gap-4">
+          {/* Photo placeholder */}
+          <div className="relative flex-shrink-0">
+            <div
+              className="w-[90px] h-[110px] rounded-2xl flex items-center justify-center overflow-hidden"
+              style={{ background: `${person.certColor}10`, border: `2px dashed ${person.certColor}30` }}
+            >
+              <div className="text-center">
+                <div className="text-3xl mb-1">👤</div>
+                <p className="text-[9px] font-medium" style={{ color: `${person.certColor}60` }}>Photo</p>
+              </div>
+            </div>
+            {/* Cert badge overlapping */}
+            <div className="absolute -bottom-3 -right-3">
+              <CertBadge cert={person.cert} color={person.certColor} bg={person.certBg} />
+            </div>
+          </div>
+
+          <div className="pl-8 flex-1">
+            <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: person.certColor }}>
+              {person.role}
+            </p>
+            <h3 className="font-display font-bold text-[#082B5C] text-[1.2rem] leading-snug mb-1">
+              {person.name}
+            </h3>
+            <p className="text-[12px] font-semibold" style={{ color: person.certColor }}>
+              {person.certFull}
+            </p>
+            <p className="text-[11px] text-[#9CA3AF] mt-0.5 uppercase tracking-wide">{person.affiliation}</p>
+          </div>
+        </div>
+
+        {/* Specialties */}
+        <div>
+          <p className="text-[10px] text-[#9CA3AF] uppercase tracking-widest font-semibold mb-2.5">Specialties</p>
+          <ul className="space-y-2">
+            {person.specialties.map((s, i) => (
+              <motion.li
+                key={s.text}
+                initial={{ opacity: 0, x: -10 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: index * 0.15 + 0.4 + i * 0.07 }}
+                className="flex items-center gap-2.5"
+              >
+                <div className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: `${person.certColor}12` }}>
+                  <s.icon size={12} style={{ color: person.certColor }} strokeWidth={1.8} />
+                </div>
+                <span className="text-[13px] font-semibold text-[#082B5C]">{s.text}</span>
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Highlights */}
+        <div className="flex-1">
+          <p className="text-[10px] text-[#9CA3AF] uppercase tracking-widest font-semibold mb-2.5 flex items-center gap-1.5">
+            <BarChart3 size={10} /> Experience Highlights
+          </p>
+          <ul className="space-y-2">
+            {person.highlights.map((h, i) => (
+              <motion.li
+                key={i}
+                initial={{ opacity: 0 }}
+                animate={inView ? { opacity: 1 } : {}}
+                transition={{ delay: index * 0.15 + 0.6 + i * 0.06 }}
+                className="flex items-start gap-2 text-[12px] text-[#6B7280] leading-relaxed"
+              >
+                <CheckCircle size={11} className="flex-shrink-0 mt-0.5" style={{ color: person.certColor }} />
+                {h}
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Bottom explore link */}
+        <div className="pt-4 border-t" style={{ borderColor: `${person.certColor}15` }}>
+          <Link
+            href={person.cert === "CDFA" ? "/cdfa-services" : "/taxation"}
+            className="inline-flex items-center gap-1.5 text-[13px] font-bold group"
+            style={{ color: person.certColor }}
+          >
+            Explore {person.cert} services
+            <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function AboutPage() {
   return (
-    <>
-      {/* Hero */}
-      <section className="bg-[#082B5C] pt-32 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-3">
+    <div className="bg-white pt-[70px]">
+
+      {/* ── Hero ── */}
+      <section className="bg-[#041830] py-20 lg:py-28 relative overflow-hidden">
+        {/* Orbs */}
+        <motion.div className="absolute -top-24 -right-24 w-[500px] h-[500px] rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(8,43,92,0.8) 0%, transparent 70%)" }}
+          animate={{ scale: [1, 1.06, 1] }} transition={{ duration: 9, repeat: Infinity }} />
+        <motion.div className="absolute -bottom-16 -left-16 w-[350px] h-[350px] rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(217,119,6,0.08) 0%, transparent 70%)" }}
+          animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 11, repeat: Infinity, delay: 2 }} />
+
+        <div className="relative z-10 max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.p
+            className="text-[#F59E0B] text-xs font-bold uppercase tracking-[0.22em] mb-5"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          >
             About CPA-DMV
-          </p>
-          <h1 className="font-display font-bold text-white text-4xl lg:text-5xl mb-4 leading-tight">
-            Expert-led. Precision-driven.<br />Built on trust.
-          </h1>
-          <p className="text-white/70 text-lg max-w-2xl leading-relaxed">
-            CPA-DMV is a Certified Public Accounting firm in Fairfax, VA — anchored by a CDFA credential and specialized audit capability across regulated industries.
-          </p>
+          </motion.p>
+          <motion.h1
+            className="font-display font-bold text-white leading-tight mb-5"
+            style={{ fontSize: "clamp(2.2rem, 5vw, 3.75rem)" }}
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          >
+            Certified. Experienced.<br />
+            <span className="text-[#F59E0B]">Committed.</span>
+          </motion.h1>
+          <motion.p
+            className="text-white/55 text-base max-w-2xl mx-auto leading-relaxed mb-8"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
+          >
+            We are two experienced finance professionals dedicated to delivering accurate, reliable, and insightful financial solutions for individuals, businesses, and professionals.
+          </motion.p>
+
+          {/* Combined expertise pills */}
+          <motion.div
+            className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
+          >
+            {COMBINED.map((c, i) => (
+              <motion.div
+                key={c.label}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 + i * 0.08 }}
+                className="bg-white/[0.06] border border-white/10 rounded-2xl px-4 py-3 text-left"
+              >
+                <span className="text-lg">{c.icon}</span>
+                <p className="text-white/90 text-[12px] font-bold mt-1.5 leading-tight">{c.label}</p>
+                <p className="text-white/40 text-[11px] mt-0.5 leading-snug">{c.sub}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* Founder bio section */}
-      <section className="bg-white py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
-            {/* Photo */}
-            <AnimatedSection direction="left" className="lg:col-span-2">
-              <div className="aspect-[4/5] rounded-3xl bg-[#F7F8FA] border-2 border-dashed border-[#082B5C]/20 flex flex-col items-center justify-center">
-                {/* TODO: Replace with: <Image src="/images/founder.jpg" alt="CPA-DMV Founder" fill className="object-cover rounded-3xl" /> */}
-                <div className="text-center px-8">
-                  <div className="w-20 h-20 rounded-full bg-[#082B5C]/10 flex items-center justify-center mx-auto mb-4">
-                    <span className="text-4xl">👤</span>
-                  </div>
-                  <p className="text-[#082B5C]/40 text-sm font-medium">Founder headshot</p>
-                  <p className="text-[#082B5C]/30 text-xs mt-1">Min 400×500px required for launch</p>
-                </div>
-              </div>
-            </AnimatedSection>
+      {/* ── Founders — Praveen LEFT, Himanshu RIGHT ── */}
+      <section className="bg-[#F7F8FA] py-16 lg:py-20">
+        <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45 }}
+          >
+            <p className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-3">Our Team</p>
+            <h2 className="font-display font-bold text-[#082B5C] text-3xl lg:text-4xl">
+              Meet the professionals
+            </h2>
+          </motion.div>
 
-            {/* Bio */}
-            <AnimatedSection direction="right" className="lg:col-span-3">
-              <p className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-3">
-                Founder & Principal CPA
-              </p>
-              {/* TODO: Replace placeholder copy with actual founder-written bio */}
-              <h2 className="font-display font-bold text-[#082B5C] text-3xl lg:text-4xl mb-6">
-                [Founder Name]<br />
-                <span className="text-[#6B7280] text-2xl font-semibold">CPA · CDFA</span>
-              </h2>
-
-              <div className="space-y-4 text-[#6B7280] leading-relaxed">
-                <p>
-                  {/* TODO: Para 1 — CPA licensure, years of practice, specializations */}
-                  [Para 1: CPA licensure, years of practice, and primary specializations — to be written by the firm founder. Target 60–80 words.]
-                </p>
-                <p>
-                  {/* TODO: Para 2 — CDFA certification story */}
-                  [Para 2: CDFA certification — when obtained, why pursued, and what the CPA+CDFA combination means for divorce clients. Target 60–80 words.]
-                </p>
-                <p>
-                  {/* TODO: Para 3 — Teaching background */}
-                  [Para 3: Teaching background — CPE instruction, exam prep sessions, and commitment to community education. Target 40–60 words.]
-                </p>
-                <p>
-                  {/* TODO: Para 4 — Firm values */}
-                  [Para 4: Firm values — &quot;Integrity, Precision, and Proactive Growth.&quot; Target 40–60 words.]
-                </p>
-              </div>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 bg-[#082B5C] hover:bg-[#0d3d7a] text-white font-semibold px-6 py-3 rounded text-sm transition-all"
-                >
-                  Schedule a Consultation
-                </Link>
-                <Link
-                  href="/cdfa-services"
-                  className="inline-flex items-center gap-2 border-2 border-[#082B5C] text-[#082B5C] hover:bg-[#082B5C] hover:text-white font-semibold px-6 py-3 rounded text-sm transition-all"
-                >
-                  Explore CDFA Services
-                </Link>
-              </div>
-            </AnimatedSection>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+            <FounderCard person={PRAVEEN}  index={0} />
+            <FounderCard person={HIMANSHU} index={1} />
           </div>
-
-          {/* Credentials badge strip */}
-          <AnimatedSection className="mt-14" delay={0.2}>
-            <div className="border-t border-gray-100 pt-12">
-              <p className="text-[#6B7280] text-xs font-semibold uppercase tracking-widest text-center mb-8">
-                Credentials & Affiliations
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                {credentials.map((c) => (
-                  <div
-                    key={c.label}
-                    className="flex items-center gap-3 bg-[#F7F8FA] rounded-xl px-5 py-3.5 border border-gray-100"
-                  >
-                    <div className="w-9 h-9 rounded-lg bg-[#FAF5EB] flex items-center justify-center flex-shrink-0">
-                      <c.icon size={16} className="text-[#F59E0B]" />
-                    </div>
-                    <div>
-                      <span className="block text-sm font-semibold text-[#082B5C]">{c.label}</span>
-                      <span className="block text-xs text-[#6B7280]">{c.sub}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </AnimatedSection>
         </div>
       </section>
 
-      {/* Values */}
-      <section className="bg-[#F7F8FA] py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center mb-10">
-            <h2 className="font-display font-bold text-[#082B5C] text-3xl mb-3">Our Commitment</h2>
-            <p className="text-[#6B7280] max-w-xl mx-auto">The principles that guide every engagement.</p>
-          </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {values.map((v, i) => (
-              <AnimatedSection key={v.title} delay={i * 0.1}>
-                <div className="bg-white rounded-2xl p-8 border border-gray-100 text-center">
-                  <h3 className="font-display font-bold text-[#F59E0B] text-2xl mb-3">{v.title}</h3>
-                  <p className="text-[#6B7280] text-sm leading-relaxed">{v.desc}</p>
-                </div>
-              </AnimatedSection>
+      {/* ── Tools & Systems ── */}
+      <section className="bg-white py-14">
+        <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.p
+            className="text-center text-[11px] text-[#9CA3AF] uppercase tracking-widest font-semibold mb-8"
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+          >
+            Tools &amp; Systems We Use
+          </motion.p>
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            {TOOLS.map((t, i) => (
+              <motion.div
+                key={t.name}
+                initial={{ opacity: 0, scale: 0.85 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, type: "spring", stiffness: 200 }}
+                whileHover={{ scale: 1.07, y: -3 }}
+                className="bg-[#F7F8FA] border border-gray-200 rounded-2xl px-8 py-4 text-center shadow-sm cursor-default"
+              >
+                <p className="font-bold text-[15px]" style={{ color: t.color }}>{t.name}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-[#082B5C] py-16">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <AnimatedSection>
-            <h2 className="font-display font-bold text-white text-3xl mb-4">
-              Ready to work with us?
-            </h2>
-            <p className="text-white/60 mb-7">Start with a free consultation.</p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 bg-[#F59E0B] hover:bg-[#e08e00] text-[#082B5C] font-bold px-8 py-4 rounded text-sm transition-all"
-            >
-              Schedule a Free Consultation
-            </Link>
-          </AnimatedSection>
+      {/* ── Trust values strip ── */}
+      <section className="bg-[#041830] py-12">
+        <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-white/10 rounded-2xl overflow-hidden">
+            {TRUST_VALUES.map((v, i) => (
+              <motion.div
+                key={v.label}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+                className="bg-[#041830] px-5 py-6 text-center transition-colors"
+              >
+                <div className="text-2xl mb-2">{v.icon}</div>
+                <p className="text-white/90 text-[12px] font-bold leading-snug mb-1">{v.label}</p>
+                <p className="text-white/40 text-[11px] leading-snug">{v.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
-    </>
+
+      {/* ── CTA ── */}
+      <section className="bg-white py-16">
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-3">Get Started</p>
+            <h2 className="font-display font-bold text-[#082B5C] text-3xl mb-4">
+              Ready to work with us?
+            </h2>
+            <p className="text-[#6B7280] mb-8">Start with a free, no-obligation consultation.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-[#082B5C] hover:bg-[#0d3d7a] text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all shadow-lg group"
+              >
+                Book a Consultation
+                <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <Link
+                href="/cdfa-services"
+                className="inline-flex items-center gap-2 border border-[#D97706]/40 text-[#D97706] hover:bg-amber-50 font-semibold px-7 py-3.5 rounded-full text-sm transition-all"
+              >
+                Explore CDFA Services
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+    </div>
   );
 }

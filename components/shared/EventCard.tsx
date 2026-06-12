@@ -1,57 +1,87 @@
+"use client";
+
 import Link from "next/link";
-import { Clock, Calendar } from "lucide-react";
+import { motion } from "framer-motion";
+import { Clock, Monitor, Users } from "lucide-react";
 import { EventItem, eventTypeColors } from "@/lib/events";
 
 interface Props {
   event: EventItem;
   compact?: boolean;
+  index?: number;
 }
 
-export default function EventCard({ event, compact = false }: Props) {
+export default function EventCard({ event, compact = false, index = 0 }: Props) {
+  const colors = eventTypeColors[event.type];
+
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:border-[#082B5C]/15 transition-all group flex flex-col">
-      {/* Date badge */}
-      <div className="bg-[#082B5C] px-5 py-3.5 flex items-center gap-4">
-        <div className="text-center flex-shrink-0">
-          <span className="block text-[#F59E0B] text-[10px] font-bold uppercase tracking-widest font-roboto">
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.45, delay: index * 0.09, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
+      className="bg-white rounded-2xl overflow-hidden border border-gray-150 shadow-sm hover:shadow-lg transition-shadow flex flex-col"
+      style={{ borderColor: "#E5E7EB" }}
+    >
+      {/* Date + category header */}
+      <div className="flex">
+        {/* Date block */}
+        <div
+          className="flex flex-col items-center justify-center px-5 py-5 flex-shrink-0 min-w-[76px]"
+          style={{ backgroundColor: colors.dateBg }}
+        >
+          <span className="text-white/70 text-[10px] font-bold uppercase tracking-widest leading-none">
             {event.month}
           </span>
-          <span className="block text-white font-roboto text-3xl font-bold leading-none">
+          <span className="text-white font-display font-extrabold text-[2.2rem] leading-none my-0.5">
             {event.day}
           </span>
+          <span className="text-white/60 text-[10px] font-semibold uppercase tracking-widest leading-none">
+            {event.weekday}
+          </span>
         </div>
-        <div className="flex-1">
-          <span className={`inline-block text-[11px] font-semibold font-roboto px-2.5 py-1 rounded-full ${eventTypeColors[event.type]}`}>
+
+        {/* Category + title area */}
+        <div className="flex-1 px-4 py-4 flex flex-col justify-center">
+          <span className={`text-[10px] font-bold uppercase tracking-widest ${colors.text} mb-1.5`}>
             {event.type}
           </span>
+          <h3 className="font-bold text-[#1F2937] text-[14px] leading-snug group-hover:text-[#082B5C]">
+            {event.title}
+          </h3>
         </div>
       </div>
 
-      <div className="p-4 flex flex-col flex-1">
-        <h3 className="font-roboto font-bold text-[#1F2937] text-[14px] mb-2 leading-snug group-hover:text-[#082B5C] transition-colors">
-          {event.title}
-        </h3>
-        {!compact && (
-          <p className="font-roboto text-sm text-[#6B7280] mb-3 leading-relaxed flex-1">
-            {event.description}
-          </p>
-        )}
-        <div className="flex items-center gap-3 text-[11px] text-[#9CA3AF] mb-3 font-roboto">
-          <span className="flex items-center gap-1"><Clock size={11} /> {event.duration}</span>
-          <span className="flex items-center gap-1"><Calendar size={11} /> {event.time}</span>
+      {/* Details */}
+      <div className="px-4 pt-3 pb-4 flex flex-col gap-2 flex-1">
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center gap-2 text-[12px] text-[#6B7280]">
+            <Clock size={12} className="flex-shrink-0 text-[#9CA3AF]" />
+            {event.timeRange}
+          </div>
+          <div className="flex items-center gap-2 text-[12px] text-[#6B7280]">
+            <svg className="w-3 h-3 flex-shrink-0 text-[#9CA3AF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" />
+            </svg>
+            {event.credits}
+          </div>
+          <div className="flex items-center gap-2 text-[12px] text-[#6B7280]">
+            <Monitor size={12} className="flex-shrink-0 text-[#9CA3AF]" />
+            {event.format}
+          </div>
         </div>
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] font-semibold font-roboto text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
-            {event.cost}
-          </span>
+
+        <div className="mt-auto pt-3">
           <Link
             href={event.registrationUrl}
-            className="font-roboto text-[11px] font-semibold bg-[#082B5C] hover:bg-[#0d3d7a] text-white px-3.5 py-1.5 rounded-lg transition-colors"
+            className="block w-full text-center text-white font-bold text-[13px] py-2.5 rounded-xl transition-all hover:opacity-90 hover:shadow-md"
+            style={{ backgroundColor: colors.btn }}
           >
             Register Free
           </Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

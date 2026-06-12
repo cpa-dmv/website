@@ -75,7 +75,7 @@ export default function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute top-full right-0 mt-1.5 w-[600px] bg-white/98 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100 p-3.5 grid grid-cols-2 gap-1"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 w-[600px] bg-white/98 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100 p-3.5 grid grid-cols-2 gap-1"
                   >
                     {serviceLinks.map((s) => (
                       <Link key={s.slug} href={`/${s.slug}`}

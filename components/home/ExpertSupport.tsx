@@ -1,173 +1,213 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import AnimatedSection from "@/components/shared/AnimatedSection";
+import { motion, useInView } from "framer-motion";
 import { UserCheck, Clock, ShieldCheck, ArrowRight } from "lucide-react";
 
-const points = [
+// ── Animated counter ──────────────────────────────────────────────────────────
+function Counter({ to, suffix = "", duration = 1.4 }: { to: number; suffix?: string; duration?: number }) {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  useEffect(() => {
+    if (!inView) return;
+    let start: number | null = null;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const progress = Math.min((ts - start) / (duration * 1000), 1);
+      // ease out expo
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      setValue(Math.round(eased * to));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [inView, to, duration]);
+
+  return <span ref={ref}>{value}{suffix}</span>;
+}
+
+// ── Feature bar — fills on scroll ────────────────────────────────────────────
+function FillBar({ color, delay }: { color: string; delay: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  return (
+    <div ref={ref} className="h-[3px] w-full rounded-full overflow-hidden bg-gray-100">
+      <motion.div
+        className="h-full rounded-full"
+        style={{ backgroundColor: color }}
+        initial={{ width: "0%" }}
+        animate={{ width: inView ? "100%" : "0%" }}
+        transition={{ duration: 1.1, delay, ease: [0.22, 1, 0.36, 1] }}
+      />
+    </div>
+  );
+}
+
+// ── Data ──────────────────────────────────────────────────────────────────────
+const features = [
   {
     icon: UserCheck,
-    title: "Your CPA. Always.",
-    short: "A named accountant on your file — not a queue.",
-    detail: "Every client is assigned a credentialed CPA who knows your situation. Same person, every time.",
-    stat: "1:1",
+    accent: "#082B5C",
+    lightBg: "#EEF4FF",
+    statTo: 1,
+    statSuffix: ":1",
     statLabel: "Dedicated",
-    color: "#082B5C",
-    lightBg: "rgba(8,43,92,0.06)",
+    title: "Your CPA. Always.",
+    body: "A named, credentialed accountant on every file — not a support ticket queue.",
+    barDelay: 0.1,
   },
   {
     icon: Clock,
-    title: "Clear timelines.",
-    short: "Deadlines set upfront, always met.",
-    detail: "We commit to turnaround times before we start — no chasing, no surprises.",
-    stat: "On time",
-    statLabel: "Every time",
-    color: "#D97706",
-    lightBg: "rgba(217,119,6,0.07)",
+    accent: "#D97706",
+    lightBg: "#FFF8EC",
+    statTo: 100,
+    statSuffix: "%",
+    statLabel: "On-time rate",
+    title: "Clear timelines. Met.",
+    body: "Deadlines committed upfront, in writing. No chasing, no last-minute surprises.",
+    barDelay: 0.25,
   },
   {
     icon: ShieldCheck,
-    title: "Right the first time.",
-    short: "Every filing reviewed before delivery.",
-    detail: "Returns, reports, and filings go through an internal review. We get it right before it leaves our desk.",
-    stat: "100%",
+    accent: "#059669",
+    lightBg: "#ECFDF5",
+    statTo: 100,
+    statSuffix: "%",
     statLabel: "Reviewed",
-    color: "#059669",
-    lightBg: "rgba(5,150,105,0.07)",
+    title: "Right the first time.",
+    body: "Every return, report, and filing goes through an internal review before delivery.",
+    barDelay: 0.4,
   },
 ];
 
-export default function ExpertSupport() {
-  const [active, setActive] = useState<number | null>(null);
+const containerVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.13 } },
+};
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 32 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+// ── Component ─────────────────────────────────────────────────────────────────
+export default function ExpertSupport() {
   return (
-    <section className="bg-[#F7F8FA] py-14 lg:py-20">
+    <section className="bg-white py-16 lg:py-24">
       <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
 
-        <AnimatedSection className="text-center mb-12">
-          <p className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-3">Expert Support</p>
-          <h2
-            className="font-display font-bold text-[#082B5C] leading-tight"
-            style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)" }}
+        {/* ── Two-col header ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-end mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
           >
-            Professional support,<br className="hidden lg:block" /> not a self-service portal.
-          </h2>
-        </AnimatedSection>
-
-        {/* Interactive cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-          {points.map((p, i) => {
-            const isActive = active === i;
-            return (
-              <motion.div
-                key={p.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                onMouseEnter={() => setActive(i)}
-                onMouseLeave={() => setActive(null)}
-                className="relative bg-white rounded-2xl border overflow-hidden cursor-default select-none transition-all duration-300"
-                style={{
-                  borderColor: isActive ? `${p.color}30` : "#F3F4F6",
-                  boxShadow: isActive
-                    ? `0 8px 32px ${p.color}14, 0 2px 8px rgba(0,0,0,0.06)`
-                    : "0 1px 4px rgba(0,0,0,0.04)",
-                }}
-              >
-                {/* Animated top bar */}
-                <motion.div
-                  className="h-[3px] w-full"
-                  style={{ background: p.color }}
-                  initial={{ scaleX: 0, originX: 0 }}
-                  animate={{ scaleX: isActive ? 1 : 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-
-                <div className="p-6">
-                  {/* Icon + stat row */}
-                  <div className="flex items-start justify-between mb-5">
-                    <motion.div
-                      className="w-11 h-11 rounded-xl flex items-center justify-center"
-                      style={{ background: p.lightBg }}
-                      animate={{ scale: isActive ? 1.1 : 1 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                    >
-                      <p.icon size={20} style={{ color: p.color }} strokeWidth={1.8} />
-                    </motion.div>
-
-                    <motion.div
-                      className="text-right"
-                      animate={{ opacity: isActive ? 1 : 0.35 }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      <p className="font-display font-bold text-[18px] leading-none" style={{ color: p.color }}>
-                        {p.stat}
-                      </p>
-                      <p className="text-[10px] text-[#9CA3AF] font-medium mt-0.5 uppercase tracking-wide">
-                        {p.statLabel}
-                      </p>
-                    </motion.div>
-                  </div>
-
-                  <h3 className="font-bold text-[#1F2937] text-[15px] leading-snug mb-1.5">{p.title}</h3>
-
-                  {/* Swap short ↔ detail on hover */}
-                  <div className="relative min-h-[48px]">
-                    <AnimatePresence mode="wait">
-                      {isActive ? (
-                        <motion.p
-                          key="detail"
-                          className="text-[13px] leading-relaxed"
-                          style={{ color: p.color, opacity: 0.85 }}
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -4 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          {p.detail}
-                        </motion.p>
-                      ) : (
-                        <motion.p
-                          key="short"
-                          className="text-[#6B7280] text-[13px] leading-relaxed"
-                          initial={{ opacity: 0, y: 4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -4 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          {p.short}
-                        </motion.p>
-                      )}
-                    </AnimatePresence>
-                  </div>
-
-                  {/* Arrow hint on hover */}
-                  <motion.div
-                    className="mt-4 flex items-center gap-1"
-                    animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : -6 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    <span className="text-[11px] font-semibold" style={{ color: p.color }}>Book a consultation</span>
-                    <ArrowRight size={11} style={{ color: p.color }} />
-                  </motion.div>
-                </div>
-              </motion.div>
-            );
-          })}
+            <p className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-3">Expert Support</p>
+            <h2
+              className="font-display font-bold text-[#082B5C] leading-tight"
+              style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)" }}
+            >
+              Professional support,<br className="hidden lg:block" /> not a self-service portal.
+            </h2>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 12 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, delay: 0.2 }}
+          >
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 bg-[#082B5C] hover:bg-[#0d3d7a] text-white font-semibold px-7 py-3.5 rounded-full text-sm transition-all shadow-sm group whitespace-nowrap"
+            >
+              Get Expert Help
+              <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </motion.div>
         </div>
 
-        <AnimatedSection className="text-center" delay={0.2}>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 bg-[#082B5C] hover:bg-[#0d3d7a] text-white font-semibold px-8 py-3.5 rounded-full text-sm transition-all shadow-sm group"
-          >
-            Get Expert Help
-            <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </AnimatedSection>
+        {/* ── Cards ── */}
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-3 gap-5"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-40px" }}
+        >
+          {features.map((f) => (
+            <motion.div
+              key={f.title}
+              variants={cardVariants}
+              whileHover={{ y: -6, transition: { duration: 0.22 } }}
+              className="group relative bg-white rounded-2xl border border-gray-150 overflow-hidden"
+              style={{ borderColor: "#E9EAEC", boxShadow: "0 2px 12px rgba(0,0,0,0.05)" }}
+            >
+              {/* Hover tint overlay */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl pointer-events-none"
+                style={{ backgroundColor: f.lightBg }}
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.25 }}
+              />
+
+              {/* Top fill bar */}
+              <div className="px-6 pt-5">
+                <FillBar color={f.accent} delay={f.barDelay} />
+              </div>
+
+              <div className="relative z-10 p-6 pt-5">
+
+                {/* Icon + stat row */}
+                <div className="flex items-start justify-between mb-5">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors duration-300"
+                    style={{ backgroundColor: f.lightBg }}
+                  >
+                    <f.icon size={20} style={{ color: f.accent }} strokeWidth={1.8} />
+                  </div>
+
+                  <div className="text-right">
+                    <p
+                      className="font-display font-extrabold leading-none"
+                      style={{ color: f.accent, fontSize: "1.5rem" }}
+                    >
+                      <Counter to={f.statTo} suffix={f.statSuffix} duration={1.5} />
+                    </p>
+                    <p className="text-[10px] text-[#9CA3AF] uppercase tracking-widest mt-0.5 font-medium">
+                      {f.statLabel}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Text */}
+                <h3 className="font-bold text-[#1F2937] text-[16px] leading-snug mb-2">
+                  {f.title}
+                </h3>
+                <p className="text-[#6B7280] text-[13px] leading-relaxed">
+                  {f.body}
+                </p>
+
+                {/* Accent bottom line */}
+                <motion.div
+                  className="mt-5 h-[2px] rounded-full"
+                  style={{ backgroundColor: f.accent }}
+                  initial={{ scaleX: 0, originX: 0 }}
+                  whileHover={{ scaleX: 1 }}
+                  transition={{ duration: 0.35 }}
+                />
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
 
       </div>
     </section>
