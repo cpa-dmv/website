@@ -7,16 +7,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import LogoMark from "@/components/icons/LogoMark";
 
 const serviceLinks = [
-  { name: "CDFA & Divorce", slug: "cdfa-services", desc: "Certified Divorce Financial Analyst" },
-  { name: "Audits & Attestations", slug: "specialized-audit", desc: "Credit unions, non-profits, ALFs" },
-  { name: "Forensics + Court Witness", slug: "forensics-accounting", desc: "Investigation & expert testimony" },
-  { name: "Taxation", slug: "taxation", desc: "Individual and business returns" },
-  { name: "AP / AR", slug: "ap-ar", desc: "Cash flow management" },
-  { name: "Payroll", slug: "payroll", desc: "Accurate payroll every cycle" },
-  { name: "HR Advisory", slug: "hr-advisory", desc: "HR guidance without the overhead" },
-  { name: "Business Valuation", slug: "business-valuation", desc: "Know what your business is worth" },
-  { name: "QuickBooks Setup", slug: "quickbooks", desc: "ProAdvisor setup and training" },
-  { name: "Business Registration", slug: "business-registration", desc: "Start on the right foundation" },
+  { name: "Divorce Financial Analysis",      slug: "cdfa-services",        desc: "Certified Divorce Financial Analyst" },
+  { name: "Audits & Attestations",           slug: "specialized-audit",    desc: "Credit unions, non-profits, ALFs" },
+  { name: "Forensics Audits",                slug: "forensics-accounting", desc: "Investigation & expert testimony" },
+  { name: "Business Valuation",              slug: "business-valuation",   desc: "Know what your business is worth" },
+  { name: "QuickBooks Setup",                slug: "quickbooks",           desc: "ProAdvisor setup and training" },
+  { name: "Financial Accounting & Reporting",slug: "accounting",           desc: "Accurate books, clear reports" },
+  { name: "Payroll",                         slug: "payroll",              desc: "Accurate payroll every cycle" },
+  { name: "Business Registration",           slug: "business-registration",desc: "Start on the right foundation" },
+  { name: "AP / AR",                         slug: "ap-ar",                desc: "Cash flow management" },
+  { name: "HR Advisory",                     slug: "hr-advisory",          desc: "HR guidance without the overhead" },
+  { name: "Taxation",                        slug: "taxation",             desc: "Individual and business returns" },
+  { name: "Bookkeeping",                     slug: "bookkeeping",          desc: "Clean records every month" },
 ];
 
 export default function Header() {

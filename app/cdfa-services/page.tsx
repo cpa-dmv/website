@@ -28,58 +28,85 @@ export default function CDFAPage() {
     <div className="bg-white pt-[70px]">
 
       {/* Hero */}
-      <section className="bg-[#082B5C] py-16 lg:py-20 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <img src="/images/cdfa-hero-bg.svg" alt="" aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-100" />
+      <section className="relative overflow-hidden min-h-[520px] flex items-center">
+        {/* Background photo */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/cdfa-hero.jpg"
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover object-center"
+          />
+          {/* Dark gradient overlay — heavy left, fades right */}
+          <div className="absolute inset-0"
+            style={{ background: "linear-gradient(100deg, rgba(4,24,48,0.97) 0%, rgba(8,43,92,0.88) 42%, rgba(8,43,92,0.45) 65%, rgba(4,24,48,0.15) 100%)" }} />
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col lg:flex-row lg:items-end gap-8">
-            <div className="flex-1">
-              <motion.p className="text-[#D97706] text-xs font-bold uppercase tracking-widest mb-4"
-                initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-                CDFA · Certified Divorce Financial Analyst
-              </motion.p>
-              <motion.h1
-                className="font-display font-bold text-white leading-tight mb-4"
-                style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}
-                initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              >
-                Financial clarity<br />when life changes.
-              </motion.h1>
-              <motion.p className="text-white/55 text-base max-w-lg"
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}>
-                Objective, court-ready divorce financial analysis from a credentialed CPA and CDFA professional.
-              </motion.p>
-            </div>
+        {/* Content */}
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+          <div className="max-w-[580px]">
 
-            {/* 72hr animated widget */}
-            <motion.div initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.45, type: "spring", stiffness: 160 }} className="flex-shrink-0">
-              <div className="bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl p-6 text-center min-w-[188px]">
-                <div className="relative w-16 h-16 mx-auto mb-3">
-                  <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 64 64">
-                    <circle cx="32" cy="32" r="28" fill="none" stroke="rgba(217,119,6,0.22)" strokeWidth="4" />
-                    <motion.circle cx="32" cy="32" r="28" fill="none" stroke="#D97706" strokeWidth="4"
-                      strokeLinecap="round" strokeDasharray={175.9}
-                      animate={{ strokeDashoffset: [175.9, 43.97, 175.9] }}
-                      transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}>
-                      <Zap size={22} className="text-[#D97706] fill-[#D97706]" />
-                    </motion.div>
-                  </div>
+            {/* Eyebrow */}
+            <motion.p
+              className="text-[#D97706] text-[11px] font-bold uppercase tracking-[0.22em] mb-5"
+              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+            >
+              CDFA · Certified Divorce Financial Analyst
+            </motion.p>
+
+            {/* Headline */}
+            <motion.h1
+              className="font-display font-bold text-white leading-[1.08] mb-2"
+              style={{ fontSize: "clamp(2.6rem, 5vw, 3.8rem)" }}
+              initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}
+            >
+              Financial clarity<br />
+              when life changes<span className="text-[#D97706]">.</span>
+            </motion.h1>
+
+            {/* Amber underline accent */}
+            <motion.div
+              className="h-[3px] w-16 bg-[#D97706] rounded-full mb-6"
+              initial={{ scaleX: 0, originX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.32, duration: 0.5 }}
+            />
+
+            {/* Body */}
+            <motion.p
+              className="text-white/65 text-[1.05rem] leading-relaxed mb-8 max-w-[480px]"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.38 }}
+            >
+              Objective, court-ready divorce financial analysis from a credentialed CPA and CDFA professional.
+            </motion.p>
+
+            {/* 72-hr badge — horizontal */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.48, type: "spring", stiffness: 180 }}
+              className="inline-flex items-center gap-4 bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl px-5 py-4"
+            >
+              {/* Arc badge */}
+              <div className="relative w-12 h-12 flex-shrink-0">
+                <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 48 48">
+                  <circle cx="24" cy="24" r="20" fill="none" stroke="rgba(217,119,6,0.25)" strokeWidth="3.5" />
+                  <motion.circle cx="24" cy="24" r="20" fill="none" stroke="#D97706" strokeWidth="3.5"
+                    strokeLinecap="round" strokeDasharray={125.6}
+                    animate={{ strokeDashoffset: [125.6, 31.4, 125.6] }}
+                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <motion.div animate={{ scale: [1, 1.12, 1] }} transition={{ duration: 2, repeat: Infinity }}>
+                    <Zap size={17} className="text-[#D97706] fill-[#D97706]" />
+                  </motion.div>
                 </div>
-                <motion.p className="font-display font-bold text-white text-3xl leading-none"
-                  animate={{ scale: [1, 1.04, 1] }} transition={{ duration: 2.5, repeat: Infinity }}>
-                  72hrs
-                </motion.p>
-                <p className="text-white/55 text-xs mt-1">Preliminary report</p>
-                <p className="text-[#D97706] text-[10px] mt-1 uppercase tracking-widest font-bold">Turnaround</p>
+              </div>
+              {/* Text */}
+              <div>
+                <p className="font-display font-bold text-white text-2xl leading-none">72hrs</p>
+                <p className="text-white/55 text-[12px] mt-0.5">Preliminary report</p>
+                <p className="text-[#D97706] text-[9px] mt-0.5 uppercase tracking-widest font-bold">Turnaround</p>
               </div>
             </motion.div>
+
           </div>
         </div>
       </section>
