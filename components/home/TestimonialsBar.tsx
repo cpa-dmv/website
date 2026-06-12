@@ -62,20 +62,19 @@ function StarRow({ rating }: { rating: number }) {
   );
 }
 
-// Header average stars (4.3 — render as 4 full + partial)
+// Header average stars — 4 full + 30% of 5th star golden
 function AverageStars() {
   return (
     <div className="flex gap-1">
       {[1,2,3,4,5].map((n) => {
-        const v = 4.3;
-        const full = v >= n;
-        const half = !full && v >= n - 0.5;
+        const full = n <= 4;
+        const partial = n === 5;
         return (
           <span key={n} className="relative w-5 h-5 inline-block">
             <Star size={20} className="text-[#E5E7EB] fill-[#E5E7EB] absolute inset-0" />
             {full && <Star size={20} className="text-[#F59E0B] fill-[#F59E0B] absolute inset-0" />}
-            {half && (
-              <span className="absolute inset-0 overflow-hidden" style={{ clipPath: "inset(0 57% 0 0)" }}>
+            {partial && (
+              <span className="absolute inset-0 overflow-hidden" style={{ clipPath: "inset(0 70% 0 0)" }}>
                 <Star size={20} className="text-[#F59E0B] fill-[#F59E0B]" />
               </span>
             )}
@@ -90,16 +89,17 @@ export default function TestimonialsBar() {
   return (
     <section className="bg-[#F3F4F6] py-14 overflow-hidden">
       {/* Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-9">
-        <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4">
-          <div>
-            <AverageStars />
-            <div className="flex items-baseline gap-2 mt-1.5">
-              <p className="font-display font-bold text-[#082B5C] text-2xl">4.3</p>
-              <p className="text-[#6B7280] text-sm">out of 5</p>
-            </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-9 text-center">
+        <p className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-3">Client Reviews</p>
+        <h2 className="font-display font-bold text-[#082B5C] text-2xl lg:text-3xl mb-5">
+          What our clients say.
+        </h2>
+        <div className="flex flex-col items-center gap-2">
+          <AverageStars />
+          <div className="flex items-baseline gap-2">
+            <p className="font-display font-bold text-[#082B5C] text-2xl">4.3</p>
+            <p className="text-[#6B7280] text-sm">out of 5 · verified reviews</p>
           </div>
-          <p className="text-[#6B7280] text-sm sm:ml-2">Based on verified client reviews</p>
         </div>
       </div>
 

@@ -6,6 +6,68 @@ import { CheckCircle, Shield, Award } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+const credentialStats = [
+  { label: "Licensed", sub: "Virginia CPA" },
+  { label: "Affiliated", sub: "AICPA Member" },
+  { label: "Active", sub: "In good standing" },
+];
+
+function CPACredentialWidget() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: 0.25 }}
+      className="mb-4 bg-[#082B5C]/[0.04] border border-[#082B5C]/10 rounded-xl px-4 py-3 flex items-center gap-4"
+    >
+      {/* Pulsing shield */}
+      <div className="relative flex-shrink-0 w-9 h-9 flex items-center justify-center">
+        <motion.div
+          className="absolute inset-0 rounded-full bg-[#082B5C]/10"
+          animate={{ scale: [1, 1.55, 1], opacity: [0.6, 0, 0.6] }}
+          transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute inset-0 rounded-full bg-[#082B5C]/8"
+          animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0, 0.4] }}
+          transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+        />
+        <Shield size={16} className="text-[#082B5C] relative z-10" strokeWidth={2} />
+      </div>
+
+      {/* Stats */}
+      <div className="flex gap-4">
+        {credentialStats.map((s, i) => (
+          <motion.div
+            key={s.label}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.35 + i * 0.1 }}
+            className="flex flex-col"
+          >
+            <span className="text-[11px] font-bold text-[#082B5C] leading-none">{s.label}</span>
+            <span className="text-[9px] text-[#082B5C]/50 mt-0.5 uppercase tracking-wide">{s.sub}</span>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Animated dots */}
+      <div className="ml-auto flex items-center gap-1">
+        {[0, 0.3, 0.6].map((delay, i) => (
+          <motion.div
+            key={i}
+            className="w-1.5 h-1.5 rounded-full bg-[#082B5C]"
+            animate={{ opacity: [0.2, 1, 0.2] }}
+            transition={{ duration: 1.5, repeat: Infinity, delay }}
+          />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
 const cpaPoints = [
   "Tax planning, compliance, and reporting",
   "Accounting and financial statement preparation",
@@ -90,7 +152,7 @@ export default function SpotlightSection() {
             <div className="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
               <CertBadge label="CPA" sub="Certified Public Accountant" icon={Shield} accent="#082B5C" />
 
-              <ul className="space-y-2.5 mb-6 flex-1">
+              <ul className="space-y-2.5 mb-4 flex-1">
                 {cpaPoints.map((b) => (
                   <li key={b} className="flex items-start gap-2.5">
                     <CheckCircle size={14} className="text-[#082B5C]/50 flex-shrink-0 mt-0.5" />
@@ -98,6 +160,8 @@ export default function SpotlightSection() {
                   </li>
                 ))}
               </ul>
+
+              <CPACredentialWidget />
 
               <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-2">

@@ -91,7 +91,7 @@ export default function TeachingsTeaser() {
               variants={cardVariants}
               transition={{ duration: 0.45 }}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className={`group bg-white rounded-2xl border border-gray-100 ${card.border} hover:shadow-lg transition-all p-5 flex flex-col cursor-default`}
+              className={`group bg-white rounded-2xl border border-gray-200 ${card.border} hover:shadow-lg transition-all p-5 flex flex-col cursor-default`}
             >
               <motion.div
                 className={`w-11 h-11 rounded-xl ${card.color} flex items-center justify-center mb-4`}
