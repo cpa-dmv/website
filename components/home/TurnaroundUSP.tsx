@@ -44,12 +44,12 @@ export default function TurnaroundUSP() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden" style={{ background: "#041830" }}>
+    <section className="relative overflow-hidden" style={{ background: "#1A1D23" }}>
       {/* Subtle orb */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
           className="absolute rounded-full"
-          style={{ width: 480, height: 480, top: -100, right: -80, background: "radial-gradient(circle, rgba(8,43,92,0.65) 0%, transparent 70%)" }}
+          style={{ width: 480, height: 480, top: -100, right: -80, background: "radial-gradient(circle, rgba(8,43,92,0.4) 0%, transparent 70%)" }}
           animate={{ scale: [1, 1.06, 1] }} transition={{ duration: 9, repeat: Infinity }}
         />
       </div>
