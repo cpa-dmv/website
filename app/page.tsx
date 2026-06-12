@@ -25,6 +25,7 @@ export default function HomePage() {
       <PricingTeaser />
       <div style={{ width: "min(1080px, calc(100vw - 32px))", height: "1px", margin: "0 auto", background: "rgba(8, 43, 92, 0.08)" }} />
       <ExpertSupport />
+      <div style={{ width: "min(1080px, calc(100vw - 32px))", height: "1px", margin: "0 auto", background: "rgba(8, 43, 92, 0.08)" }} />
       <TeachingsTeaser />
       <EventsTeaser />
       <TestimonialsBar />

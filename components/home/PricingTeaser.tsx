@@ -3,7 +3,57 @@
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
+import { useState } from "react";
+
+// ── Card definitions — each with different shade & content ───────────────────
+
+const CARDS = [
+  {
+    id: 0,
+    bg: "#082B5C",         // deep navy
+    eyebrow: "CPA Advisory & Audits",
+    title: "Forensics · CDFA · Attestations",
+    label: "Standard Hourly",
+    chip1: { text: "CDFA", color: "#F59E0B" },
+    chip2: { text: "Audit", color: "#93C5FD" },
+    circle1: "rgba(245,158,11,0.13)",
+    circle2: "rgba(255,255,255,0.07)",
+  },
+  {
+    id: 1,
+    bg: "#0D3D7A",         // medium navy
+    eyebrow: "Tax & Bookkeeping",
+    title: "Business · Individual · Payroll",
+    label: "Fixed-Fee Plans",
+    chip1: { text: "Tax", color: "#F59E0B" },
+    chip2: { text: "Payroll", color: "#6EE7B7" },
+    circle1: "rgba(110,231,183,0.12)",
+    circle2: "rgba(255,255,255,0.06)",
+  },
+  {
+    id: 2,
+    bg: "#113560",         // slightly lighter navy
+    eyebrow: "Business Services",
+    title: "AP/AR · HR Advisory · QuickBooks",
+    label: "Hourly & Retainer",
+    chip1: { text: "HR", color: "#F59E0B" },
+    chip2: { text: "AP/AR", color: "#C4B5FD" },
+    circle1: "rgba(196,181,253,0.12)",
+    circle2: "rgba(255,255,255,0.05)",
+  },
+  {
+    id: 3,
+    bg: "#0A2A50",         // darkest
+    eyebrow: "Business Valuation",
+    title: "Registration · Advisory · Court",
+    label: "Engagement-Based",
+    chip1: { text: "Court", color: "#F59E0B" },
+    chip2: { text: "Biz Val", color: "#FCA5A5" },
+    circle1: "rgba(252,165,165,0.10)",
+    circle2: "rgba(255,255,255,0.05)",
+  },
+];
 
 function FloatCircle({
   cx, cy, r, color, delay,
@@ -11,11 +61,136 @@ function FloatCircle({
   return (
     <motion.circle
       cx={cx} cy={cy} r={r} fill={color}
-      animate={{ cy: [cy, cy - 12, cy] }}
+      animate={{ cy: [cy, cy - 10, cy] }}
       transition={{ duration: 6 + delay * 1.5, repeat: Infinity, ease: "easeInOut", delay }}
     />
   );
 }
+
+function ServiceCard({
+  card,
+  index,        // position in stack (0 = front)
+  total,
+  isRevealing,
+}: {
+  card: typeof CARDS[0];
+  index: number;
+  total: number;
+  isRevealing: boolean;
+}) {
+  const isFront = index === 0;
+  // Back cards: offset + rotate + scale
+  const yOffset  = index * 14;
+  const rotation = index * -2.5;
+  const scale    = 1 - index * 0.035;
+
+  return (
+    <motion.div
+      className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl cursor-default"
+      style={{
+        backgroundColor: card.bg,
+        zIndex: total - index,
+      }}
+      animate={
+        isRevealing && isFront
+          ? {
+              // Front card slides away to the back
+              x: [0, 60, 0],
+              y: [0, -40, yOffset * (total - 1)],
+              rotate: [0, 8, rotation * (total - 1)],
+              scale: [1, 0.92, scale * (total - 1 === 0 ? 1 : (1 - (total - 1) * 0.035))],
+              zIndex: [total, 0, 1],
+            }
+          : {
+              y: yOffset,
+              rotate: rotation,
+              scale,
+            }
+      }
+      transition={{ duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
+    >
+      {/* Decorative orbs */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 360 304" preserveAspectRatio="xMidYMid slice">
+        <FloatCircle cx={310} cy={55}  r={100} color={card.circle1} delay={0} />
+        <FloatCircle cx={30}  cy={260} r={80}  color={card.circle2} delay={1.2} />
+        <FloatCircle cx={180} cy={180} r={60}  color="rgba(255,255,255,0.03)" delay={2.5} />
+      </svg>
+
+      {/* Content */}
+      <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+        {/* Top */}
+        <div>
+          <p className="text-white/45 text-[10px] uppercase tracking-[0.18em] mb-1.5">Contact for pricing</p>
+          <h3 className="font-display font-bold text-white text-xl mb-1">{card.eyebrow}</h3>
+          <p className="text-white/40 text-xs">{card.title}</p>
+        </div>
+
+        {/* Rate + CTA */}
+        <div className="flex items-end justify-between">
+          <span className="font-display font-bold text-[#F59E0B] text-[1.6rem] leading-none">
+            {card.label}
+          </span>
+          <Link
+            href="/contact"
+            className="bg-[#F59E0B] hover:bg-[#e08e00] text-[#082B5C] font-bold px-5 py-2.5 rounded-full text-sm transition-colors"
+          >
+            Get Started
+          </Link>
+        </div>
+
+        {/* Chips row */}
+        <div className="flex items-center gap-3">
+          <span className="text-white/30 text-[11px] uppercase tracking-widest">Services include</span>
+          <span className="bg-white/10 text-[11px] font-semibold px-2.5 py-0.5 rounded-full" style={{ color: card.chip1.color }}>
+            {card.chip1.text}
+          </span>
+          <span className="bg-white/10 text-[11px] font-semibold px-2.5 py-0.5 rounded-full" style={{ color: card.chip2.color }}>
+            {card.chip2.text}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function CardStack() {
+  const [order, setOrder] = useState([0, 1, 2, 3]);
+  const [revealing, setRevealing] = useState(false);
+
+  function handleHover() {
+    if (revealing) return;
+    setRevealing(true);
+    setTimeout(() => {
+      setOrder((prev) => {
+        const next = [...prev];
+        const front = next.shift()!;
+        next.push(front);
+        return next;
+      });
+      setRevealing(false);
+    }, 540);
+  }
+
+  return (
+    <div
+      className="relative h-[304px] w-full"
+      style={{ perspective: "1000px" }}
+      onMouseEnter={handleHover}
+    >
+      {order.map((cardIdx, stackPos) => (
+        <ServiceCard
+          key={cardIdx}
+          card={CARDS[cardIdx]}
+          index={stackPos}
+          total={CARDS.length}
+          isRevealing={revealing && stackPos === 0}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ── Main ─────────────────────────────────────────────────────────────────────
 
 export default function PricingTeaser() {
   return (
@@ -45,130 +220,20 @@ export default function PricingTeaser() {
               ))}
             </ul>
             <Link
-              href="/contact#pricing"
+              href="/contact"
               className="inline-flex items-center gap-2 bg-[#082B5C] hover:bg-[#0d3d7a] text-white font-semibold px-7 py-3.5 rounded-full text-sm transition-all shadow-lg"
             >
               View Pricing
             </Link>
           </AnimatedSection>
 
-          {/* Right — animated dashboard card */}
+          {/* Right — stacked cards */}
           <AnimatedSection direction="right">
-            <div className="relative h-[352px] flex items-center justify-center">
-
-              {/* Shadow card behind */}
-              <div className="absolute top-5 left-5 right-5 bottom-1 bg-[#082B5C]/10 rounded-3xl rotate-2 scale-[0.98]" />
-
-              {/* Main blue card */}
-              <motion.div
-                className="relative w-full rounded-3xl overflow-hidden shadow-2xl bg-[#082B5C]"
-                style={{ height: 304 }}
-                whileHover={{ scale: 1.015, boxShadow: "0 32px 64px rgba(8,43,92,0.35)" }}
-                transition={{ duration: 0.3 }}
-              >
-                {/* 3 decorative circles — SVG layer */}
-                <svg
-                  className="absolute inset-0 w-full h-full pointer-events-none"
-                  viewBox="0 0 360 380"
-                  preserveAspectRatio="xMidYMid slice"
-                >
-                  {/* Top-right — gold tint */}
-                  <FloatCircle cx={310} cy={55}  r={100} color="rgba(245,158,11,0.13)"  delay={0} />
-                  {/* Bottom-left — blue tint */}
-                  <FloatCircle cx={30}  cy={330} r={90}  color="rgba(255,255,255,0.07)" delay={1} />
-                  {/* Centre — subtle white */}
-                  <FloatCircle cx={185} cy={200} r={70}  color="rgba(255,255,255,0.04)" delay={2} />
-                </svg>
-
-                {/* Card content */}
-                <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-
-                  {/* Top */}
-                  <div>
-                    <motion.p
-                      className="text-white/50 text-[10px] uppercase tracking-[0.18em] mb-1.5"
-                      initial={{ opacity: 0, y: 6 }} whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }} transition={{ delay: 0.2 }}
-                    >
-                      Standard Hourly Rate
-                    </motion.p>
-                    <motion.h3
-                      className="font-display font-bold text-white text-xl mb-1"
-                      initial={{ opacity: 0, y: 6 }} whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }} transition={{ delay: 0.3 }}
-                    >
-                      CPA Advisory &amp; Audits
-                    </motion.h3>
-                    <motion.p
-                      className="text-white/40 text-xs"
-                      initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
-                      viewport={{ once: true }} transition={{ delay: 0.4 }}
-                    >
-                      Forensics · CDFA · Attestations
-                    </motion.p>
-                  </div>
-
-                  {/* Rate + CTA */}
-                  <motion.div
-                    className="flex items-end justify-between"
-                    initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }} transition={{ delay: 0.45 }}
-                  >
-                    <div className="flex items-end gap-1">
-                      <span
-                        className="font-display font-bold text-[#F59E0B] leading-none"
-                        style={{ fontSize: "clamp(1.6rem, 3vw, 2rem)" }}
-                      >
-                        Contact for pricing
-                      </span>
-                    </div>
-                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-                      <Link
-                        href="/contact"
-                        className="bg-[#F59E0B] hover:bg-[#e08e00] text-[#082B5C] font-bold px-5 py-2.5 rounded-full text-sm transition-colors block"
-                      >
-                        Get Started
-                      </Link>
-                    </motion.div>
-                  </motion.div>
-
-                  {/* Mini stat row — no top border/line */}
-                  <motion.div
-                    className="flex gap-6"
-                    initial={{ opacity: 0, y: 8 }} whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }} transition={{ delay: 0.55 }}
-                  >
-                    {[
-                      { label: "Payroll",  val: "Contact" },
-                      { label: "AP / AR", val: "Contact" },
-                      { label: "Audits",  val: "Contact" },
-                    ].map((s) => (
-                      <div key={s.label}>
-                        <p className="text-white/35 text-[10px] uppercase tracking-wide">{s.label}</p>
-                        <p className="text-white/80 text-xs font-semibold mt-0.5">{s.val}</p>
-                      </div>
-                    ))}
-                  </motion.div>
-
-                </div>
-              </motion.div>
-
-              {/* Floating chips */}
-              {[
-                { label: "CDFA", rate: "Contact", pos: "-top-3 -right-3", delay: 0 },
-                { label: "HR",   rate: "Contact", pos: "-bottom-3 -left-3", delay: 1 },
-              ].map((chip) => (
-                <motion.div
-                  key={chip.label}
-                  className={`absolute bg-white rounded-2xl shadow-xl px-4 py-2.5 border border-gray-100 ${chip.pos}`}
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: chip.delay }}
-                >
-                  <span className="text-[#082B5C] font-bold text-sm">{chip.label}</span>
-                  <span className="text-[#F59E0B] font-bold text-sm ml-2">{chip.rate}</span>
-                </motion.div>
-              ))}
-
+            <div className="relative" style={{ paddingTop: "40px", paddingBottom: "8px" }}>
+              <CardStack />
+              <p className="text-center text-[11px] text-[#9CA3AF] mt-5 tracking-wide">
+                Hover to explore service categories
+              </p>
             </div>
           </AnimatedSection>
 
