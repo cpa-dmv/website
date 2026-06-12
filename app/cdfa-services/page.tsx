@@ -30,10 +30,8 @@ export default function CDFAPage() {
       {/* Hero */}
       <section className="bg-[#082B5C] py-16 lg:py-20 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <motion.div className="absolute -top-20 -right-20 w-[400px] h-[400px] rounded-full bg-[#D97706]/8"
-            animate={{ scale: [1, 1.06, 1] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} />
-          <motion.div className="absolute -bottom-16 -left-16 w-[300px] h-[300px] rounded-full bg-white/[0.03]"
-            animate={{ scale: [1, 1.04, 1] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }} />
+          <img src="/images/cdfa-hero-bg.svg" alt="" aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-100" />
         </div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -122,16 +120,16 @@ export default function CDFAPage() {
               <motion.div key={step.num}
                 initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }} transition={{ delay: i * 0.09 }}
-                className={`flex items-start gap-4 p-4 rounded-2xl border ${
+                className={`flex items-start gap-4 p-5 rounded-2xl border ${
                   step.highlight ? "bg-amber-50 border-amber-200 shadow-sm" : "bg-white border-gray-100"
                 }`}>
-                <span className={`font-display font-bold text-[13px] w-7 flex-shrink-0 mt-0.5 ${step.highlight ? "text-[#D97706]" : "text-[#082B5C]/30"}`}>
+                <span className={`font-display font-bold text-[15px] w-8 flex-shrink-0 mt-0.5 ${step.highlight ? "text-[#D97706]" : "text-[#082B5C]/30"}`}>
                   {step.num}
                 </span>
                 <div className="flex-1 flex items-start justify-between gap-3">
                   <div>
-                    <p className={`font-bold text-[14px] ${step.highlight ? "text-[#92400E]" : "text-[#1F2937]"}`}>{step.label}</p>
-                    <p className={`text-[12px] mt-0.5 ${step.highlight ? "text-[#B45309]" : "text-[#6B7280]"}`}>{step.desc}</p>
+                    <p className={`font-bold text-[16px] ${step.highlight ? "text-[#92400E]" : "text-[#1F2937]"}`}>{step.label}</p>
+                    <p className={`text-[14px] mt-1 ${step.highlight ? "text-[#B45309]" : "text-[#6B7280]"}`}>{step.desc}</p>
                   </div>
                   {step.highlight && <TurnaroundBadge size="sm" />}
                 </div>

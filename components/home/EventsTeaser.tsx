@@ -4,7 +4,7 @@ import AnimatedSection from "@/components/shared/AnimatedSection";
 import Link from "next/link";
 
 export default function EventsTeaser() {
-  const upcoming = events.slice(0, 4);
+  const upcoming = events.slice(0, 3);
   if (upcoming.length === 0) return null;
 
   return (
@@ -12,7 +12,7 @@ export default function EventsTeaser() {
       <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-10 gap-4">
           <div>
-            <p className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-2">
+            <p className="text-[#1E5FA8] text-xs font-semibold uppercase tracking-widest mb-2">
               Free to Attend
             </p>
             <h2 className="font-display font-bold text-[#082B5C] text-3xl lg:text-[2.4rem] leading-tight">
@@ -27,7 +27,7 @@ export default function EventsTeaser() {
           </Link>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           {upcoming.map((event, i) => (
             <EventCard key={event.id} event={event} index={i} />
           ))}

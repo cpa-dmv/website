@@ -276,9 +276,9 @@ export default function PricingTeaser() {
               <div className="relative w-full" style={{ paddingTop: "42px", paddingBottom: "0px" }}>
                 <CardStack />
               </div>
-              <p className="text-center text-[11px] text-[#9CA3AF] mt-4 tracking-wide select-none">
+              {/* <p className="text-center text-[11px] text-[#9CA3AF] mt-4 tracking-wide select-none">
                 Auto-cycling · Click to advance
-              </p>
+              </p> */}
             </div>
           </AnimatedSection>
 

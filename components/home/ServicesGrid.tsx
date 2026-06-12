@@ -14,12 +14,12 @@ const homeServices = [
   { icon: Search,         label: "Forensics Audits",           slug: "forensics-accounting",  desc: "Investigation and expert court witness." },
   { icon: TrendingUp,     label: "Business Valuation",         slug: "business-valuation",    desc: "Fair market value for transactions & disputes." },
   { icon: Monitor,        label: "QuickBooks Setup",           slug: "quickbooks",            desc: "ProAdvisor setup, training, and cleanup." },
-  { icon: BarChart3,      label: "Accounting",                 slug: "specialized-audit",     desc: "Financial reporting and general ledger." },
+  { icon: BarChart3,      label: "Financial Accounting and Reporting",                 slug: "specialized-audit",     desc: "Financial reporting and general ledger." },
   { icon: Users,          label: "Payroll",                    slug: "payroll",               desc: "Accurate payroll processing every cycle." },
   { icon: Building2,      label: "Business Registration",      slug: "business-registration", desc: "Entity formation and state filing." },
   { icon: ArrowLeftRight, label: "AP / AR",                    slug: "ap-ar",                 desc: "Cash flow management and reconciliation." },
   { icon: Briefcase,      label: "HR Advisory",                slug: "hr-advisory",           desc: "Practical HR support for small businesses." },
-  { icon: FileText,       label: "Taxes",                      slug: "taxation",              desc: "Individual and business tax preparation." },
+  { icon: FileText,       label: "Taxation",                      slug: "taxation",              desc: "Individual and corporate tax preparation." },
   { icon: BookOpen,       label: "Bookkeeping",                slug: "ap-ar",                 desc: "Accurate, organized books every month." },
 ];
 

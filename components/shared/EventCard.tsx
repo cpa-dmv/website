@@ -22,7 +22,7 @@ export default function EventCard({ event, compact = false, index = 0 }: Props) 
       transition={{ duration: 0.42, delay: index * 0.09, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -3, transition: { duration: 0.2 } }}
       className="bg-white rounded-2xl overflow-hidden border shadow-sm hover:shadow-md transition-shadow flex flex-col"
-      style={{ borderColor: "#E9EAEC" }}
+      style={{ borderColor: "#DBEAFE" }}
     >
       {/* Date block + category row */}
       <div className="flex">

@@ -1,0 +1,248 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#041830"/>
+      <stop offset="55%" stop-color="#082B5C"/>
+      <stop offset="100%" stop-color="#0D3D7A"/>
+    </linearGradient>
+    <radialGradient id="goldGlow" cx="72%" cy="28%" r="45%">
+      <stop offset="0%" stop-color="#D97706" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="leftGlow" cx="18%" cy="65%" r="38%">
+      <stop offset="0%" stop-color="#1E5FA8" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#1E5FA8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gridFade" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="white" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="white" stop-opacity="0.035"/>
+      <stop offset="80%"  stop-color="white" stop-opacity="0.035"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="gridFadeV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="white" stop-opacity="0"/>
+      <stop offset="15%"  stop-color="white" stop-opacity="0.035"/>
+      <stop offset="85%"  stop-color="white" stop-opacity="0.035"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Dashed dividing line gradient -->
+    <linearGradient id="divideGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#D97706" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="#D97706" stop-opacity="0.5"/>
+      <stop offset="80%"  stop-color="#D97706" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="softBlur">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="520" fill="url(#bgGrad)"/>
+  <rect width="1440" height="520" fill="url(#goldGlow)"/>
+  <rect width="1440" height="520" fill="url(#leftGlow)"/>
+
+  <!-- Grid -->
+  <line x1="180"  y1="0" x2="180"  y2="520" stroke="url(#gridFadeV)" stroke-width="1"/>
+  <line x1="360"  y1="0" x2="360"  y2="520" stroke="url(#gridFadeV)" stroke-width="1"/>
+  <line x1="540"  y1="0" x2="540"  y2="520" stroke="url(#gridFadeV)" stroke-width="1"/>
+  <line x1="720"  y1="0" x2="720"  y2="520" stroke="url(#gridFadeV)" stroke-width="1"/>
+  <line x1="900"  y1="0" x2="900"  y2="520" stroke="url(#gridFadeV)" stroke-width="1"/>
+  <line x1="1080" y1="0" x2="1080" y2="520" stroke="url(#gridFadeV)" stroke-width="1"/>
+  <line x1="1260" y1="0" x2="1260" y2="520" stroke="url(#gridFadeV)" stroke-width="1"/>
+  <line x1="0" y1="130" x2="1440" y2="130" stroke="url(#gridFade)" stroke-width="1"/>
+  <line x1="0" y1="260" x2="1440" y2="260" stroke="url(#gridFade)" stroke-width="1"/>
+  <line x1="0" y1="390" x2="1440" y2="390" stroke="url(#gridFade)" stroke-width="1"/>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CENTRAL VERTICAL DIVIDING LINE — asset division metaphor
+       ══════════════════════════════════════════════════════════════ -->
+  <line x1="720" y1="0" x2="720" y2="520"
+    stroke="url(#divideGrad)" stroke-width="1.5" stroke-dasharray="10 6"/>
+
+  <!-- Faint "DIVIDE" glow behind center line -->
+  <line x1="720" y1="60" x2="720" y2="460"
+    stroke="#D97706" stroke-width="12" opacity="0.04" filter="url(#softBlur)"/>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       BALANCE / SCALES OF JUSTICE — right side, large & faint
+       ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(1020, 50)" opacity="0.13">
+    <!-- Pole -->
+    <rect x="98" y="0" width="8" height="340" rx="4" fill="white"/>
+    <!-- Fulcrum triangle -->
+    <polygon points="102,340 80,380 124,380" fill="white" opacity="0.7"/>
+    <rect x="60" y="378" width="88" height="10" rx="5" fill="white" opacity="0.5"/>
+
+    <!-- Crossbar — slightly tilted to show imbalance (divorce realism) -->
+    <g transform="rotate(-5 102 55)">
+      <rect x="10" y="50" width="184" height="7" rx="3.5" fill="white"/>
+      <!-- Left chain -->
+      <line x1="28" y1="57" x2="28" y2="145" stroke="white" stroke-width="2.5" stroke-dasharray="5 3"/>
+      <!-- Right chain -->
+      <line x1="178" y1="57" x2="178" y2="115" stroke="white" stroke-width="2.5" stroke-dasharray="5 3"/>
+      <!-- Left pan — lower (heavier side) -->
+      <ellipse cx="28" cy="147" rx="38" ry="10" fill="white" opacity="0.5"/>
+      <path d="M -10,147 Q 28,162 66,147" fill="white" opacity="0.12"/>
+      <!-- Right pan — higher -->
+      <ellipse cx="178" cy="117" rx="38" ry="10" fill="white" opacity="0.5"/>
+      <path d="M 140,117 Q 178,132 216,117" fill="white" opacity="0.12"/>
+
+      <!-- Left pan contents: house (marital home) -->
+      <g transform="translate(10, 110)">
+        <!-- House -->
+        <polygon points="18,28 0,28 9,12" fill="#D97706" opacity="0.7"/>
+        <rect x="3" y="28" width="30" height="18" fill="#D97706" opacity="0.5"/>
+        <rect x="13" y="34" width="8" height="12" fill="white" opacity="0.5"/>
+        <!-- Door -->
+      </g>
+
+      <!-- Right pan contents: dollar stack (cash/assets) -->
+      <g transform="translate(158, 82)">
+        <rect x="0"  y="16" width="38" height="10" rx="2" fill="#D97706" opacity="0.4"/>
+        <rect x="1"  y="9"  width="38" height="10" rx="2" fill="#D97706" opacity="0.55"/>
+        <rect x="2"  y="2"  width="38" height="10" rx="2" fill="#D97706" opacity="0.7"/>
+        <text x="21" y="11" text-anchor="middle" font-size="7" fill="white" opacity="0.8" font-family="sans-serif">$</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       WEDDING RINGS — separating (left area)
+       ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(95, 140)" opacity="0.16">
+    <!-- Left ring — moving left -->
+    <circle cx="42" cy="55" r="36" fill="none" stroke="white" stroke-width="6"/>
+    <circle cx="42" cy="55" r="36" fill="none" stroke="#D97706" stroke-width="2" stroke-dasharray="8 4" opacity="0.7"/>
+    <!-- Right ring — moving right, slight overlap gap -->
+    <circle cx="104" cy="55" r="36" fill="none" stroke="white" stroke-width="6"/>
+    <circle cx="104" cy="55" r="36" fill="none" stroke="#D97706" stroke-width="2" stroke-dasharray="8 4" opacity="0.7"/>
+    <!-- Gap / break indication between rings -->
+    <line x1="68" y1="20" x2="78" y2="90" stroke="#D97706" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.5"/>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       HOUSE SPLIT IN TWO — center, large faint watermark
+       ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(560, 90)" opacity="0.065">
+    <!-- Left half of house -->
+    <polygon points="160,80 0,80 80,0" fill="white"/>
+    <rect x="0" y="80" width="160" height="120" fill="white"/>
+    <!-- Left window -->
+    <rect x="20" y="100" width="40" height="40" rx="3" fill="#082B5C" opacity="0.8"/>
+    <!-- Left door half -->
+    <rect x="110" y="130" width="40" height="70" rx="3" fill="#082B5C" opacity="0.8"/>
+
+    <!-- Right half — slightly shifted to show split -->
+    <polygon points="164,80 324,80 244,0" fill="white" opacity="0.6"/>
+    <rect x="164" y="80" width="160" height="120" fill="white" opacity="0.6"/>
+    <!-- Right window -->
+    <rect x="264" y="100" width="40" height="40" rx="3" fill="#082B5C" opacity="0.8"/>
+
+    <!-- The split line / crack -->
+    <line x1="160" y1="0" x2="164" y2="200" stroke="#D97706" stroke-width="3" stroke-dasharray="8 4" opacity="0.9"/>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SETTLEMENT DOCUMENT — lower right
+       ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(1190, 240)" opacity="0.15">
+    <rect width="155" height="200" rx="8" fill="white" opacity="0.07" stroke="white" stroke-width="0.8" stroke-opacity="0.25"/>
+    <!-- Header -->
+    <rect x="0" y="0" width="155" height="32" rx="8" fill="white" opacity="0.1"/>
+    <rect x="0" y="18" width="155" height="14" fill="white" opacity="0.06"/>
+    <text x="77" y="21" text-anchor="middle" font-size="8" fill="white" opacity="0.6" font-family="serif" letter-spacing="1">SETTLEMENT AGREEMENT</text>
+    <!-- Body lines -->
+    <rect x="12" y="44" width="80" height="4" rx="2" fill="white" opacity="0.22"/>
+    <rect x="12" y="55" width="115" height="3.5" rx="1.5" fill="white" opacity="0.15"/>
+    <rect x="12" y="65" width="95"  height="3.5" rx="1.5" fill="white" opacity="0.15"/>
+    <rect x="12" y="75" width="110" height="3.5" rx="1.5" fill="white" opacity="0.15"/>
+    <!-- Section divider -->
+    <line x1="12" y1="90" x2="143" y2="90" stroke="white" stroke-width="0.6" stroke-opacity="0.2"/>
+    <!-- Asset rows -->
+    <rect x="12" y="100" width="55" height="3" rx="1.5" fill="white" opacity="0.18"/>
+    <rect x="105" y="100" width="36" height="3" rx="1.5" fill="#D97706" opacity="0.55"/>
+    <rect x="12" y="112" width="68" height="3" rx="1.5" fill="white" opacity="0.18"/>
+    <rect x="105" y="112" width="30" height="3" rx="1.5" fill="white" opacity="0.22"/>
+    <rect x="12" y="124" width="48" height="3" rx="1.5" fill="white" opacity="0.18"/>
+    <rect x="105" y="124" width="38" height="3" rx="1.5" fill="#D97706" opacity="0.45"/>
+    <rect x="12" y="136" width="72" height="3" rx="1.5" fill="white" opacity="0.18"/>
+    <rect x="105" y="136" width="26" height="3" rx="1.5" fill="white" opacity="0.22"/>
+    <!-- Divider -->
+    <line x1="12" y1="152" x2="143" y2="152" stroke="white" stroke-width="0.6" stroke-opacity="0.2"/>
+    <!-- Signature lines -->
+    <line x1="12" y1="172" x2="68"  y2="172" stroke="white" stroke-width="1" stroke-opacity="0.3"/>
+    <line x1="88" y1="172" x2="143" y2="172" stroke="white" stroke-width="1" stroke-opacity="0.3"/>
+    <text x="40"  y="183" text-anchor="middle" font-size="6" fill="white" opacity="0.3" font-family="sans-serif">Party A</text>
+    <text x="116" y="183" text-anchor="middle" font-size="6" fill="white" opacity="0.3" font-family="sans-serif">Party B</text>
+    <!-- CDFA stamp -->
+    <circle cx="77" cy="165" r="16" fill="none" stroke="#D97706" stroke-width="1.2" stroke-dasharray="3 2" opacity="0.55"/>
+    <text x="77" y="163" text-anchor="middle" font-size="5.5" fill="#D97706" opacity="0.7" font-family="sans-serif" letter-spacing="0.5">CDFA</text>
+    <text x="77" y="171" text-anchor="middle" font-size="4.5" fill="#D97706" opacity="0.6" font-family="sans-serif">REVIEWED</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       ASSET PIE CHART — lower left, division visualization
+       ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(55, 290)" opacity="0.14">
+    <!-- Circle -->
+    <circle cx="80" cy="80" r="72" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.3"/>
+    <!-- Slice 1: ~55% — marital home, retirement -->
+    <path d="M80,80 L80,8 A72,72 0 1,1 17,116 Z" fill="white" opacity="0.12"/>
+    <!-- Slice 2: ~45% — liquid assets, accounts -->
+    <path d="M80,80 L17,116 A72,72 0 0,1 80,8 Z" fill="#D97706" opacity="0.18"/>
+    <!-- Dividing line through pie -->
+    <line x1="80" y1="8"   x2="80"  y2="152" stroke="white" stroke-width="1.5" stroke-opacity="0.4"/>
+    <line x1="80" y1="80"  x2="17"  y2="116" stroke="white" stroke-width="1.5" stroke-opacity="0.4"/>
+    <!-- Labels -->
+    <text x="50"  y="60"  text-anchor="middle" font-size="7" fill="white" opacity="0.5" font-family="sans-serif">ASSETS</text>
+    <text x="110" y="110" text-anchor="middle" font-size="7" fill="#D97706" opacity="0.6" font-family="sans-serif">LIQUID</text>
+    <!-- 50/50 label in center -->
+    <text x="80" y="78"  text-anchor="middle" font-size="9" fill="white" opacity="0.45" font-family="sans-serif" font-weight="bold">÷</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       FINANCIAL TIMELINE — top right strip
+       ══════════════════════════════════════════════════════════════ -->
+  <g transform="translate(850, 30)" opacity="0.1">
+    <!-- Timeline base line -->
+    <line x1="0" y1="20" x2="520" y2="20" stroke="white" stroke-width="1.5"/>
+    <!-- Nodes -->
+    <circle cx="0"   cy="20" r="5" fill="white"/>
+    <circle cx="110" cy="20" r="5" fill="white"/>
+    <circle cx="220" cy="20" r="5" fill="#D97706"/>
+    <circle cx="330" cy="20" r="5" fill="white"/>
+    <circle cx="440" cy="20" r="5" fill="#D97706"/>
+    <circle cx="520" cy="20" r="4" fill="white" opacity="0.5"/>
+    <!-- Labels -->
+    <text x="0"   y="38" text-anchor="middle" font-size="7" fill="white" opacity="0.6" font-family="sans-serif">Filing</text>
+    <text x="110" y="38" text-anchor="middle" font-size="7" fill="white" opacity="0.6" font-family="sans-serif">Discovery</text>
+    <text x="220" y="38" text-anchor="middle" font-size="7" fill="#D97706" opacity="0.8" font-family="sans-serif">72-hr Report</text>
+    <text x="330" y="38" text-anchor="middle" font-size="7" fill="white" opacity="0.6" font-family="sans-serif">Mediation</text>
+    <text x="440" y="38" text-anchor="middle" font-size="7" fill="#D97706" opacity="0.8" font-family="sans-serif">Settlement</text>
+    <!-- Vertical tick marks -->
+    <line x1="0"   y1="15" x2="0"   y2="25" stroke="white" stroke-width="1.5"/>
+    <line x1="110" y1="15" x2="110" y2="25" stroke="white" stroke-width="1.5"/>
+    <line x1="220" y1="14" x2="220" y2="26" stroke="#D97706" stroke-width="2"/>
+    <line x1="330" y1="15" x2="330" y2="25" stroke="white" stroke-width="1.5"/>
+    <line x1="440" y1="14" x2="440" y2="26" stroke="#D97706" stroke-width="2"/>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SUBTLE DIAGONAL LIGHT SWEEP — upper left
+       ══════════════════════════════════════════════════════════════ -->
+  <g opacity="0.03">
+    <line x1="-50" y1="500" x2="400" y2="-50"  stroke="white" stroke-width="80"/>
+  </g>
+
+  <!-- Bottom fade for text legibility -->
+  <linearGradient id="bottomFade" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="50%"  stop-color="#082B5C" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#041830" stop-opacity="0.45"/>
+  </linearGradient>
+  <rect width="1440" height="520" fill="url(#bottomFade)"/>
+</svg>
