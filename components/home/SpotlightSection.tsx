@@ -96,123 +96,8 @@ function CertSeal({
 
 // ── CPA pulse widget ──────────────────────────────────────────────────────────
 
-const credentialStats = [
-  { label: "Licensed", sub: "Virginia CPA" },
-  { label: "Affiliated", sub: "AICPA Member" },
-  { label: "Active", sub: "In good standing" },
-];
 
-function CPACredentialWidget() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: 0.25 }}
-      className="mb-4 bg-[#082B5C]/[0.04] border border-[#082B5C]/10 rounded-xl px-4 py-3 flex items-center gap-4"
-    >
-      <div className="relative flex-shrink-0 w-9 h-9 flex items-center justify-center">
-        <motion.div
-          className="absolute inset-0 rounded-full bg-[#082B5C]/10"
-          animate={{ scale: [1, 1.55, 1], opacity: [0.6, 0, 0.6] }}
-          transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute inset-0 rounded-full bg-[#082B5C]/8"
-          animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0, 0.4] }}
-          transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-        />
-        <Shield size={16} className="text-[#082B5C] relative z-10" strokeWidth={2} />
-      </div>
 
-      <div className="flex gap-4">
-        {credentialStats.map((s, i) => (
-          <motion.div
-            key={s.label}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.35 + i * 0.1 }}
-            className="flex flex-col"
-          >
-            <span className="text-[11px] font-bold text-[#082B5C] leading-none">{s.label}</span>
-            <span className="text-[9px] text-[#082B5C]/50 mt-0.5 uppercase tracking-wide">{s.sub}</span>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="ml-auto flex items-center gap-1">
-        {[0, 0.3, 0.6].map((delay, i) => (
-          <motion.div
-            key={i}
-            className="w-1.5 h-1.5 rounded-full bg-[#082B5C]"
-            animate={{ opacity: [0.2, 1, 0.2] }}
-            transition={{ duration: 1.5, repeat: Infinity, delay }}
-          />
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
-// ── 72-Hr widget: typewriter countdown ────────────────────────────────────────
-
-const HOURS = [72, 68, 54, 36, 24, 12, 8, 4, 1];
-
-function CountdownWidget() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: 0.25 }}
-      className="mb-4 bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 flex items-center gap-3 overflow-hidden"
-    >
-      {/* Digit flip */}
-      <div className="relative flex-shrink-0 w-[52px] h-[36px] bg-[#D97706] rounded-lg flex items-center justify-center overflow-hidden shadow-sm">
-        {HOURS.map((h, i) => (
-          <motion.span
-            key={h}
-            className="absolute font-display font-extrabold text-white text-[18px] leading-none"
-            initial={{ y: "100%", opacity: 0 }}
-            animate={{
-              y: ["100%", "0%", "0%", "-100%"],
-              opacity: [0, 1, 1, 0],
-            }}
-            transition={{
-              duration: 1.6,
-              delay: i * 1.4,
-              repeat: Infinity,
-              repeatDelay: HOURS.length * 1.4 - 1.6,
-              ease: "easeInOut",
-              times: [0, 0.15, 0.75, 1],
-            }}
-          >
-            {h}
-          </motion.span>
-        ))}
-      </div>
-
-      <div className="flex flex-col min-w-0">
-        <span className="text-[12px] font-bold text-[#92400E] leading-none">Hour countdown</span>
-        <span className="text-[10px] text-[#B45309] mt-0.5">Preliminary report delivered</span>
-      </div>
-
-      {/* Animated progress bar */}
-      <div className="ml-auto flex-shrink-0 w-16 h-1.5 bg-amber-200 rounded-full overflow-hidden">
-        <motion.div
-          className="h-full bg-[#D97706] rounded-full"
-          animate={{ width: ["100%", "0%"] }}
-          transition={{
-            duration: HOURS.length * 1.4,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-      </div>
-    </motion.div>
-  );
-}
 
 // ── Main component ────────────────────────────────────────────────────────────
 
@@ -255,8 +140,6 @@ export default function SpotlightSection() {
                 ))}
               </ul>
 
-              <CPACredentialWidget />
-
               <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                 <div className="flex items-center gap-2">
                   {["AICPA", "VA CPA", "BOA"].map((tag) => (
@@ -296,8 +179,6 @@ export default function SpotlightSection() {
                     </li>
                   ))}
                 </ul>
-
-                <CountdownWidget />
 
                 <div className="flex items-center justify-between pt-4 border-t border-amber-100">
                   <div className="flex items-center gap-2">

@@ -88,9 +88,10 @@ export const events: EventItem[] = [
   },
 ];
 
+// Alternating brand palette: navy (#082B5C) and amber (#D97706)
 export const eventTypeColors: Record<EventItem["type"], { bg: string; text: string; btn: string; dateBg: string }> = {
-  CPE:         { bg: "bg-teal-50",   text: "text-teal-700",  btn: "#0D9488", dateBg: "#0D9488" },
-  "Exam Prep": { bg: "bg-blue-50",   text: "text-blue-700",  btn: "#082B5C", dateBg: "#082B5C" },
-  Webinar:     { bg: "bg-purple-50", text: "text-purple-700",btn: "#7C3AED", dateBg: "#7C3AED" },
-  Workshop:    { bg: "bg-amber-50",  text: "text-amber-700", btn: "#B45309", dateBg: "#92400E" },
+  CPE:         { bg: "bg-blue-50",  text: "text-[#082B5C]", btn: "#082B5C", dateBg: "#082B5C" },
+  "Exam Prep": { bg: "bg-amber-50", text: "text-[#B45309]", btn: "#D97706", dateBg: "#D97706" },
+  Webinar:     { bg: "bg-blue-50",  text: "text-[#082B5C]", btn: "#082B5C", dateBg: "#082B5C" },
+  Workshop:    { bg: "bg-amber-50", text: "text-[#B45309]", btn: "#D97706", dateBg: "#D97706" },
 };

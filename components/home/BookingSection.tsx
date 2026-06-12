@@ -62,7 +62,7 @@ export default function BookingSection() {
 
             <div>
               <h3 className="font-display font-bold text-white text-[20px] leading-snug mb-2">
-                CDFA Consultation
+                Consultation
               </h3>
               <p className="text-white/45 text-[13px] leading-relaxed">
                 Schedule a confidential consultation to discuss your situation and how we can help.

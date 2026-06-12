@@ -22,7 +22,7 @@ const SERVICES = [
     name: "Forensic Audit Report",
     bullets: ["Financial irregularity summary", "Document trail analysis", "Court-ready preliminary memo"],
     href: "/forensics-accounting",
-    accent: "#60A5FA",
+    accent: "#082B5C",
   },
   {
     id: "bizval",
@@ -31,7 +31,7 @@ const SERVICES = [
     name: "Business Valuation",
     bullets: ["Fair market value range", "Asset & income approach summary", "Comparable transaction reference"],
     href: "/business-valuation",
-    accent: "#34D399",
+    accent: "#059669",
   },
 ];
 
@@ -44,15 +44,7 @@ export default function TurnaroundUSP() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden" style={{ background: "#1A1D23" }}>
-      {/* Subtle orb */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          className="absolute rounded-full"
-          style={{ width: 480, height: 480, top: -100, right: -80, background: "radial-gradient(circle, rgba(8,43,92,0.4) 0%, transparent 70%)" }}
-          animate={{ scale: [1, 1.06, 1] }} transition={{ duration: 9, repeat: Infinity }}
-        />
-      </div>
+    <section className="relative overflow-hidden bg-[#F0F2F5]">
 
       <div className="relative z-10 max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-10 items-center">
@@ -65,25 +57,25 @@ export default function TurnaroundUSP() {
               viewport={{ once: true }} transition={{ duration: 0.4 }}
               className="flex items-center gap-2.5 mb-5"
             >
-              <Zap size={13} className="text-[#F59E0B]" fill="#F59E0B" />
-              <span className="text-[#F59E0B] text-[11px] font-bold uppercase tracking-[0.2em]">Speed Commitment</span>
+              <Zap size={13} className="text-[#D97706]" fill="#D97706" />
+              <span className="text-[#D97706] text-[11px] font-bold uppercase tracking-[0.2em]">Speed Commitment</span>
             </motion.div>
 
-            {/* Headline — Roboto, not display */}
+            {/* Headline */}
             <motion.div
               initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.1 }}
               className="mb-4"
             >
               <div className="flex items-end gap-3 mb-2">
-                <span className="font-roboto font-extrabold text-white leading-none" style={{ fontSize: "clamp(3.5rem, 7vw, 5.5rem)" }}>
+                <span className="font-roboto font-extrabold text-[#082B5C] leading-none" style={{ fontSize: "clamp(3.5rem, 7vw, 5.5rem)" }}>
                   72
                 </span>
-                <span className="text-[#F59E0B] font-bold text-[1.1rem] mb-2 uppercase tracking-widest">hrs</span>
+                <span className="text-[#D97706] font-bold text-[1.1rem] mb-2 uppercase tracking-widest">hrs</span>
               </div>
-              <p className="font-roboto font-bold text-white/90 text-[1.2rem] leading-snug">
+              <p className="font-roboto font-bold text-[#082B5C] text-[1.2rem] leading-snug">
                 Preliminary report, delivered.<br />
-                <span className="text-white/45 font-normal text-[1rem]">Faster than the industry standard.</span>
+                <span className="text-[#6B7280] font-normal text-[1rem]">Faster than the industry standard.</span>
               </p>
             </motion.div>
 
@@ -99,13 +91,13 @@ export default function TurnaroundUSP() {
                   onClick={() => setActive(i)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[11px] font-semibold transition-all duration-200"
                   style={{
-                    borderColor: active === i ? svc.accent : "rgba(255,255,255,0.12)",
-                    background:  active === i ? `${svc.accent}18` : "transparent",
-                    color:       active === i ? svc.accent : "rgba(255,255,255,0.40)",
+                    borderColor: active === i ? svc.accent : "rgba(8,43,92,0.15)",
+                    background:  active === i ? `${svc.accent}12` : "rgba(255,255,255,0.6)",
+                    color:       active === i ? svc.accent : "#6B7280",
                   }}
                 >
                   <span className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: active === i ? svc.accent : "rgba(255,255,255,0.2)" }} />
+                    style={{ backgroundColor: active === i ? svc.accent : "#CBD5E1" }} />
                   {svc.tag}
                 </button>
               ))}
@@ -118,7 +110,7 @@ export default function TurnaroundUSP() {
             >
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-[#F59E0B] hover:bg-[#e08e00] text-[#082B5C] font-bold px-6 py-2.5 rounded-full text-sm transition-all shadow-lg group"
+                className="inline-flex items-center gap-2 bg-[#082B5C] hover:bg-[#0d3d7a] text-white font-bold px-6 py-2.5 rounded-full text-sm transition-all shadow-md group"
               >
                 Book a consultation
                 <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
@@ -140,8 +132,9 @@ export default function TurnaroundUSP() {
                   transition={{ duration: 0.4, delay: i * 0.09 }}
                   className="w-full text-left rounded-2xl border overflow-hidden focus:outline-none transition-all duration-300"
                   style={{
-                    borderColor: isActive ? `${svc.accent}45` : "rgba(255,255,255,0.07)",
-                    background:  isActive ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.025)",
+                    borderColor: isActive ? `${svc.accent}40` : "rgba(8,43,92,0.08)",
+                    background:  isActive ? "#FFFFFF" : "rgba(255,255,255,0.55)",
+                    boxShadow:   isActive ? `0 4px 20px ${svc.accent}15` : "none",
                   }}
                 >
                   {/* Sweep bar */}
@@ -157,17 +150,17 @@ export default function TurnaroundUSP() {
                     <div className="flex items-center gap-3">
                       <div
                         className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-200"
-                        style={{ backgroundColor: isActive ? `${svc.accent}22` : "rgba(255,255,255,0.06)" }}
+                        style={{ backgroundColor: isActive ? `${svc.accent}15` : "rgba(8,43,92,0.06)" }}
                       >
-                        <svc.icon size={15} style={{ color: isActive ? svc.accent : "rgba(255,255,255,0.35)" }} strokeWidth={1.8} />
+                        <svc.icon size={15} style={{ color: isActive ? svc.accent : "#9CA3AF" }} strokeWidth={1.8} />
                       </div>
                       <div className="flex-1">
                         <p className="text-[9px] uppercase tracking-widest font-semibold transition-colors"
-                          style={{ color: isActive ? svc.accent : "rgba(255,255,255,0.30)" }}>
+                          style={{ color: isActive ? svc.accent : "#9CA3AF" }}>
                           {svc.tag}
                         </p>
                         <p className="text-[13px] font-bold transition-colors"
-                          style={{ color: isActive ? "#FFFFFF" : "rgba(255,255,255,0.55)" }}>
+                          style={{ color: isActive ? "#082B5C" : "#6B7280" }}>
                           {svc.name}
                         </p>
                       </div>
@@ -181,7 +174,7 @@ export default function TurnaroundUSP() {
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                          className="overflow-hidden mt-3 pt-3 border-t border-white/10 space-y-1.5"
+                          className="overflow-hidden mt-3 pt-3 border-t border-gray-100 space-y-1.5"
                         >
                           {svc.bullets.map((b, j) => (
                             <motion.li
@@ -189,7 +182,7 @@ export default function TurnaroundUSP() {
                               initial={{ opacity: 0, x: -6 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: j * 0.06 + 0.05 }}
-                              className="flex items-center gap-2 text-[11px] text-white/55"
+                              className="flex items-center gap-2 text-[11px] text-[#6B7280]"
                             >
                               <CheckCircle size={10} style={{ color: svc.accent }} className="flex-shrink-0" />
                               {b}

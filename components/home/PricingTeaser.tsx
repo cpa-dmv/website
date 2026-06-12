@@ -75,7 +75,7 @@ const CARDS = [
   },
 ];
 
-const AUTO_INTERVAL = 3000;
+const AUTO_INTERVAL = 1500;
 
 function FloatCircle({
   cx, cy, r, color, delay,
@@ -114,6 +114,7 @@ function ServiceCard({
         zIndex: total - stackIndex,
         originX: 0.5,
         originY: 0.5,
+        border: card.id === 1 || card.id === 3 ? "1.5px solid rgba(8,43,92,0.18)" : "none",
       }}
       animate={
         isExiting
@@ -271,9 +272,11 @@ export default function PricingTeaser() {
 
           {/* Right — stacked cards */}
           <AnimatedSection direction="right">
-            <div className="relative" style={{ paddingTop: "42px", paddingBottom: "10px" }}>
-              <CardStack />
-              <p className="text-center text-[11px] text-[#9CA3AF] mt-5 tracking-wide">
+            <div className="flex flex-col items-center">
+              <div className="relative w-full" style={{ paddingTop: "42px", paddingBottom: "0px" }}>
+                <CardStack />
+              </div>
+              <p className="text-center text-[11px] text-[#9CA3AF] mt-4 tracking-wide select-none">
                 Auto-cycling · Click to advance
               </p>
             </div>
