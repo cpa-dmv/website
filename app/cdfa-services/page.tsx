@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TurnaroundBadge from "@/components/shared/TurnaroundBadge";
@@ -31,11 +32,13 @@ export default function CDFAPage() {
       <section className="relative overflow-hidden min-h-[520px] flex items-center bg-[#041830]">
         {/* Background photo */}
         <div className="absolute inset-0 w-full h-full">
-          <img
+          <Image
             src="/images/cdfa-hero.jpg"
             alt=""
-            aria-hidden="true"
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+            aria-hidden={true}
+            fill
+            priority
+            style={{ objectFit: "cover", objectPosition: "center" }}
           />
           {/* Dark gradient overlay — heavy left, fades right */}
           <div className="absolute inset-0"
