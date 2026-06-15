@@ -28,18 +28,18 @@ export default function CDFAPage() {
     <div className="bg-white pt-[70px]">
 
       {/* Hero */}
-      <section className="relative overflow-hidden min-h-[520px] flex items-center">
+      <section className="relative overflow-hidden min-h-[520px] flex items-center bg-[#041830]">
         {/* Background photo */}
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 w-full h-full">
           <img
             src="/images/cdfa-hero.jpg"
             alt=""
             aria-hidden="true"
-            className="w-full h-full object-cover object-center"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
           />
           {/* Dark gradient overlay — heavy left, fades right */}
           <div className="absolute inset-0"
-            style={{ background: "linear-gradient(100deg, rgba(4,24,48,0.97) 0%, rgba(8,43,92,0.88) 42%, rgba(8,43,92,0.45) 65%, rgba(4,24,48,0.15) 100%)" }} />
+            style={{ background: "linear-gradient(100deg, rgba(4,24,48,0.96) 0%, rgba(8,43,92,0.85) 40%, rgba(8,43,92,0.4) 62%, rgba(4,24,48,0.05) 100%)" }} />
         </div>
 
         {/* Content */}
@@ -123,12 +123,12 @@ export default function CDFAPage() {
               <motion.div key={s.label}
                 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ delay: i * 0.07 }}
-                className="bg-[#F7F8FA] hover:bg-white border border-gray-100 hover:border-[#D97706]/20 hover:shadow-md rounded-2xl p-5 transition-all group">
-                <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center mb-3">
-                  <s.icon size={17} className="text-[#D97706]" strokeWidth={1.8} />
+                className="bg-[#F7F8FA] hover:bg-white border border-gray-200 hover:border-[#D97706]/30 hover:shadow-md rounded-2xl p-6 transition-all group">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center mb-4">
+                  <s.icon size={19} className="text-[#D97706]" strokeWidth={1.8} />
                 </div>
-                <h3 className="font-bold text-[#1F2937] text-[14px] mb-1 group-hover:text-[#082B5C]">{s.label}</h3>
-                <p className="text-[#6B7280] text-[12px] leading-relaxed">{s.desc}</p>
+                <h3 className="font-bold text-[#1F2937] text-[17px] mb-1.5 group-hover:text-[#082B5C]">{s.label}</h3>
+                <p className="text-[#6B7280] text-[13px] leading-relaxed">{s.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -155,7 +155,7 @@ export default function CDFAPage() {
                 </span>
                 <div className="flex-1 flex items-start justify-between gap-3">
                   <div>
-                    <p className={`font-bold text-[16px] ${step.highlight ? "text-[#92400E]" : "text-[#1F2937]"}`}>{step.label}</p>
+                    <p className={`font-bold text-[19px] ${step.highlight ? "text-[#92400E]" : "text-[#1F2937]"}`}>{step.label}</p>
                     <p className={`text-[14px] mt-1 ${step.highlight ? "text-[#B45309]" : "text-[#6B7280]"}`}>{step.desc}</p>
                   </div>
                   {step.highlight && <TurnaroundBadge size="sm" />}
