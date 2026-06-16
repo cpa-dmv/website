@@ -12,7 +12,7 @@ import {
 
 const PRAVEEN = {
   name: "Dr. Praveen Singhal",
-  photo: "/website/images/praveen.png",
+  photo: "/images/praveen.png",
   role: "Founder & Principal",
   cert: "CDFA",
   certFull: "Certified Divorce Financial Analyst",
@@ -37,7 +37,7 @@ const PRAVEEN = {
 
 const HIMANSHU = {
   name: "Himanshu Kalra",
-  photo: "/website/images/himanshu.png",
+  photo: "/images/himanshu.png",
   role: "CPA Partner",
   cert: "CPA",
   certFull: "Certified Public Accountant",

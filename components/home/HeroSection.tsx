@@ -149,9 +149,9 @@ export default function HeroSection() {
         <video
           className="absolute inset-0 w-full h-full object-cover object-center z-[2]"
           autoPlay muted loop playsInline
-          poster="/website/images/hero-poster.jpg"
+          poster="/images/hero-poster.jpg"
         >
-          <source src="/website/video/hero-bg.mp4" type="video/mp4" />
+          <source src="/video/hero-bg.mp4" type="video/mp4" />
         </video>
 
         {/* Dark overlay — inside video only */}

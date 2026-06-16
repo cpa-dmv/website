@@ -32,7 +32,7 @@ export default function CDFAPage() {
         {/* Full image — no crop, natural height */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/website/images/cdfa-hero.jpg"
+          src="/images/cdfa-hero.jpg"
           alt=""
           aria-hidden="true"
           style={{ width: "100%", height: "auto", display: "block", maxHeight: "480px", objectFit: "cover", objectPosition: "center 30%" }}

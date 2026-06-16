@@ -20,7 +20,7 @@ const SLIDES = [
     Icon: GraduationCap,
     lines: ["CPA Exam", "Preparation"],
     sub: "FAR · AUD · REG · BAR — focused sessions that turn complex topics into testable concepts.",
-    img: "/website/images/teaching-slide-1.png",
+    img: "/images/teaching-slide-1.png",
   },
   {
     id: "cpe",
@@ -28,7 +28,7 @@ const SLIDES = [
     Icon: Award,
     lines: ["CPE Credits"],
     sub: "Tax law, audit standards, and GAAP updates — all qualifying for CPE credit.",
-    img: "/website/images/teaching-slide-2.png",
+    img: "/images/teaching-slide-2.png",
   },
   {
     id: "community",
@@ -36,7 +36,7 @@ const SLIDES = [
     Icon: Users,
     lines: ["Peer Learning &", "Community"],
     sub: "Open Q&A, real case scenarios, and peer discussion — practical takeaways every session.",
-    img: "/website/images/teaching-slide-3.png",
+    img: "/images/teaching-slide-3.png",
   },
 ];
 
