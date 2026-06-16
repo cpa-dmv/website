@@ -77,15 +77,22 @@ const AUDIENCE = [
 ];
 
 // ─── Shared variant (custom = delay in seconds) ───────────────────────────────
+import type { Variants } from "framer-motion";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: (delay: number = 0) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.55, delay, ease: "easeOut" },
-  }),
+const fadeUp: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
 };
-
 // ─── StatCounter ─────────────────────────────────────────────────────────────
 
 function StatCounter({ value, suffix = "", label }: { value: number | string; suffix?: string; label: string }) {
