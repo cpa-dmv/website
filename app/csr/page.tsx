@@ -66,9 +66,11 @@ function GlobeCanvas() {
     const ARC_PAIRS = [[0,1],[0,5],[0,8],[0,11],[0,13],[1,6],[2,9],[3,14],[5,7],[8,15],[9,16],[6,10],[4,12]];
 
     function getGlobeDims() {
-      const W = canvas!.width, H = canvas!.height;
+      const W = canvas!.width;
+      const H = canvas!.height;
       const R = Math.min(W * 0.42, H * 0.48);
-      const cx = W * 0.74, cy = H * 0.5;
+      const cx = W * 0.74;
+      const cy = H * 0.5;
       return { W, H, R, cx, cy };
     }
 
