@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import ContactForm from "@/components/shared/ContactForm";
 import CalendlyEmbed from "@/components/shared/CalendlyEmbed";
+import CalendlyPanel from "@/components/shared/CalendlyPanel";
+import ContactHero from "@/components/contact/ContactHero";
 import { Mail, MapPin, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -13,34 +15,22 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-[#082B5C] pt-32 pb-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-3">
-            Get In Touch
-          </p>
-          <h1 className="font-display font-bold text-white text-4xl lg:text-5xl mb-4">
-            Let&apos;s start a conversation.
-          </h1>
-          <p className="text-white/70 text-lg max-w-2xl leading-relaxed">
-            Book a time, send a message, or email us directly. We review all inquiries personally and respond within one business day.
-          </p>
-        </div>
-      </section>
+      <ContactHero />
 
       {/* Calendly */}
-      <section className="bg-[#F7F8FA] py-16 lg:py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center mb-10">
-            <h2 className="font-display font-bold text-[#082B5C] text-3xl lg:text-4xl mb-3">
-              Fix a Meeting
-            </h2>
-            <p className="text-[#6B7280]">
-              Pick a time that works. No back-and-forth.
-            </p>
-          </AnimatedSection>
-          {/* TODO: Replace URL with real Calendly consultation event URL */}
-          <CalendlyEmbed url="https://calendly.com/cpa-dmv/consultation" minHeight={650} />
+      <section className="bg-[#EDEEF0] py-16 lg:py-20 border-t-2 border-[#D1D5DB]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl overflow-hidden shadow-lg flex flex-col lg:flex-row">
+
+            {/* Left panel — animated */}
+            <CalendlyPanel />
+
+            {/* Right panel — Calendly embed */}
+            <div className="flex-1 bg-white">
+              <CalendlyEmbed url="https://calendly.com/cpa-dmv-support/30min" minHeight={800} />
+            </div>
+
+          </div>
         </div>
       </section>
 
@@ -62,7 +52,7 @@ export default function ContactPage() {
             {/* Contact info */}
             <AnimatedSection direction="right" delay={0.1}>
               <div className="space-y-6">
-                <div className="bg-[#F7F8FA] rounded-2xl p-6 border border-gray-100">
+                <div className="bg-[#F7F8FA] rounded-2xl p-6 border border-gray-300">
                   <h3 className="font-semibold text-[#082B5C] text-base mb-4">Contact Details</h3>
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
@@ -108,7 +98,7 @@ export default function ContactPage() {
                   </p>
                 </div>
 
-                <div className="bg-[#F7F8FA] rounded-2xl p-6 border border-gray-100">
+                <div className="bg-[#F7F8FA] rounded-2xl p-6 border border-gray-300">
                   <h3 className="font-semibold text-[#082B5C] text-base mb-3">Affiliations</h3>
                   <div className="flex flex-wrap gap-2">
                     {["AICPA", "VA CPA Society", "CDFA Institute", "QB ProAdvisor"].map((b) => (

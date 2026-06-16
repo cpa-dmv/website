@@ -82,7 +82,7 @@ export default function Header() {
                     {serviceLinks.map((s) => (
                       <Link key={s.slug} href={`/${s.slug}`}
                         className="px-3 py-2 rounded-xl hover:bg-[#F7F8FA] transition-colors group">
-                        <span className="text-[15px] font-medium text-[#1F2937] group-hover:text-[#082B5C]">{s.name}</span>
+                        <span className="text-[14px] font-medium text-[#1F2937] group-hover:text-[#082B5C]">{s.name}</span>
                       </Link>
                     ))}
                   </motion.div>

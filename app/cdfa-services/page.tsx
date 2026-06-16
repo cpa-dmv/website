@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TurnaroundBadge from "@/components/shared/TurnaroundBadge";
@@ -29,24 +28,22 @@ export default function CDFAPage() {
     <div className="bg-white pt-[70px]">
 
       {/* Hero */}
-      <section className="relative overflow-hidden min-h-[520px] flex items-center bg-[#041830]">
-        {/* Background photo */}
-        <div className="absolute inset-0 w-full h-full">
-          <Image
-            src="/images/cdfa-hero.jpg"
-            alt=""
-            aria-hidden={true}
-            fill
-            priority
-            style={{ objectFit: "cover", objectPosition: "center" }}
-          />
-          {/* Dark gradient overlay — heavy left, fades right */}
-          <div className="absolute inset-0"
-            style={{ background: "linear-gradient(100deg, rgba(4,24,48,0.96) 0%, rgba(8,43,92,0.85) 40%, rgba(8,43,92,0.4) 62%, rgba(4,24,48,0.05) 100%)" }} />
-        </div>
+      <section className="relative overflow-hidden bg-[#041830]">
+        {/* Full image — no crop, natural height */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/website/images/cdfa-hero.jpg"
+          alt=""
+          aria-hidden="true"
+          style={{ width: "100%", height: "auto", display: "block", maxHeight: "480px", objectFit: "cover", objectPosition: "center 30%" }}
+        />
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0"
+          style={{ background: "linear-gradient(100deg, rgba(4,24,48,0.96) 0%, rgba(8,43,92,0.85) 40%, rgba(8,43,92,0.4) 62%, rgba(4,24,48,0.05) 100%)" }} />
 
-        {/* Content */}
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+        {/* Content — absolutely centered over image */}
+        <div className="absolute inset-0 flex items-center">
+        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-[580px]">
 
             {/* Eyebrow */}
@@ -111,6 +108,7 @@ export default function CDFAPage() {
             </motion.div>
 
           </div>
+        </div>
         </div>
       </section>
 

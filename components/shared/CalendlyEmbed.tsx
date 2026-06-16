@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function CalendlyEmbed({
-  url = "https://calendly.com/cpa-dmv/consultation",
+  url = "https://calendly.com/cpa-dmv-support/30min",
   minHeight = 650,
 }: Props) {
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function CalendlyEmbed({
     <div
       className="calendly-inline-widget w-full rounded-xl overflow-hidden"
       data-url={url}
-      style={{ minHeight }}
+      style={{ minHeight, height: minHeight, width: "100%" }}
     />
   );
 }

@@ -12,6 +12,7 @@ import {
 
 const PRAVEEN = {
   name: "Dr. Praveen Singhal",
+  photo: "/website/images/praveen.png",
   role: "Founder & Principal",
   cert: "CDFA",
   certFull: "Certified Divorce Financial Analyst",
@@ -36,6 +37,7 @@ const PRAVEEN = {
 
 const HIMANSHU = {
   name: "Himanshu Kalra",
+  photo: "/website/images/himanshu.png",
   role: "CPA Partner",
   cert: "CPA",
   certFull: "Certified Public Accountant",
@@ -67,7 +69,6 @@ const TRUST_VALUES = [
 
 const TOOLS = [
   { name: "QuickBooks", color: "#2CA01C" },
-  { name: "SAP",        color: "#007DB8" },
   { name: "Zoho Books", color: "#E8432D" },
   { name: "Excel",      color: "#217346" },
 ];
@@ -155,20 +156,14 @@ function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number 
 
         {/* Header */}
         <div className="flex items-start gap-4">
-          {/* Photo placeholder */}
+          {/* Headshot */}
           <div className="relative flex-shrink-0">
-            <div
-              className="w-[90px] h-[110px] rounded-2xl flex items-center justify-center overflow-hidden"
-              style={{ background: `${person.certColor}10`, border: `2px dashed ${person.certColor}30` }}
-            >
-              <div className="text-center">
-                <div className="text-3xl mb-1">👤</div>
-                <p className="text-[9px] font-medium" style={{ color: `${person.certColor}60` }}>Photo</p>
-              </div>
-            </div>
-            {/* Cert badge overlapping */}
-            <div className="absolute -bottom-3 -right-3">
-              <CertBadge cert={person.cert} color={person.certColor} bg={person.certBg} />
+            <div className="w-[90px] h-[110px] rounded-2xl overflow-hidden" style={{ border: `2px solid ${person.certColor}30` }}>
+              <img
+                src={person.photo}
+                alt={person.name}
+                className="w-full h-full object-cover object-top"
+              />
             </div>
           </div>
 
@@ -252,56 +247,111 @@ export default function AboutPage() {
     <div className="bg-white pt-[70px]">
 
       {/* ── Hero ── */}
-      <section className="bg-[#041830] py-20 lg:py-28 relative overflow-hidden">
-        {/* Orbs */}
-        <motion.div className="absolute -top-24 -right-24 w-[500px] h-[500px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(8,43,92,0.8) 0%, transparent 70%)" }}
-          animate={{ scale: [1, 1.06, 1] }} transition={{ duration: 9, repeat: Infinity }} />
-        <motion.div className="absolute -bottom-16 -left-16 w-[350px] h-[350px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(217,119,6,0.08) 0%, transparent 70%)" }}
-          animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 11, repeat: Infinity, delay: 2 }} />
+      <section className="bg-[#041830] relative overflow-hidden">
 
-        <div className="relative z-10 max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.p
-            className="text-[#F59E0B] text-xs font-bold uppercase tracking-[0.22em] mb-5"
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-          >
-            About CPA-DMV
-          </motion.p>
-          <motion.h1
-            className="font-display font-bold text-white leading-tight mb-5"
-            style={{ fontSize: "clamp(2.2rem, 5vw, 3.75rem)" }}
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          >
-            Certified. Experienced.<br />
-            <span className="text-[#F59E0B]">Committed.</span>
+        {/* Subtle grid */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.035]"
+          style={{ backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)", backgroundSize: "72px 72px" }} />
+
+        {/* Gold glow bottom-left */}
+        <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(184,149,63,0.08) 0%, transparent 65%)" }} />
+        {/* Blue glow top-right */}
+        <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(8,43,92,0.7) 0%, transparent 70%)" }} />
+
+        {/* Main content */}
+        <div className="relative z-10 max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 pt-16 lg:pt-[90px] pb-0 text-center">
+
+          {/* Eyebrow */}
+          <motion.div className="flex items-center justify-center gap-2 mb-5"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+            <motion.span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]"
+              animate={{ scale: [1, 1.7, 1], opacity: [1, 0.4, 1] }}
+              transition={{ duration: 2, repeat: Infinity }} />
+            <p className="text-[#F59E0B] text-xs font-bold uppercase tracking-[0.22em]">About CPA-DMV</p>
+            <motion.span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]"
+              animate={{ scale: [1, 1.7, 1], opacity: [1, 0.4, 1] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 1 }} />
+          </motion.div>
+
+          {/* Heading */}
+          <motion.h1 className="font-display font-bold text-white leading-tight mb-5"
+            style={{ fontSize: "clamp(2.2rem, 5vw, 3.75rem)" }}>
+            {["Certified.", "Experienced."].map((word, i) => (
+              <motion.span key={word} className="inline-block mr-4"
+                initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + i * 0.14, duration: 0.5 }}>
+                {word}
+              </motion.span>
+            ))}
+            <br />
+            <motion.span className="text-[#F59E0B] inline-block relative"
+              initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.52, duration: 0.5 }}>
+              Committed.
+              <motion.span className="absolute -bottom-1 left-0 h-[2px] rounded-full w-full"
+                style={{ background: "linear-gradient(to right, #F59E0B, rgba(184,149,63,0.2))" }}
+                initial={{ scaleX: 0, originX: 0 }} animate={{ scaleX: 1 }}
+                transition={{ delay: 0.95, duration: 0.65 }} />
+            </motion.span>
           </motion.h1>
-          <motion.p
-            className="text-white/55 text-base max-w-2xl mx-auto leading-relaxed mb-8"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
-          >
+
+          <motion.p className="text-white/55 text-base max-w-2xl mx-auto leading-relaxed mb-10"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
             We are two experienced finance professionals dedicated to delivering accurate, reliable, and insightful financial solutions for individuals, businesses, and professionals.
           </motion.p>
 
-          {/* Combined expertise pills */}
-          <motion.div
-            className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
-          >
+          {/* Expertise pills */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-3xl mx-auto pb-12">
             {COMBINED.map((c, i) => (
-              <motion.div
-                key={c.label}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + i * 0.08 }}
-                className="bg-white/[0.06] border border-white/10 rounded-2xl px-4 py-3 text-left"
+              <motion.div key={c.label}
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.65 + i * 0.12, duration: 0.45 }}
+                className="relative overflow-hidden bg-white/[0.05] border border-white/10 rounded-2xl px-4 py-4 text-left cursor-default group"
+                whileHover={{ y: -5, borderColor: "rgba(184,149,63,0.45)" }}
+                transition={{ duration: 0.15 }}
               >
-                <span className="text-lg">{c.icon}</span>
-                <p className="text-white/90 text-[12px] font-bold mt-1.5 leading-tight">{c.label}</p>
+                {/* Gold top border on hover */}
+                <motion.div
+                  className="absolute top-0 left-0 h-[2px] rounded-t-2xl w-full"
+                  style={{ background: "linear-gradient(to right, #F59E0B, rgba(184,149,63,0.3))" }}
+                  initial={{ scaleX: 0, originX: 0 }}
+                  whileHover={{ scaleX: 1 }}
+                  transition={{ duration: 0.2 }}
+                />
+                <motion.span
+                  className="text-xl inline-block"
+                  whileHover={{ scale: 1.2 }}
+                  transition={{ duration: 0.15 }}
+                >{c.icon}</motion.span>
+                <p className="text-white/90 text-[12px] font-bold mt-2 leading-tight">{c.label}</p>
                 <p className="text-white/40 text-[11px] mt-0.5 leading-snug">{c.sub}</p>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
+        </div>
+
+        {/* Stats bar — sits at the very bottom of hero */}
+        <div className="border-t border-white/10">
+          <div className="max-w-[1100px] mx-auto grid grid-cols-2 lg:grid-cols-4">
+            {[
+              { value: "15+", label: "Years of Experience" },
+              { value: "500+", label: "Clients Served" },
+              { value: "CDFA", label: "Certified Analyst" },
+              { value: "CPA", label: "Licensed & Affiliated" },
+            ].map((s, i) => (
+              <motion.div key={s.label}
+                className="py-5 px-6 text-center border-r border-white/10 last:border-r-0"
+                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.85 + i * 0.08 }}
+                whileHover={{ backgroundColor: "rgba(184,149,63,0.06)" }}
+              >
+                <p className="text-[#F59E0B] text-xl font-bold leading-none">{s.value}</p>
+                <p className="text-white/40 text-[11px] mt-1">{s.label}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -370,8 +420,8 @@ export default function AboutPage() {
                 className="bg-[#041830] px-5 py-6 text-center transition-colors"
               >
                 <div className="text-2xl mb-2">{v.icon}</div>
-                <p className="text-white/90 text-[12px] font-bold leading-snug mb-1">{v.label}</p>
-                <p className="text-white/40 text-[11px] leading-snug">{v.desc}</p>
+                <p className="text-white/90 text-[15px] font-bold leading-snug mb-1">{v.label}</p>
+                <p className="text-white/40 text-[12px] leading-snug">{v.desc}</p>
               </motion.div>
             ))}
           </div>
