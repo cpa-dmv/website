@@ -73,6 +73,7 @@ function GlobeCanvas() {
       const cy = H * 0.5;
       return { W, H, R, cx, cy };
     }
+    
 
     function project(latDeg: number, lonDeg: number, rotY: number) {
       const { R, cx, cy } = getGlobeDims();
