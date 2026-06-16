@@ -307,7 +307,7 @@ export default function AboutPage() {
             {COMBINED.map((c, i) => (
               <motion.div key={c.label}
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.65 + i * 0.12, duration: 0.45 }}
+                {/* transition={{ delay: 0.65 + i * 0.12, duration: 0.45 }} */}
                 className="relative overflow-hidden bg-white/[0.05] border border-white/10 rounded-2xl px-4 py-4 text-left cursor-default group"
                 whileHover={{ y: -5, borderColor: "rgba(184,149,63,0.45)" }}
                 transition={{ duration: 0.15 }}
