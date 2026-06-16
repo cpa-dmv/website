@@ -37,27 +37,32 @@ function GlobeCanvas() {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+
     if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
+
     if (!ctx) return;
 
     let raf: number;
     let t = 0;
 
     const resize = () => {
-      canvas.width  = canvas.offsetWidth;
+      canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
     };
+
     resize();
     window.addEventListener("resize", resize);
 
     // Particles: travel between city pairs
     const PARTICLES = Array.from({ length: 18 }, () => ({
       from: Math.floor(Math.random() * CITIES.length),
-      to:   Math.floor(Math.random() * CITIES.length),
+      to: Math.floor(Math.random() * CITIES.length),
       prog: Math.random(),
       speed: 0.0025 + Math.random() * 0.003,
     }));
+
 
     const GOLD        = "#B8953F";
     const GOLD_BRIGHT = "#E8C96A";
