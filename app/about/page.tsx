@@ -395,10 +395,12 @@ export default function AboutPage() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 mb-7">
             <FounderCard person={PRAVEEN}  index={0} />
             <FounderCard person={HIMANSHU} index={1} />
-            <FounderCard person={SACHIT}   index={2} />
+          </div>
+          <div className="max-w-xl mx-auto w-full">
+            <FounderCard person={SACHIT} index={2} />
           </div>
         </div>
       </section>
