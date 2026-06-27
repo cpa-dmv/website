@@ -61,7 +61,7 @@ const HIMANSHU = {
 
 const SACHIT = {
   name: "Sachit Garg",
-  photo: "",
+  photo: "/website/images/sachit.png",
   role: "Director of BD",
   cert: "BD",
   certFull: "Business Development",
@@ -140,6 +140,7 @@ function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number 
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const isFounder = index === 0;
+  const isWide = index === 2; // Sachit — full-width horizontal card
 
   return (
     <motion.div
@@ -173,6 +174,62 @@ function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number 
         </div>
       )}
 
+      {isWide ? (
+        /* ── Wide horizontal layout for Sachit ── */
+        <div className="p-7 flex flex-row gap-8">
+          {/* Left: photo + name */}
+          <div className="flex flex-col items-center gap-3 flex-shrink-0 w-[120px]">
+            <div className="w-[100px] h-[120px] rounded-2xl overflow-hidden flex items-center justify-center" style={{ border: `2px solid ${person.certColor}30`, background: `${person.certColor}10` }}>
+              {person.photo ? (
+                <img src={person.photo} alt={person.name} className="w-full h-full object-cover object-top" />
+              ) : (
+                <span className="text-4xl select-none">👤</span>
+              )}
+            </div>
+            <div className="text-center">
+              <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: person.certColor }}>{person.role}</p>
+              <h3 className="font-display font-bold text-[#082B5C] text-[1rem] leading-snug">{person.name}</h3>
+              <p className="text-[11px] font-semibold mt-0.5" style={{ color: person.certColor }}>{person.certFull}</p>
+              <p className="text-[10px] text-[#9CA3AF] mt-0.5 uppercase tracking-wide">{person.affiliation}</p>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="w-px self-stretch" style={{ background: `${person.certColor}20` }} />
+
+          {/* Middle: Specialties */}
+          <div className="flex-1 min-w-0">
+            <p className="text-[10px] text-[#9CA3AF] uppercase tracking-widest font-semibold mb-2.5">Specialties</p>
+            <ul className="space-y-2">
+              {person.specialties.map((s) => {
+                const SIcon = s.icon;
+                return (
+                  <li key={s.text} className="flex items-center gap-2 text-[12px] font-semibold" style={{ color: person.certColor }}>
+                    <SIcon size={13} style={{ color: person.certColor }} className="flex-shrink-0" />
+                    {s.text}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Divider */}
+          <div className="w-px self-stretch" style={{ background: `${person.certColor}20` }} />
+
+          {/* Right: Highlights */}
+          <div className="flex-1 min-w-0">
+            <p className="text-[10px] text-[#9CA3AF] uppercase tracking-widest font-semibold mb-2.5">Experience Highlights</p>
+            <ul className="space-y-2">
+              {person.highlights.map((h) => (
+                <li key={h} className="flex items-start gap-2 text-[12px] text-[#374151] leading-snug">
+                  <CheckCircle size={12} className="flex-shrink-0 mt-0.5" style={{ color: person.certColor }} />
+                  {h}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : (
       <div className="p-7 flex flex-col flex-1 gap-5">
 
         {/* Header */}
@@ -261,6 +318,7 @@ function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number 
           </Link>
         </div>
       </div>
+      )}
     </motion.div>
   );
 }
@@ -399,7 +457,7 @@ export default function AboutPage() {
             <FounderCard person={PRAVEEN}  index={0} />
             <FounderCard person={HIMANSHU} index={1} />
           </div>
-          <div className="max-w-xl mx-auto w-full">
+          <div className="w-full">
             <FounderCard person={SACHIT} index={2} />
           </div>
         </div>
