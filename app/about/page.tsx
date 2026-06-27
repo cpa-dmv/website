@@ -61,7 +61,7 @@ const HIMANSHU = {
 
 const SACHIT = {
   name: "Sachit Garg",
-  photo: "/website/images/sachit.png",
+  photo: "/images/sachit.png",
   role: "Director of BD",
   cert: "BD",
   certFull: "Business Development",
@@ -77,6 +77,8 @@ const SACHIT = {
     "Leads business development initiatives and strategic partnerships for CPA-DMV.",
     "Drives client acquisition across accounting, audit, and advisory service lines.",
     "Manages key stakeholder relationships and identifies new market opportunities.",
+    "Develops outreach strategies targeting small businesses, non-profits, and professional services.",
+    "Coordinates between clients and the CPA team to ensure seamless onboarding and service delivery.",
   ],
 };
 
@@ -176,49 +178,35 @@ function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number 
 
       {isWide ? (
         /* ── Wide horizontal layout for Sachit ── */
-        <div className="p-7 flex flex-row gap-8">
-          {/* Left: photo + name */}
-          <div className="flex flex-col items-center gap-3 flex-shrink-0 w-[120px]">
-            <div className="w-[100px] h-[120px] rounded-2xl overflow-hidden flex items-center justify-center" style={{ border: `2px solid ${person.certColor}30`, background: `${person.certColor}10` }}>
+        <div className="p-7 flex flex-row gap-8 items-stretch">
+          {/* Left: photo */}
+          <div className="flex-shrink-0 flex items-center">
+            <div className="w-[110px] h-[130px] rounded-2xl overflow-hidden flex items-center justify-center" style={{ border: `2px solid ${person.certColor}30`, background: `${person.certColor}10` }}>
               {person.photo ? (
                 <img src={person.photo} alt={person.name} className="w-full h-full object-cover object-top" />
               ) : (
                 <span className="text-4xl select-none">👤</span>
               )}
             </div>
-            <div className="text-center">
-              <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: person.certColor }}>{person.role}</p>
-              <h3 className="font-display font-bold text-[#082B5C] text-[1rem] leading-snug">{person.name}</h3>
-              <p className="text-[11px] font-semibold mt-0.5" style={{ color: person.certColor }}>{person.certFull}</p>
-              <p className="text-[10px] text-[#9CA3AF] mt-0.5 uppercase tracking-wide">{person.affiliation}</p>
-            </div>
           </div>
 
           {/* Divider */}
           <div className="w-px self-stretch" style={{ background: `${person.certColor}20` }} />
 
-          {/* Middle: Specialties */}
-          <div className="flex-1 min-w-0">
-            <p className="text-[10px] text-[#9CA3AF] uppercase tracking-widest font-semibold mb-2.5">Specialties</p>
-            <ul className="space-y-2">
-              {person.specialties.map((s) => {
-                const SIcon = s.icon;
-                return (
-                  <li key={s.text} className="flex items-center gap-2 text-[12px] font-semibold" style={{ color: person.certColor }}>
-                    <SIcon size={13} style={{ color: person.certColor }} className="flex-shrink-0" />
-                    {s.text}
-                  </li>
-                );
-              })}
-            </ul>
+          {/* Middle: name / role info */}
+          <div className="flex-shrink-0 w-[200px] flex flex-col justify-center gap-1">
+            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: person.certColor }}>{person.role}</p>
+            <h3 className="font-display font-bold text-[#082B5C] text-[1.25rem] leading-snug">{person.name}</h3>
+            <p className="text-[13px] font-semibold" style={{ color: person.certColor }}>{person.certFull}</p>
+            <p className="text-[11px] text-[#9CA3AF] uppercase tracking-wide">{person.affiliation}</p>
           </div>
 
           {/* Divider */}
           <div className="w-px self-stretch" style={{ background: `${person.certColor}20` }} />
 
           {/* Right: Highlights */}
-          <div className="flex-1 min-w-0">
-            <p className="text-[10px] text-[#9CA3AF] uppercase tracking-widest font-semibold mb-2.5">Experience Highlights</p>
+          <div className="flex-1 min-w-0 flex flex-col justify-center">
+            <p className="text-[10px] text-[#9CA3AF] uppercase tracking-widest font-semibold mb-3">Experience Highlights</p>
             <ul className="space-y-2">
               {person.highlights.map((h) => (
                 <li key={h} className="flex items-start gap-2 text-[12px] text-[#374151] leading-snug">
