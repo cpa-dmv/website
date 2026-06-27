@@ -660,10 +660,11 @@ export default function TeachingsPage() {
               transition={{ duration: 0.7, ease: "easeOut" }}
               className="flex-shrink-0 text-center"
             >
-              <div
-                className="rounded-2xl mx-auto"
-                aria-label="Instructor photo placeholder"
-                style={{ width: 280, height: 320, background: "#D1D5DB" }}
+              <img
+                src="/website/images/praveen.png"
+                alt="Dr. Praveen Singhal — Licensed CPA & CDFA"
+                className="rounded-2xl mx-auto object-cover object-top"
+                style={{ width: 280, height: 320 }}
               />
               <p className="mt-3 text-[13px]" style={{ color: "#5C5C5C" }}>
                 Licensed CPA · CDFA · Fairfax, VA

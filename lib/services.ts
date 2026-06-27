@@ -319,6 +319,68 @@ export const services: Service[] = [
     ],
     related: ["quickbooks", "payroll", "taxation"],
   },
+  {
+    id: "bookkeeping",
+    name: "Bookkeeping",
+    slug: "bookkeeping",
+    icon: "BookOpen",
+    tagline: "Accurate books, every month.",
+    rate: "Contact for pricing",
+    rateModel: "Monthly engagement",
+    description:
+      "Full-service monthly bookkeeping for small businesses and individuals — organized, reconciled, and ready for tax time. Powered by QuickBooks and delivered by a licensed CPA.",
+    included: [
+      "Monthly transaction categorization",
+      "Bank and credit card reconciliation",
+      "Profit & loss and balance sheet reports",
+      "Accounts payable and receivable tracking",
+      "Payroll journal entries",
+      "Year-end close and tax-ready financials",
+    ],
+    whoServes: [
+      "Small business owners who need clean monthly books",
+      "Startups that want CPA-reviewed financials from day one",
+      "Businesses preparing for loan applications or audits",
+      "Clients transitioning from DIY or unqualified bookkeepers",
+    ],
+    process: [
+      { step: "01", title: "Onboard", desc: "Connect your accounts and review your current financial state." },
+      { step: "02", title: "Maintain", desc: "We categorize, reconcile, and close the books every month." },
+      { step: "03", title: "Report", desc: "Receive clean monthly financials with a brief summary review." },
+    ],
+    related: ["ap-ar", "payroll", "taxation"],
+  },
+  {
+    id: "accounting",
+    name: "Financial Accounting & Reporting",
+    slug: "accounting",
+    icon: "TrendingUp",
+    tagline: "Clear financials. Confident decisions.",
+    rate: "Contact for pricing",
+    rateModel: "Engagement-based",
+    description:
+      "GAAP-compliant financial accounting and reporting for businesses, non-profits, and credit unions — from monthly close to audited statements and board-ready reports.",
+    included: [
+      "GAAP-compliant financial statement preparation",
+      "Monthly and quarterly close support",
+      "General ledger maintenance and review",
+      "Variance analysis and management reports",
+      "Non-profit fund accounting",
+      "Board and stakeholder reporting packages",
+    ],
+    whoServes: [
+      "Non-profits requiring fund accounting and grant reporting",
+      "Credit unions and financial institutions",
+      "Businesses preparing for external audits",
+      "Companies seeking board-level financial reporting",
+    ],
+    process: [
+      { step: "01", title: "Assess", desc: "Review your current accounting setup and reporting requirements." },
+      { step: "02", title: "Close", desc: "Perform monthly or quarterly close and prepare accurate financials." },
+      { step: "03", title: "Deliver", desc: "Provide stakeholder-ready reports with commentary and analysis." },
+    ],
+    related: ["specialized-audit", "bookkeeping", "taxation"],
+  },
 ];
 
 export function getServiceBySlug(slug: string): Service | undefined {

@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import {
   Shield, Award, Star, CheckCircle, ArrowRight,
-  BookOpen, Search, Scale, BarChart3, Monitor, FileText,
+  BookOpen, Search, Scale, BarChart3, Monitor, FileText, Handshake, TrendingUp, Users,
 } from "lucide-react";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -56,6 +56,27 @@ const HIMANSHU = {
     "Prepared audit working papers and supported statutory audits, GST, and TDS compliance.",
     "Built automation tools using Excel & Outlook to improve workflows and reduce manual effort.",
     "Experienced with QuickBooks, ERP systems, and advanced Excel for efficient and reliable reporting.",
+  ],
+};
+
+const SACHIT = {
+  name: "Sachit Garg",
+  photo: "",
+  role: "Director of BD",
+  cert: "BD",
+  certFull: "Business Development",
+  certColor: "#0D9488",
+  certBg: "#F0FDFA",
+  affiliation: "CPA-DMV Team",
+  specialties: [
+    { icon: Handshake, text: "Client Acquisition & Partnerships" },
+    { icon: TrendingUp, text: "Business Growth Strategy" },
+    { icon: Users,     text: "Stakeholder & Relationship Management" },
+  ],
+  highlights: [
+    "Leads business development initiatives and strategic partnerships for CPA-DMV.",
+    "Drives client acquisition across accounting, audit, and advisory service lines.",
+    "Manages key stakeholder relationships and identifies new market opportunities.",
   ],
 };
 
@@ -158,12 +179,16 @@ function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number 
         <div className="flex items-start gap-4">
           {/* Headshot */}
           <div className="relative flex-shrink-0">
-            <div className="w-[90px] h-[110px] rounded-2xl overflow-hidden" style={{ border: `2px solid ${person.certColor}30` }}>
-              <img
-                src={person.photo}
-                alt={person.name}
-                className="w-full h-full object-cover object-top"
-              />
+            <div className="w-[90px] h-[110px] rounded-2xl overflow-hidden flex items-center justify-center" style={{ border: `2px solid ${person.certColor}30`, background: `${person.certColor}10` }}>
+              {person.photo ? (
+                <img
+                  src={person.photo}
+                  alt={person.name}
+                  className="w-full h-full object-cover object-top"
+                />
+              ) : (
+                <span className="text-4xl select-none">👤</span>
+              )}
             </div>
           </div>
 
@@ -370,9 +395,10 @@ export default function AboutPage() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
             <FounderCard person={PRAVEEN}  index={0} />
             <FounderCard person={HIMANSHU} index={1} />
+            <FounderCard person={SACHIT}   index={2} />
           </div>
         </div>
       </section>

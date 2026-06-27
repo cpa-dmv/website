@@ -59,6 +59,16 @@ const heroBg: Record<string, { accent: string; pattern: string; glow: string }> 
     glow: "radial-gradient(ellipse 60% 70% at 80% 50%, rgba(74,222,128,0.10) 0%, transparent 70%)",
     pattern: "radial-gradient(circle at 15% 85%, rgba(74,222,128,0.07) 0%, transparent 50%), radial-gradient(circle at 85% 15%, rgba(34,197,94,0.05) 0%, transparent 50%)",
   },
+  "bookkeeping": {
+    accent: "#38BDF8",
+    glow: "radial-gradient(ellipse 60% 70% at 80% 50%, rgba(56,189,248,0.10) 0%, transparent 70%)",
+    pattern: "radial-gradient(circle at 15% 85%, rgba(56,189,248,0.07) 0%, transparent 50%), radial-gradient(circle at 85% 15%, rgba(14,165,233,0.05) 0%, transparent 50%)",
+  },
+  "accounting": {
+    accent: "#818CF8",
+    glow: "radial-gradient(ellipse 60% 70% at 80% 50%, rgba(129,140,248,0.10) 0%, transparent 70%)",
+    pattern: "radial-gradient(circle at 20% 80%, rgba(129,140,248,0.07) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(99,102,241,0.05) 0%, transparent 50%)",
+  },
   "business-registration": {
     accent: "#F59E0B",
     glow: "radial-gradient(ellipse 60% 70% at 80% 50%, rgba(245,158,11,0.10) 0%, transparent 70%)",
