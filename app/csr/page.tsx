@@ -437,7 +437,7 @@ export default function CSRPage() {
               className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-4"
               initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
             >
-              Corporate Social Responsibility
+              Our Responsibility
             </motion.p>
             <motion.h1
               className="font-display font-bold text-white mb-5 leading-tight"

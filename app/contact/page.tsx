@@ -79,7 +79,7 @@ export default function ContactPage() {
                       <div>
                         <p className="text-sm font-medium text-[#1F2937]">LinkedIn</p>
                         <a
-                          href="https://linkedin.com"
+                          href="https://www.linkedin.com/company/cpa-dmv/"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-sm text-[#082B5C] hover:text-[#F59E0B] transition-colors"
