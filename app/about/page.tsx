@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import {
-  Shield, Award, Star, CheckCircle, ArrowRight,
+  Shield, CheckCircle, ArrowRight,
   BookOpen, Search, Scale, BarChart3, Monitor, FileText, Handshake, TrendingUp, Users,
 } from "lucide-react";
 
@@ -105,39 +106,6 @@ const COMBINED = [
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 
-function CertBadge({ cert, color, bg }: { cert: string; color: string; bg: string }) {
-  return (
-    <div className="relative flex-shrink-0 w-[88px] h-[88px]">
-      <svg width="88" height="88" viewBox="0 0 88 88" className="absolute inset-0">
-        <circle cx="44" cy="44" r="40" fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="5 3" opacity="0.35" />
-        <circle cx="44" cy="44" r="33" fill="none" stroke={color} strokeWidth="2.5" opacity="0.8" />
-        <circle cx="44" cy="44" r="30" fill={bg} />
-        {Array.from({ length: 8 }).map((_, i) => {
-          const a = (i * 45 * Math.PI) / 180;
-          return (
-            <line key={i}
-              x1={44 + 37 * Math.cos(a)} y1={44 + 37 * Math.sin(a)}
-              x2={44 + 40 * Math.cos(a)} y2={44 + 40 * Math.sin(a)}
-              stroke={color} strokeWidth="1.8" opacity="0.45"
-            />
-          );
-        })}
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-display font-extrabold leading-none tracking-tight"
-          style={{ color, fontSize: cert === "CDFA" ? "14px" : "18px" }}>
-          {cert}
-        </span>
-        <Star size={9} fill={color} color={color} className="mt-0.5" />
-      </div>
-      <div className="absolute -bottom-1 -right-1 w-[20px] h-[20px] rounded-full flex items-center justify-center border-2 border-white shadow-sm"
-        style={{ backgroundColor: color }}>
-        <CheckCircle size={11} className="text-white" strokeWidth={2.5} />
-      </div>
-    </div>
-  );
-}
-
 function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
@@ -183,7 +151,7 @@ function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number 
           <div className="flex-shrink-0 flex items-center">
             <div className="w-[110px] h-[130px] rounded-2xl overflow-hidden flex items-center justify-center" style={{ border: `2px solid ${person.certColor}30`, background: `${person.certColor}10` }}>
               {person.photo ? (
-                <img src={person.photo} alt={person.name} className="w-full h-full object-cover object-top" />
+                <Image src={person.photo} alt={person.name} width={110} height={130} className="h-full w-full object-cover object-top" />
               ) : (
                 <span className="text-4xl select-none">👤</span>
               )}
@@ -226,9 +194,11 @@ function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number 
           <div className="relative flex-shrink-0">
             <div className="w-[90px] h-[110px] rounded-2xl overflow-hidden flex items-center justify-center" style={{ border: `2px solid ${person.certColor}30`, background: `${person.certColor}10` }}>
               {person.photo ? (
-                <img
+                <Image
                   src={person.photo}
                   alt={person.name}
+                  width={90}
+                  height={110}
                   className="w-full h-full object-cover object-top"
                 />
               ) : (
@@ -375,7 +345,7 @@ export default function AboutPage() {
 
           {/* Expertise pills */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-3xl mx-auto pb-12">
-            {COMBINED.map((c, i) => (
+            {COMBINED.map((c) => (
               <motion.div key={c.label}
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 className="relative overflow-hidden bg-white/[0.05] border border-white/10 rounded-2xl px-4 py-4 text-left cursor-default group"

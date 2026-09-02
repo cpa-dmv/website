@@ -1,9 +1,8 @@
 "use client";
 
 import AnimatedSection from "@/components/shared/AnimatedSection";
-import { CheckCircle, Shield, Award, Star } from "lucide-react";
+import { CheckCircle, Shield, Star } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 
 // ── Bullet points — 3 each ───────────────────────────────────────────────────
 

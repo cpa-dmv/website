@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import AnimatedSection from "@/components/shared/AnimatedSection";
-import { Heart, Clock, Briefcase, ArrowRight, CheckCircle } from "lucide-react";
+import { Heart, Clock, Briefcase, CheckCircle } from "lucide-react";
 import { useRef, useEffect } from "react";
 
 // ─── Globe Canvas Animation ───────────────────────────────────────────────────
@@ -118,7 +117,6 @@ function GlobeCanvas() {
         for (let lon = 0; lon <= 362; lon += 2) {
           const { px, py, z } = project(latDeg, lon, rotY);
           if (z < 0) { first = true; continue; }
-          const fade = Math.max(0, z);
           if (first) { ctx.moveTo(px, py); first = false; } else ctx.lineTo(px, py);
         }
         ctx.strokeStyle = isEq ? `rgba(184,149,63,0.85)` : `rgba(184,149,63,0.28)`;

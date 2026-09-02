@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   GraduationCap, Award, Users, ChevronDown,
@@ -98,11 +99,11 @@ const fadeUp: Variants = {
 function StatCounter({ value, suffix = "", label }: { value: number | string; suffix?: string; label: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
-  const [shown, setShown] = useState<number | string>(typeof value === "number" ? 0 : "—");
+  const [shown, setShown] = useState<number | string>(typeof value === "number" ? 0 : value);
 
   useEffect(() => {
     if (!inView) return;
-    if (typeof value === "string") { setShown(value); return; }
+    if (typeof value !== "number") return;
     const dur = 1200;
     const t0 = performance.now();
     const tick = (now: number) => {
@@ -178,7 +179,10 @@ function HeroCarousel() {
       onTouchEnd={(e) => {
         if (touchX.current === null) return;
         const dx = touchX.current - e.changedTouches[0].clientX;
-        if (Math.abs(dx) > 48) dx > 0 ? next() : prev();
+        if (Math.abs(dx) > 48) {
+          if (dx > 0) next();
+          else prev();
+        }
         touchX.current = null;
       }}
     >
@@ -515,7 +519,7 @@ export default function TeachingsPage() {
         <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection className="text-center mb-14">
             <p className="font-bold uppercase mb-3" style={{ color: "#B8953F", fontSize: "11px", letterSpacing: "0.12em" }}>
-              WHAT YOU'LL LEARN
+              WHAT YOU&apos;LL LEARN
             </p>
             <h2 className="font-bold" style={{ color: "#0F2447", fontFamily: "Georgia, serif", fontSize: "clamp(24px, 3vw, 36px)" }}>
               Sessions Designed for Real-World Practice
@@ -660,11 +664,12 @@ export default function TeachingsPage() {
               transition={{ duration: 0.7, ease: "easeOut" }}
               className="flex-shrink-0 text-center"
             >
-              <img
-                src="/website/images/praveen.png"
+              <Image
+                src="/images/praveen.png"
                 alt="Dr. Praveen Singhal — Licensed CPA & CDFA"
+                width={280}
+                height={320}
                 className="rounded-2xl mx-auto object-cover object-top"
-                style={{ width: 280, height: 320 }}
               />
               <p className="mt-3 text-[13px]" style={{ color: "#5C5C5C" }}>
                 Licensed CPA · CDFA · Fairfax, VA

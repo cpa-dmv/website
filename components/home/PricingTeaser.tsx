@@ -3,7 +3,7 @@
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 
 // ── Alternating dark / light theme cards ─────────────────────────────────────
@@ -100,7 +100,6 @@ function ServiceCard({
   total: number;
   isExiting: boolean;
 }) {
-  const isFront = stackIndex === 0;
   const yOffset  = stackIndex * 13;
   const rotation = stackIndex * -2.2;
   const scale    = 1 - stackIndex * 0.032;

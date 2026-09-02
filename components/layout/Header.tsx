@@ -91,6 +91,7 @@ export default function Header() {
             </div>
 
             {[
+              { label: "Whole Life", href: "/whole-life" },
               { label: "Teachings", href: "/teachings" },
               { label: "Our Responsibility", href: "/csr" },
               { label: "About", href: "/about" },
@@ -157,6 +158,7 @@ export default function Header() {
                   </AnimatePresence>
                 </div>
                 {[
+                  { label: "Whole Life", href: "/whole-life" },
                   { label: "Teachings", href: "/teachings" },
                   { label: "CSR", href: "/csr" },
                   { label: "About", href: "/about" },

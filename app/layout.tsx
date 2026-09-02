@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Roboto } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -33,11 +34,62 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${roboto.variable}`}>
-      <body className="min-h-screen flex flex-col">
+      <body suppressHydrationWarning className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
         <FloatingActionButton />
+        <Script id="remove-extension-hydration-attributes" strategy="beforeInteractive">
+          {`(() => {
+            const isExtensionError = (event) => {
+              const filename = typeof event?.filename === "string" ? event.filename : "";
+              const errorStack = typeof event?.error?.stack === "string" ? event.error.stack : "";
+              const reasonStack = typeof event?.reason?.stack === "string" ? event.reason.stack : "";
+              return filename.startsWith("chrome-extension://") ||
+                errorStack.includes("chrome-extension://") ||
+                reasonStack.includes("chrome-extension://");
+            };
+
+            const ignoreExtensionError = (event) => {
+              if (!isExtensionError(event)) return;
+              event.preventDefault();
+              event.stopImmediatePropagation();
+            };
+
+            window.addEventListener("error", ignoreExtensionError, true);
+            window.addEventListener("unhandledrejection", ignoreExtensionError, true);
+
+            const clean = (root) => {
+              if (!(root instanceof Element)) return;
+              const elements = [root, ...root.querySelectorAll("*")];
+              for (const element of elements) {
+                element.removeAttribute("bis_skin_checked");
+                for (const attribute of [...element.attributes]) {
+                  if (attribute.name.startsWith("__processed_")) {
+                    element.removeAttribute(attribute.name);
+                  }
+                }
+              }
+            };
+
+            clean(document.documentElement);
+            const observer = new MutationObserver((mutations) => {
+              for (const mutation of mutations) {
+                if (mutation.type === "attributes") clean(mutation.target);
+                for (const node of mutation.addedNodes) clean(node);
+              }
+            });
+            observer.observe(document.documentElement, {
+              attributes: true,
+              childList: true,
+              subtree: true,
+            });
+            window.addEventListener("load", () => {
+              clean(document.documentElement);
+              window.setTimeout(() => observer.disconnect(), 1500);
+            }, { once: true });
+          })();`}
+        </Script>
       </body>
     </html>
   );

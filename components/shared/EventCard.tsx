@@ -7,11 +7,10 @@ import { EventItem, eventTypeColors } from "@/lib/events";
 
 interface Props {
   event: EventItem;
-  compact?: boolean;
   index?: number;
 }
 
-export default function EventCard({ event, compact = false, index = 0 }: Props) {
+export default function EventCard({ event, index = 0 }: Props) {
   const colors = eventTypeColors[event.type];
 
   return (
