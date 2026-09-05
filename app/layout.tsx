@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -11,13 +11,6 @@ const roboto = Roboto({
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500", "700"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -33,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${roboto.variable}`}>
+    <html lang="en" className={roboto.variable}>
       <body suppressHydrationWarning className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">{children}</main>

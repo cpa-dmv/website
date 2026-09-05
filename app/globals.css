@@ -11,9 +11,9 @@
   --color-text-dark:  #1F2937;
   --color-text-muted: #6B7280;
 
-  /* Typography — Roboto as base UI, Playfair for display */
+  /* Use one readable typeface throughout the site. */
   --font-sans:    var(--font-roboto);
-  --font-display: var(--font-playfair);
+  --font-display: var(--font-roboto);
 }
 
 * { box-sizing: border-box; }
@@ -30,15 +30,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Major headings — Playfair Display */
+/* Headings */
 h1, h2 {
-  font-family: var(--font-playfair), Georgia, "Times New Roman", serif;
+  font-family: var(--font-roboto), "Segoe UI", Arial, sans-serif;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
 
-/* Sub-headings and UI labels — Roboto */
+/* Sub-headings and UI labels */
 h3, h4, h5, h6 {
   font-family: var(--font-roboto), "Segoe UI", Arial, sans-serif;
   font-weight: 600;
@@ -47,7 +47,7 @@ h3, h4, h5, h6 {
 }
 
 /* Utility classes */
-.font-display { font-family: var(--font-playfair), Georgia, "Times New Roman", serif; }
+.font-display { font-family: var(--font-roboto), "Segoe UI", Arial, sans-serif; }
 .font-sans    { font-family: var(--font-roboto), "Segoe UI", Arial, sans-serif; }
 .font-roboto  { font-family: var(--font-roboto), "Segoe UI", Arial, sans-serif; }
 

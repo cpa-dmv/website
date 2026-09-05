@@ -26,7 +26,7 @@ const team = [
     tint: "#f7e8e3",
   },
   {
-    name: "Dipika Ji",
+    name: "Dipika Jain",
     role: "Certified Divorce Mediator",
     credential: "Mediation",
     group: "Conflict resolution",
@@ -56,7 +56,7 @@ const team = [
     tint: "#f5eee3",
   },
   {
-    name: "Sachit",
+    name: "Sachit Garg",
     role: "Director of Operations",
     credential: "Operations",
     group: "Program delivery",
