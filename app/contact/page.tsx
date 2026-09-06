@@ -44,7 +44,7 @@ export default function ContactPage() {
                 Start the Conversation
               </h2>
               <p className="text-[#6B7280] text-sm mb-7 leading-relaxed">
-                Tell us how we can assist you. Use this form for CDFA analysis, tax preparation, audit planning, bookkeeping, payroll support, QuickBooks assistance, or entity setup. We&apos;ll respond with clear, professional next steps.
+                Send us your question and we&apos;ll respond with clear, professional next steps. Only your email address and message are required.
               </p>
               <ContactForm />
             </AnimatedSection>

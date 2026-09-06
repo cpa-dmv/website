@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Mail, MapPin, Clock, ExternalLink } from "lucide-react";
 import LogoMark from "@/components/icons/LogoMark";
 
@@ -14,6 +17,7 @@ const bizSupport = [
 const company = [
   { name: "About",     href: "/about" },
   { name: "Teachings", href: "/teachings" },
+  { name: "Newsletter", href: "/newsletter" },
   { name: "Events",    href: "/events" },
   { name: "CSR",       href: "/csr" },
   { name: "Contact",   href: "/contact" },
@@ -50,6 +54,12 @@ function ColLinks({ links }: { links: { name: string; href: string }[] }) {
 }
 
 export default function Footer() {
+  const pathname = usePathname();
+  const linkedInUrl = pathname.startsWith("/whole-life")
+    ? "https://www.linkedin.com/company/wholelifedmv/?viewAsMember=true"
+    : "https://www.linkedin.com/company/cpa-dmv/";
+  const linkedInLabel = pathname.startsWith("/whole-life") ? "WholeLife DMV on LinkedIn" : "CPA-DMV on LinkedIn";
+
   return (
     <footer className="bg-[#041830] text-white">
 
@@ -125,10 +135,10 @@ export default function Footer() {
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <div className="flex items-center gap-1.5">
                 <a
-                  href="https://www.linkedin.com/company/cpa-dmv/"
+                  href={linkedInUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="LinkedIn"
+                  aria-label={linkedInLabel}
                   className="w-8 h-8 rounded-lg bg-white/6 hover:bg-[#0A66C2] text-white/45 hover:text-white flex items-center justify-center transition-all"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">

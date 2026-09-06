@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Link from "next/link";
 import { ArrowRight, MessageSquare } from "lucide-react";
 
-const rotatingWords = ["bookkeeping", "taxes", "accounting"];
+const rotatingWords = ["bookkeeping", "taxes", "accounting", "HR Services", "Marketing Services"];
 
 /* Cards repositioned to stay well inside the tighter hero height */
 const floatingCards = [

@@ -3,33 +3,18 @@
 import { useState } from "react";
 import CTAButton from "./CTAButton";
 
-const services = [
-  "CDFA & Divorce Asset Division",
-  "Audits & Attestations",
-  "Forensics Accounting + Court Witness",
-  "Taxation Services",
-  "AP / AR",
-  "Payroll Services",
-  "HR Support & Advisory",
-  "Business Valuation",
-  "QuickBooks Setup & Training",
-  "Business Registration",
-  "Teachings / Events",
-  "Other",
-];
-
 export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [form, setForm] = useState({
     name: "",
     email: "",
     organization: "",
-    service: "",
     message: "",
+    website: "",
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -38,14 +23,14 @@ export default function ContactForm() {
     e.preventDefault();
     setStatus("submitting");
     try {
-      const res = await fetch("https://formspree.io/f/REPLACE_WITH_FORMSPREE_ID", {
+      const res = await fetch("/api/contact.php", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(form),
       });
       if (res.ok) {
         setStatus("success");
-        setForm({ name: "", email: "", organization: "", service: "", message: "" });
+        setForm({ name: "", email: "", organization: "", message: "", website: "" });
       } else {
         setStatus("error");
       }
@@ -75,13 +60,12 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-[#1F2937] mb-1.5">
-            Full Name <span className="text-red-500">*</span>
+            Full Name <span className="text-[#6B7280] font-normal">(optional)</span>
           </label>
           <input
             id="name"
             name="name"
             type="text"
-            required
             value={form.name}
             onChange={handleChange}
             className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#F59E0B] focus:border-transparent transition-all"
@@ -121,25 +105,6 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="service" className="block text-sm font-medium text-[#1F2937] mb-1.5">
-          Service Needed <span className="text-red-500">*</span>
-        </label>
-        <select
-          id="service"
-          name="service"
-          required
-          value={form.service}
-          onChange={handleChange}
-          className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#F59E0B] focus:border-transparent transition-all bg-white"
-        >
-          <option value="">Select a service...</option>
-          {services.map((s) => (
-            <option key={s} value={s}>{s}</option>
-          ))}
-        </select>
-      </div>
-
-      <div>
         <label htmlFor="message" className="block text-sm font-medium text-[#1F2937] mb-1.5">
           Message <span className="text-red-500">*</span>
         </label>
@@ -153,6 +118,11 @@ export default function ContactForm() {
           className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#F59E0B] focus:border-transparent transition-all resize-none"
           placeholder="Tell us how we can help..."
         />
+      </div>
+
+      <div className="hidden" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={handleChange} />
       </div>
 
       {status === "error" && (

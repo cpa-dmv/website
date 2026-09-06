@@ -41,7 +41,7 @@ const team = [
     credential: "PhD",
     group: "Life guidance",
     icon: Stethoscope,
-    photo: null,
+    photo: "/images/tushita-bhandari.jpg",
     accent: "#66897f",
     tint: "#e7f0ed",
   },
