@@ -253,7 +253,7 @@ export default function PricingTeaser() {
               {[
                 "Clear, upfront rates — no surprises",
                 "Flat rates, hourly, and fixed-fee engagements",
-                "Free 30-minute consultation to scope your needs",
+                "Free 15-minute consultation to scope your needs",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-3 text-sm text-[#1F2937]">
                   <CheckCircle size={16} className="text-[#F59E0B] flex-shrink-0" />

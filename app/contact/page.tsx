@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import ContactForm from "@/components/shared/ContactForm";
-import CalendlyEmbed from "@/components/shared/CalendlyEmbed";
-import CalendlyPanel from "@/components/shared/CalendlyPanel";
+import BookingScheduler from "@/components/contact/BookingScheduler";
 import ContactHero from "@/components/contact/ContactHero";
 import { Mail, MapPin, ExternalLink } from "lucide-react";
 
@@ -17,22 +16,7 @@ export default function ContactPage() {
     <>
       <ContactHero />
 
-      {/* Calendly */}
-      <section className="bg-[#EDEEF0] py-16 lg:py-20 border-t-2 border-[#D1D5DB]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl overflow-hidden shadow-lg flex flex-col lg:flex-row">
-
-            {/* Left panel — animated */}
-            <CalendlyPanel />
-
-            {/* Right panel — Calendly embed */}
-            <div className="flex-1 bg-white">
-              <CalendlyEmbed url="https://calendly.com/cpa-dmv-support/30min" minHeight={800} />
-            </div>
-
-          </div>
-        </div>
-      </section>
+      <BookingScheduler />
 
       {/* Contact form + info */}
       <section className="bg-white py-16 lg:py-20">

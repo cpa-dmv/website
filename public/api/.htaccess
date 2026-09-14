@@ -1,0 +1,9 @@
+<FilesMatch "^(google-chat-config|website-chat-data)\.php$">
+    Require all denied
+</FilesMatch>
+
+# Hostinger/LiteSpeed can omit Authorization from PHP's normal server variables.
+SetEnvIf Authorization "(.+)" HTTP_AUTHORIZATION=$1
+RewriteEngine On
+RewriteCond %{HTTP:Authorization} ^(.+)
+RewriteRule ^ - [E=HTTP_AUTHORIZATION:%1]

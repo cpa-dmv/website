@@ -23,6 +23,10 @@
 # misc
 .DS_Store
 *.pem
+/public/api/google-chat-config.php
+/public/api/website-chat-data.php
+/public/api/cpa-dmv-website-chat-*.json
+/.secrets/
 
 # debug
 npm-debug.log*

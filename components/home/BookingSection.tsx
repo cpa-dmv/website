@@ -5,13 +5,13 @@ import AnimatedSection from "@/components/shared/AnimatedSection";
 import { Calendar, Shield, Video, Clock, CheckCircle } from "lucide-react";
 
 const bullets = [
-  { icon: Clock,    text: "30-minute initial consultation" },
+  { icon: Clock,    text: "15-minute initial consultation" },
   { icon: Shield,   text: "Confidential & no-obligation" },
   { icon: Video,    text: "Virtual or in-person available" },
   { icon: CheckCircle, text: "Response within one business day" },
 ];
 
-const CALENDLY_URL = "https://calendly.com/cpa-dmv-support/30min";
+const BOOKING_URL = "/contact/#booking";
 
 export default function BookingSection() {
 
@@ -78,9 +78,7 @@ export default function BookingSection() {
 
             {/* CTA button */}
             <motion.a
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={BOOKING_URL}
               className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-bold text-sm transition-all"
               style={{ background: "linear-gradient(135deg, #B8953F, #F59E0B)", color: "#fff" }}
               whileHover={{ scale: 1.03, boxShadow: "0 8px 24px rgba(184,149,63,0.4)" }}
@@ -116,9 +114,7 @@ export default function BookingSection() {
                 Click the button to pick a date and time that works for you. The whole process takes under 2 minutes.
               </p>
               <motion.a
-                href={CALENDLY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={BOOKING_URL}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-white"
                 style={{ background: "#082B5C" }}
                 whileHover={{ scale: 1.04, backgroundColor: "#0d3d7a" }}
@@ -127,7 +123,7 @@ export default function BookingSection() {
                 <Calendar size={14} />
                 Open Scheduler
               </motion.a>
-              <p className="text-[#9CA3AF] text-xs mt-3">Opens a quick booking popup</p>
+              <p className="text-[#9CA3AF] text-xs mt-3">Weekend appointments only</p>
             </div>
           </div>
         </motion.div>
