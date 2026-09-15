@@ -83,6 +83,74 @@ const SACHIT = {
   ],
 };
 
+const VARDAN = {
+  name: "Vardan Kadyan",
+  photo: "/images/vardan.png",
+  role: "IT Analyst",
+  cert: "AI",
+  certFull: "AI Expert & Web Developer",
+  certColor: "#2563EB",
+  certBg: "#EFF6FF",
+  affiliation: "Simple Solution",
+  specialties: [
+    { icon: Monitor, text: "AI & Emerging Technologies" },
+    { icon: FileText, text: "Full-Stack Web Development" },
+    { icon: Monitor, text: "Technology & Application Management" },
+    { icon: BarChart3, text: "Business Intelligence & Automation" },
+  ],
+  highlights: [
+    "AI expert specializing in web development and modern technology solutions.",
+    "Manages and maintains company websites and works across the technology stack.",
+    "Handles application development, databases, system infrastructure, and technical troubleshooting.",
+    "Supports AI-driven solutions, business intelligence, and the integration of emerging technologies into business operations.",
+  ],
+};
+
+const TUSHITA = {
+  name: "Tushita Bhandari",
+  photo: "/images/tushita.png",
+  role: "Research & Human Development",
+  cert: "PhD",
+  certFull: "Doctor of Philosophy",
+  certColor: "#7C3AED",
+  certBg: "#F5F3FF",
+  affiliation: "Simple Solution",
+  specialties: [
+    { icon: Search, text: "Research & Analysis" },
+    { icon: Users, text: "Organizational Development" },
+    { icon: Handshake, text: "People-Focused Strategies" },
+    { icon: BookOpen, text: "Human Development & Engagement" },
+  ],
+  highlights: [
+    "Contributes to research initiatives, organizational development, and people-focused strategies.",
+    "Supports research and analysis to develop insights that strengthen organizational practices.",
+    "Works toward fostering a positive and productive professional environment.",
+  ],
+};
+
+const SAHIL = {
+  name: "Sahil Singh",
+  photo: "/images/sahil.png",
+  role: "Technical Support Engineer",
+  cert: "IT",
+  certFull: "Technical Support",
+  certColor: "#0F766E",
+  certBg: "#F0FDFA",
+  affiliation: "Simple Solution",
+  specialties: [
+    { icon: Monitor, text: "L1/L2 Technical Support" },
+    { icon: Shield, text: "Windows & Hardware Troubleshooting" },
+    { icon: Users, text: "Network & Office 365 Support" },
+    { icon: FileText, text: "PowerShell & Python Automation" },
+  ],
+  highlights: [
+    "Provides L1/L2 technical assistance and troubleshoots Windows, hardware, software, network, and Office 365 issues.",
+    "Manages support tickets, user access, and day-to-day technical service requests.",
+    "Uses PowerShell and Python scripting to automate routine IT support tasks while ensuring timely, professional service.",
+  ],
+};
+
+
 const TRUST_VALUES = [
   { icon: "🎯", label: "Accurate & Reliable",      desc: "We focus on quality, accuracy, and detail." },
   { icon: "🔒", label: "Confidential & Secure",    desc: "Your information is safe and always protected." },
@@ -110,7 +178,7 @@ function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number 
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const isFounder = index === 0;
-  const isWide = index === 2; // Sachit — full-width horizontal card
+  const isWide = false; // Sachit — full-width horizontal card
 
   return (
     <motion.div
@@ -265,16 +333,32 @@ function FounderCard({ person, index }: { person: typeof PRAVEEN; index: number 
         </div>
 
         {/* Bottom explore link */}
-        <div className="pt-4 border-t" style={{ borderColor: `${person.certColor}15` }}>
-          <Link
-            href={person.cert === "CDFA" ? "/cdfa-services" : "/taxation"}
-            className="inline-flex items-center gap-1.5 text-[13px] font-bold group"
-            style={{ color: person.certColor }}
-          >
-            Explore {person.cert} services
-            <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </div>
+        {(person.cert === "CDFA" ||
+  person.cert === "CPA" ||
+  person.cert === "BD") && (
+  <div
+    className="pt-4 border-t"
+    style={{ borderColor: `${person.certColor}15` }}
+  >
+    <Link
+      href={
+        person.cert === "CDFA"
+          ? "/cdfa-services"
+          : person.cert === "CPA"
+          ? "/taxation"
+          : "/contact"
+      }
+      className="inline-flex items-center gap-1.5 text-[13px] font-bold group"
+      style={{ color: person.certColor }}
+    >
+      Explore {person.cert} services
+      <ArrowRight
+        size={12}
+        className="group-hover:translate-x-0.5 transition-transform"
+      />
+    </Link>
+  </div>
+)}
       </div>
       )}
     </motion.div>
@@ -411,15 +495,16 @@ export default function AboutPage() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 mb-7">
-            <FounderCard person={PRAVEEN}  index={0} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+            <FounderCard person={PRAVEEN} index={0} />
             <FounderCard person={HIMANSHU} index={1} />
-          </div>
-          <div className="w-full">
             <FounderCard person={SACHIT} index={2} />
+            <FounderCard person={VARDAN} index={3} />
+            <FounderCard person={TUSHITA} index={4} />
+            <FounderCard person={SAHIL} index={5} />
           </div>
         </div>
-      </section>
+</section>
 
       {/* ── Tools & Systems ── */}
       <section className="bg-white py-14">
