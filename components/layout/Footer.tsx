@@ -15,12 +15,13 @@ const bizSupport = [
 ];
 
 const company = [
-  { name: "About",     href: "/about" },
+  { name: "About", href: "/about" },
   { name: "Teachings", href: "/teachings" },
   { name: "Newsletter", href: "/newsletter" },
-  { name: "Events",    href: "/events" },
-  { name: "CSR",       href: "/csr" },
-  { name: "Contact",   href: "/contact" },
+  { name: "Research", href: "/research" },
+  { name: "Events", href: "/events" },
+  { name: "CSR", href: "/csr" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const badges = [
