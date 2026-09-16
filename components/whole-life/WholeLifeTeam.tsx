@@ -85,6 +85,16 @@ const team = [
     accent: "#56889a",
     tint: "#e7f0f3",
   },
+    {
+    name: "Vardan Kadyan",
+    role: "IT Analyst",
+    credential: "Technology",
+    group: "Web Development & AI",
+    icon: MonitorCog,
+    photo: "/images/vardan.png",
+    accent: "#2563EB",
+    tint: "#EFF6FF",
+  },
 ];
 
 export default function WholeLifeTeam() {
