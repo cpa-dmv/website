@@ -7,24 +7,30 @@ import { motion, AnimatePresence } from "framer-motion";
 import LogoMark from "@/components/icons/LogoMark";
 
 const serviceLinks = [
-  { name: "Divorce Financial Analysis",      slug: "cdfa-services",        desc: "Certified Divorce Financial Analyst" },
-  { name: "Audits & Attestations",           slug: "specialized-audit",    desc: "Credit unions, non-profits, ALFs" },
-  { name: "Forensics Audits",                slug: "forensics-accounting", desc: "Investigation & expert testimony" },
-  { name: "Business Valuation",              slug: "business-valuation",   desc: "Know what your business is worth" },
-  { name: "QuickBooks Setup",                slug: "quickbooks",           desc: "ProAdvisor setup and training" },
-  { name: "Financial Accounting & Reporting",slug: "accounting",           desc: "Accurate books, clear reports" },
-  { name: "Payroll",                         slug: "payroll",              desc: "Accurate payroll every cycle" },
-  { name: "Business Registration",           slug: "business-registration",desc: "Start on the right foundation" },
-  { name: "AP / AR",                         slug: "ap-ar",                desc: "Cash flow management" },
-  { name: "HR Advisory",                     slug: "hr-advisory",          desc: "HR guidance without the overhead" },
-  { name: "Taxation",                        slug: "taxation",             desc: "Individual and business returns" },
-  { name: "Bookkeeping",                     slug: "bookkeeping",          desc: "Clean records every month" },
+  { name: "Divorce Financial Analysis", slug: "cdfa-services",         desc: "Certified Divorce Financial Analyst" },
+  { name: "Audits & Attestations",      slug: "specialized-audit",    desc: "Credit unions, non-profits, ALFs" },
+  { name: "Forensics Audits",           slug: "forensics-accounting", desc: "Investigation & expert testimony" },
+  { name: "Business Valuation",         slug: "business-valuation",   desc: "Know what your business is worth" },
+  { name: "QuickBooks Setup",           slug: "quickbooks",           desc: "ProAdvisor setup and training" },
+  { name: "Financial Accounting & Reporting", slug: "accounting",     desc: "Accurate books, clear reports" },
+  { name: "Payroll",                    slug: "payroll",              desc: "Accurate payroll every cycle" },
+  { name: "Business Registration",      slug: "business-registration",desc: "Start on the right foundation" },
+  { name: "AP / AR",                    slug: "ap-ar",                desc: "Cash flow management" },
+  { name: "HR Advisory",                slug: "hr-advisory",          desc: "HR guidance without the overhead" },
+  { name: "Taxation",                   slug: "taxation",             desc: "Individual and business returns" },
+  { name: "Bookkeeping",                slug: "bookkeeping",          desc: "Clean records every month" },
+];
+
+const researchLinks = [
+  { name: "Newsletter",        slug: "newsletter",         desc: "WholeLife Insights, delivered to your inbox" },
+  { name: "Research Articles", slug: "research/articles",  desc: "Papers and publications from our team" },
 ];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [researchOpen, setResearchOpen] = useState(false);
   const [mobileSub, setMobileSub] = useState<string | null>(null);
 
   useEffect(() => {
@@ -90,9 +96,45 @@ export default function Header() {
               </AnimatePresence>
             </div>
 
+            {/* Whole Life */}
+            <Link
+              href="/whole-life"
+              className="px-3.5 py-2 text-[15px] font-medium text-[#374151] hover:text-[#082B5C] transition-colors rounded-lg hover:bg-gray-50/80"
+            >
+              Whole Life
+            </Link>
+
+            {/* Research dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setResearchOpen(true)}
+              onMouseLeave={() => setResearchOpen(false)}
+            >
+              <button className="flex items-center gap-1 px-3.5 py-2 text-[15px] font-medium text-[#374151] hover:text-[#082B5C] transition-colors rounded-lg hover:bg-gray-50/80">
+                Research
+                <ChevronDown size={12} className={`transition-transform duration-200 ${researchOpen ? "rotate-180" : ""}`} />
+              </button>
+              <AnimatePresence>
+                {researchOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 w-[240px] bg-white/98 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100 p-3.5"
+                  >
+                    {researchLinks.map((r) => (
+                      <Link key={r.slug} href={`/${r.slug}`}
+                        className="px-3 py-2 rounded-xl hover:bg-[#F7F8FA] transition-colors group block">
+                        <span className="text-[14px] font-medium text-[#1F2937] group-hover:text-[#082B5C]">{r.name}</span>
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {[
-              { label: "Whole Life", href: "/whole-life" },
-              { label: "Research", href: "/research" },
               { label: "Teachings", href: "/teachings" },
               { label: "Our Responsibility", href: "/csr" },
               { label: "About", href: "/about" },
@@ -111,7 +153,7 @@ export default function Header() {
           {/* CTA */}
           <Link
             href="/contact"
-            className="hidden lg:inline-flex items-center gap-2 bg-[#082B5C] hover:bg-[#0d3d7a] text-white text-[15px] font-semibold px-5 py-2.5 rounded-full transition-all hover:scale-105 shadow-sm flex-shrink-0"
+            className="hidden lg:inline-flex items-center gap-2 bg-[#082B5C] hover:bg-[#0d3d7a] text-white text-[15px] font-semibold px-5 py-2.5 rounded-full transition-colors"
           >
             Free Consultation
           </Link>
@@ -149,7 +191,7 @@ export default function Header() {
                       <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden pl-4">
                         {serviceLinks.map((s) => (
                           <Link key={s.slug} href={`/${s.slug}`}
-                            className="block px-3 py-2 text-[#6B7280] text-sm hover:text-[#082B5C] transition-colors"
+                            className="block px-3 py-2 text-sm text-[#6B7280] hover:text-[#082B5C] transition-colors"
                             onClick={() => setMobileOpen(false)}>
                             {s.name}
                           </Link>
@@ -158,9 +200,37 @@ export default function Header() {
                     )}
                   </AnimatePresence>
                 </div>
+
+                <Link href="/whole-life"
+                  className="block px-3 py-2.5 text-[#374151] font-medium text-sm rounded-lg hover:bg-[#F7F8FA]"
+                  onClick={() => setMobileOpen(false)}>
+                  Whole Life
+                </Link>
+
+                <div>
+                  <button
+                    className="w-full flex items-center justify-between px-3 py-2.5 text-[#374151] font-medium text-sm rounded-lg hover:bg-[#F7F8FA] transition-colors"
+                    onClick={() => setMobileSub(mobileSub === "research" ? null : "research")}
+                  >
+                    Research
+                    <ChevronDown size={13} className={`transition-transform ${mobileSub === "research" ? "rotate-180" : ""}`} />
+                  </button>
+                  <AnimatePresence>
+                    {mobileSub === "research" && (
+                      <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden pl-4">
+                        {researchLinks.map((r) => (
+                          <Link key={r.slug} href={`/${r.slug}`}
+                            className="block px-3 py-2 text-sm text-[#6B7280] hover:text-[#082B5C] transition-colors"
+                            onClick={() => setMobileOpen(false)}>
+                            {r.name}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
                 {[
-                  { label: "Whole Life", href: "/whole-life" },
-                  { label: "Research", href: "/research" },
                   { label: "Teachings", href: "/teachings" },
                   { label: "CSR", href: "/csr" },
                   { label: "About", href: "/about" },
@@ -172,6 +242,7 @@ export default function Header() {
                     {l.label}
                   </Link>
                 ))}
+
                 <div className="pt-2">
                   <Link href="/contact"
                     className="block w-full text-center bg-[#082B5C] hover:bg-[#0d3d7a] text-white font-semibold text-sm px-5 py-2.5 rounded-full"
