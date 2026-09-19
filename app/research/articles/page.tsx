@@ -56,41 +56,54 @@ export default function ResearchArticlesPage() {
           </h2>
 
           <p className="mt-4 text-[16px] leading-7 text-[#667085]">
-            This section will feature research papers, articles, studies, and
+            This section features research papers, articles, studies, and
             professional publications contributed by CPA-DMV and its research
             team.
           </p>
         </div>
 
-        {/* Coming soon card */}
+        {/* Research publication */}
         <div className="mt-10 overflow-hidden rounded-[28px] border border-[#263f57]/10 bg-white shadow-sm">
-          <div className="flex flex-col items-center px-6 py-16 text-center sm:px-10 sm:py-20">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#EFF6FF] text-[#2563EB]">
-              <FileText size={28} />
-            </div>
+          <div className="px-6 py-12 sm:px-10 sm:py-14">
+            <div className="flex flex-col gap-8 sm:flex-row sm:items-start">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[#EFF6FF] text-[#2563EB]">
+                <FileText size={28} />
+              </div>
 
-            <div className="mt-7 inline-flex items-center rounded-full border border-[#263f57]/10 bg-[#f7f5f1] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#6b7280]">
-              Coming Soon
-            </div>
+              <div className="max-w-4xl">
+                <div className="inline-flex items-center rounded-full border border-[#263f57]/10 bg-[#f7f5f1] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#6b7280]">
+                  Research Publication
+                </div>
 
-            <h3 className="mt-5 text-2xl font-bold text-[#263f57] sm:text-3xl">
-              Research publications are being prepared
-            </h3>
+                <h3 className="mt-5 text-2xl font-bold leading-tight text-[#263f57] sm:text-3xl">
+                  Beyond the Degree: Why Academic Success Is No Longer Enough
+                  for Life Preparedness in the 21st Century
+                </h3>
 
-            <p className="mt-4 max-w-xl text-[15px] leading-7 text-[#667085]">
-              Our research articles and publications are currently being
-              prepared. New papers and professional insights will be added here
-              as they become available.
-            </p>
+                <p className="mt-4 max-w-3xl text-[15px] leading-7 text-[#667085]">
+                  This research article examines the gap between academic
+                  achievement and the practical capabilities required to
+                  navigate adult life, including financial resilience, career
+                  adaptability, relationships, family responsibilities,
+                  digital judgement, resilience, and decision-making.
+                </p>
 
-            <div className="mt-8">
-              <Link
-                href="/newsletter"
-                className="inline-flex items-center gap-2 rounded-full bg-[#263f57] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#1d3144]"
-              >
-                Explore Newsletter
-                <ArrowRight size={15} />
-              </Link>
+                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <Link
+                    href="/research/beyond-the-degree.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#263f57] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#1d3144]"
+                  >
+                    Read Research Paper
+                    <ArrowRight size={15} />
+                  </Link>
+
+                  <span className="text-sm text-[#667085]">
+                    17-page research publication
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -108,8 +121,9 @@ export default function ResearchArticlesPage() {
               </h3>
 
               <p className="mt-3 text-sm leading-6 text-white/65">
-                Future publications may include research papers, analytical
-                studies, professional articles, and other knowledge resources.
+                This section will continue to feature research papers,
+                analytical studies, professional articles, and other knowledge
+                resources as they become available.
               </p>
             </div>
 
@@ -118,7 +132,7 @@ export default function ResearchArticlesPage() {
                 Status
               </div>
               <div className="mt-1 text-sm font-semibold text-white">
-                Publications coming soon
+                1 publication available
               </div>
             </div>
           </div>
