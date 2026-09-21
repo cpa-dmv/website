@@ -135,8 +135,7 @@ export default function WholeLifeTeam() {
                 viewport={{ once: true, amount: 0.25 }}
                 transition={{ delay: index * 0.055, duration: 0.45 }}
                 whileHover={{ y: -4 }}
-                className="group relative overflow-hidden rounded-[22px] border border-[#263f57]/8 bg-white p-3 shadow-[0_10px_30px_rgba(38,63,87,0.055)]"
-              >
+                className={`group relative overflow-hidden rounded-[22px] border border-[#263f57]/8 bg-white p-3 shadow-[0_10px_30px_rgba(38,63,87,0.055)] ${name === "Vardan Kadyan" ? "lg:col-start-2" : ""}`}              >
                 <span className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100" style={{ backgroundColor: accent }} />
 
                 <div className="flex items-center gap-3">

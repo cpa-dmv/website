@@ -2,8 +2,6 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpen,
-  Clock,
-  FileText,
   Search,
 } from "lucide-react";
 
@@ -47,60 +45,45 @@ export default function ResearchPage() {
           </p>
         </div>
 
-        {/* Empty state */}
-        <div className="mt-10 rounded-[28px] border border-[#263f57]/10 bg-white px-6 py-14 shadow-sm sm:px-10">
-          <div className="mx-auto max-w-2xl text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#263f57]/5">
-              <FileText size={28} className="text-[#263f57]" />
-            </div>
+        {/* Published Research Article */}
+        <div className="mt-10">
+          <Link
+            href="/research/articles/"
+            className="group block rounded-[28px] border border-[#263f57]/10 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-10"
+          >
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-4xl">
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-[#c87568]">
+                  <BookOpen size={15} />
+                  Research Publication
+                </div>
 
-            <h3 className="mt-6 text-2xl font-bold text-[#263f57]">
-              Publications coming soon
-            </h3>
-
-            <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-[#263f57]/65">
-              Our research publications are currently being prepared. New
-              studies, articles, and evidence-based insights will be published
-              here as they become available.
-            </p>
-
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 text-sm text-[#263f57]/55 sm:flex-row">
-              <div className="inline-flex items-center gap-2">
-                <Clock size={15} />
-                New publications will appear here after release
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Future publication format */}
-        <div className="mt-12">
-          <div className="rounded-[24px] border border-[#263f57]/10 bg-[#263f57] p-7 text-white sm:p-9">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#efb2a8]">
-                  What to expect
-                </p>
-
-                <h3 className="mt-3 text-2xl font-bold">
-                  Research, analysis & professional insights
+                <h3 className="mt-5 text-2xl font-bold leading-tight tracking-tight text-[#263f57] sm:text-3xl">
+                  Beyond the Degree: Why Academic Success Is No Longer Enough
+                  for Life Preparedness in the 21st Century
                 </h3>
 
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65">
-                  Future publications may include research papers, analytical
-                  studies, professional articles, and evidence-based insights
-                  from the CPA-DMV team and its research contributors.
+                <p className="mt-4 max-w-3xl text-base leading-7 text-[#263f57]/65">
+                  A research publication examining the gap between academic
+                  achievement and the practical capabilities required to
+                  navigate adult life.
                 </p>
+
+                <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-[#263f57]/55">
+                  <span>17-page publication</span>
+                  <span>WholeLife</span>
+                  <span>Research Article</span>
+                </div>
               </div>
 
               <div className="shrink-0">
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-semibold text-white/80">
-                  <BookOpen size={15} />
-                  Coming soon
-                </div>
+                <span className="inline-flex items-center gap-2 rounded-full bg-[#263f57] px-6 py-3 text-sm font-bold text-white transition-all group-hover:bg-[#1d3144]">
+                  Read Research Paper
+                  <ArrowRight size={16} />
+                </span>
               </div>
             </div>
-          </div>
+          </Link>
         </div>
 
         {/* Contact CTA */}
@@ -109,13 +92,13 @@ export default function ResearchPage() {
             Interested in our research and professional insights?
           </p>
 
-          <a
+          <Link
             href="/contact"
             className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-[#263f57] transition-transform hover:translate-x-0.5"
           >
             Get in touch
             <ArrowRight size={15} />
-          </a>
+          </Link>
         </div>
       </section>
     </main>

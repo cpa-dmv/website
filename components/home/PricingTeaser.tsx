@@ -1,188 +1,276 @@
 "use client";
 
-import AnimatedSection from "@/components/shared/AnimatedSection";
 import Link from "next/link";
-import { CheckCircle } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useState, useEffect, useCallback } from "react";
-
-// ── Alternating dark / light theme cards ─────────────────────────────────────
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const CARDS = [
   {
-    id: 0,
-    // DARK
-    bg: "#082B5C",
-    textPrimary: "#FFFFFF",
-    textSub: "rgba(255,255,255,0.45)",
-    textLabel: "#F59E0B",
-    chipBg: "rgba(255,255,255,0.12)",
-    circle1: "rgba(245,158,11,0.14)",
-    circle2: "rgba(255,255,255,0.06)",
-    eyebrow: "CPA Advisory & Audits",
-    title: "Forensics · CDFA · Attestations",
-    label: "Standard Hourly",
-    chip1: { text: "CDFA",  accentColor: "#F59E0B" },
-    chip2: { text: "Audit", accentColor: "#93C5FD" },
+    title: "CPA Advisory & Audits",
+    subtitle: "Forensics · CDFA · Attestations",
+    price: "Standard Hourly",
+    accent: "#082B5C",
+    tags: ["CPA", "AUDIT"],
+    text: "Contact for pricing",
   },
   {
-    id: 1,
-    // LIGHT
-    bg: "#EEF4FF",
-    textPrimary: "#082B5C",
-    textSub: "rgba(8,43,92,0.45)",
-    textLabel: "#D97706",
-    chipBg: "rgba(8,43,92,0.08)",
-    circle1: "rgba(8,43,92,0.06)",
-    circle2: "rgba(8,43,92,0.03)",
-    eyebrow: "Tax & Bookkeeping",
-    title: "Business · Individual · Payroll",
-    label: "Fixed-Fee Plans",
-    chip1: { text: "Tax",    accentColor: "#082B5C" },
-    chip2: { text: "Payroll",accentColor: "#059669" },
+    title: "Tax & Bookkeeping",
+    subtitle: "Business · Individual · Payroll",
+    price: "Fixed-Fee Plans",
+    accent: "#EEF4FF",
+    tags: ["TAX", "BOOKS"],
+    text: "Simple, transparent pricing",
   },
   {
-    id: 2,
-    // DARK (different shade)
-    bg: "#0D3D7A",
-    textPrimary: "#FFFFFF",
-    textSub: "rgba(255,255,255,0.45)",
-    textLabel: "#F59E0B",
-    chipBg: "rgba(255,255,255,0.12)",
-    circle1: "rgba(110,231,183,0.13)",
-    circle2: "rgba(255,255,255,0.05)",
-    eyebrow: "Business Services",
-    title: "AP/AR · HR Advisory · QuickBooks",
-    label: "Hourly & Retainer",
-    chip1: { text: "HR",    accentColor: "#F59E0B" },
-    chip2: { text: "AP/AR", accentColor: "#6EE7B7" },
+    title: "Business Services",
+    subtitle: "AP/AR · HR Advisory · QuickBooks",
+    price: "Hourly & Retainer",
+    accent: "#0D3D7A",
+    tags: ["HR", "AP/AR"],
+    text: "Contact for pricing",
   },
   {
-    id: 3,
-    // LIGHT (warm tint)
-    bg: "#FFF8EC",
-    textPrimary: "#92400E",
-    textSub: "rgba(146,64,14,0.45)",
-    textLabel: "#B45309",
-    chipBg: "rgba(146,64,14,0.08)",
-    circle1: "rgba(217,119,6,0.10)",
-    circle2: "rgba(146,64,14,0.05)",
-    eyebrow: "Business Valuation",
-    title: "Registration · Advisory · Court",
-    label: "Engagement-Based",
-    chip1: { text: "Court",   accentColor: "#B45309" },
-    chip2: { text: "Biz Val", accentColor: "#D97706" },
+    title: "Business Valuation",
+    subtitle: "Registration · Advisory · Court",
+    price: "Engagement-Based",
+    accent: "#FFF8EC",
+    tags: ["VALUATION", "ADVISORY"],
+    text: "Contact for pricing",
   },
 ];
 
-const AUTO_INTERVAL = 1500;
+const AUTO_INTERVAL = 3000;
 
 function FloatCircle({
-  cx, cy, r, color, delay,
-}: { cx: number; cy: number; r: number; color: string; delay: number }) {
+  size,
+  left,
+  top,
+  opacity = 0.12,
+}: {
+  size: number;
+  left: string;
+  top: string;
+  opacity?: number;
+}) {
   return (
-    <motion.circle
-      cx={cx} cy={cy} r={r} fill={color}
-      animate={{ cy: [cy, cy - 10, cy] }}
-      transition={{ duration: 6 + delay * 1.5, repeat: Infinity, ease: "easeInOut", delay }}
+    <motion.div
+      className="absolute rounded-full pointer-events-none"
+      style={{
+        width: size,
+        height: size,
+        left,
+        top,
+        background:
+          "radial-gradient(circle, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0) 70%)",
+        opacity,
+      }}
+      animate={{
+        y: [0, -10],
+      }}
+      transition={{
+        duration: 4,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut",
+      }}
     />
   );
 }
 
 function ServiceCard({
   card,
-  stackIndex,  // 0 = front
-  total,
-  isExiting,   // true only for the front card during transition
+  index,
+  activeIndex,
+  onClick,
 }: {
-  card: typeof CARDS[0];
-  stackIndex: number;
-  total: number;
-  isExiting: boolean;
+  card: (typeof CARDS)[number];
+  index: number;
+  activeIndex: number;
+  onClick: () => void;
 }) {
-  const yOffset  = stackIndex * 13;
-  const rotation = stackIndex * -2.2;
-  const scale    = 1 - stackIndex * 0.032;
+  const position = (index - activeIndex + CARDS.length) % CARDS.length;
+
+  const isFront = position === 0;
+  const isSecond = position === 1;
+  const isThird = position === 2;
+
+  let y = 0;
+  let x = 0;
+  let scale = 1;
+  let rotate = 0;
+  let opacity = 1;
+  let zIndex = 30;
+
+  if (isSecond) {
+    y = 22;
+    x = 18;
+    scale = 0.95;
+    rotate = -2;
+    opacity = 0.95;
+    zIndex = 20;
+  } else if (isThird) {
+    y = 42;
+    x = 34;
+    scale = 0.9;
+    rotate = -4;
+    opacity = 0.75;
+    zIndex = 10;
+  } else if (!isFront) {
+    y = 60;
+    x = 48;
+    scale = 0.86;
+    rotate = -6;
+    opacity = 0;
+    zIndex = 0;
+  }
+
+  const isDark =
+    card.accent === "#082B5C" || card.accent === "#0D3D7A";
 
   return (
     <motion.div
-      layout
-      className="absolute inset-0 rounded-3xl overflow-hidden shadow-xl"
-      style={{
-        backgroundColor: card.bg,
-        zIndex: total - stackIndex,
-        originX: 0.5,
-        originY: 0.5,
-        border: card.id === 1 || card.id === 3 ? "1.5px solid rgba(8,43,92,0.18)" : "none",
+      className="absolute inset-x-0 top-0 mx-auto w-full max-w-[495px] cursor-pointer"
+      style={{ zIndex }}
+      animate={{
+        y,
+        x,
+        scale,
+        rotate,
+        opacity,
       }}
-      animate={
-        isExiting
-          ? {
-              y: -60,
-              x: 30,
-              rotate: 10,
-              scale: 0.88,
-              opacity: 0,
-            }
-          : {
-              y: yOffset,
-              rotate: rotation,
-              scale,
-              opacity: 1,
-              x: 0,
-            }
-      }
-      transition={
-        isExiting
-          ? { duration: 0.38, ease: [0.4, 0, 0.6, 1] }
-          : { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
-      }
+      transition={{
+        duration: 0.55,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      onClick={onClick}
     >
-      {/* Decorative orbs */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 360 304" preserveAspectRatio="xMidYMid slice">
-        <FloatCircle cx={310} cy={55}  r={110} color={card.circle1} delay={0} />
-        <FloatCircle cx={30}  cy={260} r={85}  color={card.circle2} delay={1.3} />
-        <FloatCircle cx={180} cy={175} r={65}  color="rgba(255,255,255,0.025)" delay={2.6} />
-      </svg>
+      <div
+        className="relative min-h-[260px] overflow-hidden rounded-[24px] border border-white/40 shadow-[0_24px_55px_rgba(8,43,92,0.20)]"
+        style={{
+          backgroundColor: card.accent,
+          color: isDark ? "#ffffff" : "#082B5C",
+        }}
+      >
+        {/* Decorative shapes */}
+        <div
+          className="absolute -right-16 -top-20 h-56 w-56 rounded-full"
+          style={{
+            background: isDark
+              ? "rgba(56,189,248,0.16)"
+              : "rgba(8,43,92,0.06)",
+          }}
+        />
 
-      {/* Content */}
-      <div className="relative z-10 p-6 h-full flex flex-col justify-between">
-        {/* Top */}
-        <div>
-          <p className="text-[10px] uppercase tracking-[0.18em] mb-1.5" style={{ color: card.textSub }}>
-            Contact for pricing
-          </p>
-          <h3 className="font-display font-bold text-xl mb-1" style={{ color: card.textPrimary }}>
-            {card.eyebrow}
-          </h3>
-          <p className="text-xs" style={{ color: card.textSub }}>{card.title}</p>
-        </div>
+        <div
+          className="absolute -bottom-24 -left-10 h-52 w-52 rounded-full"
+          style={{
+            background: isDark
+              ? "rgba(255,255,255,0.04)"
+              : "rgba(8,43,92,0.04)",
+          }}
+        />
 
-        {/* Rate + CTA */}
-        <div className="flex items-end justify-between">
-          <span className="font-display font-bold text-[1.55rem] leading-none" style={{ color: card.textLabel }}>
-            {card.label}
-          </span>
-          <Link
-            href="/contact"
-            className="bg-[#F59E0B] hover:bg-[#e08e00] text-[#082B5C] font-bold px-5 py-2.5 rounded-full text-sm transition-colors shadow-sm"
-          >
-            Get Started
-          </Link>
-        </div>
+        <div className="relative z-10 flex min-h-[260px] flex-col p-7">
+          {/* Top */}
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p
+                className="mb-2 text-[9px] font-semibold uppercase tracking-[0.22em]"
+                style={{
+                  color: isDark
+                    ? "rgba(255,255,255,0.48)"
+                    : "rgba(8,43,92,0.48)",
+                }}
+              >
+                {card.text}
+              </p>
 
-        {/* Chips */}
-        <div className="flex items-center gap-2.5">
-          <span className="text-[10px] uppercase tracking-widest" style={{ color: card.textSub }}>Services include</span>
-          {[card.chip1, card.chip2].map((chip) => (
-            <span
-              key={chip.text}
-              className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full"
-              style={{ backgroundColor: card.chipBg, color: chip.accentColor }}
+              <h3 className="text-[20px] font-bold leading-tight">
+                {card.title}
+              </h3>
+
+              <p
+                className="mt-1 text-[11px]"
+                style={{
+                  color: isDark
+                    ? "rgba(255,255,255,0.52)"
+                    : "rgba(8,43,92,0.55)",
+                }}
+              >
+                {card.subtitle}
+              </p>
+            </div>
+
+            <motion.div
+              whileHover={{ scale: 1.08 }}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+              style={{
+                backgroundColor: isDark
+                  ? "rgba(255,255,255,0.10)"
+                  : "rgba(8,43,92,0.08)",
+              }}
             >
-              {chip.text}
+              <ArrowRight size={17} />
+            </motion.div>
+          </div>
+
+          {/* Price */}
+          <div className="mt-auto flex items-end justify-between gap-4">
+            <div>
+              <p
+                className="text-[22px] font-bold"
+                style={{
+                  color: isDark ? "#F59E0B" : "#D97706",
+                }}
+              >
+                {card.price}
+              </p>
+            </div>
+
+            <Link
+              href="/contact"
+              onClick={(e) => e.stopPropagation()}
+              className="group flex items-center gap-2 rounded-full bg-[#F59E0B] px-5 py-2.5 text-[11px] font-bold text-[#082B5C] shadow-lg transition-all duration-300 hover:bg-[#fbbf24] hover:shadow-xl"
+            >
+              Get Started
+              <ArrowRight
+                size={14}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+          </div>
+
+          {/* Tags */}
+          <div className="mt-6 flex items-center gap-2">
+            <span
+              className="mr-1 text-[8px] font-semibold uppercase tracking-[0.15em]"
+              style={{
+                color: isDark
+                  ? "rgba(255,255,255,0.42)"
+                  : "rgba(8,43,92,0.42)",
+              }}
+            >
+              Services Include
             </span>
-          ))}
+
+            {card.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full px-3 py-1 text-[8px] font-bold uppercase tracking-wide"
+                style={{
+                  backgroundColor: isDark
+                    ? "rgba(255,255,255,0.10)"
+                    : "rgba(8,43,92,0.08)",
+                  color: isDark
+                    ? "rgba(255,255,255,0.75)"
+                    : "rgba(8,43,92,0.70)",
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </motion.div>
@@ -190,97 +278,178 @@ function ServiceCard({
 }
 
 function CardStack() {
-  const [order, setOrder] = useState([0, 1, 2, 3]);
-  const [exiting, setExiting] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const advance = useCallback(() => {
-    if (exiting) return;
-    setExiting(true);
-    setTimeout(() => {
-      setOrder((prev) => {
-        const next = [...prev];
-        const front = next.shift()!;
-        next.push(front);
-        return next;
-      });
-      setExiting(false);
-    }, 380);
-  }, [exiting]);
+    setActiveIndex((current) => (current + 1) % CARDS.length);
+  }, []);
 
-  // Auto-advance every 3s
   useEffect(() => {
-    const id = setInterval(advance, AUTO_INTERVAL);
-    return () => clearInterval(id);
+    const interval = window.setInterval(advance, AUTO_INTERVAL);
+
+    return () => window.clearInterval(interval);
   }, [advance]);
 
   return (
-    <div
-      className="relative h-[304px] w-full cursor-pointer"
-      style={{ perspective: "1000px" }}
-      onClick={advance}
-    >
-      {order.map((cardIdx, stackPos) => (
+    <div className="relative mx-auto h-[330px] w-full max-w-[540px]">
+      {CARDS.map((card, index) => (
         <ServiceCard
-          key={cardIdx}
-          card={CARDS[cardIdx]}
-          stackIndex={stackPos}
-          total={CARDS.length}
-          isExiting={exiting && stackPos === 0}
+          key={`${card.title}-${index}`}
+          card={card}
+          index={index}
+          activeIndex={activeIndex}
+          onClick={advance}
         />
       ))}
+
+      {/* Stack indicators */}
+      <div className="absolute -bottom-1 left-1/2 z-40 flex -translate-x-1/2 gap-1.5">
+        {CARDS.map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            aria-label={`Show pricing card ${index + 1}`}
+            onClick={() => setActiveIndex(index)}
+            className="h-1.5 rounded-full transition-all duration-300"
+            style={{
+              width: index === activeIndex ? 24 : 7,
+              backgroundColor:
+                index === activeIndex ? "#F59E0B" : "rgba(8,43,92,0.25)",
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }
 
-// ── Main ─────────────────────────────────────────────────────────────────────
-
 export default function PricingTeaser() {
   return (
-    <section className="bg-[#F7F8FA] py-16 lg:py-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+    <section className="relative min-h-[700px] overflow-hidden py-16 lg:py-24">
+      {/* =========================================================
+          BACKGROUND IMAGE
+          ========================================================= */}
+      <div
+        className="absolute inset-0 scale-[1.03] bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/images/pricing-background.jpg')",
+        }}
+      />
 
-          {/* Left — copy */}
-          <AnimatedSection direction="left">
-            <p className="text-[#F59E0B] text-xs font-semibold uppercase tracking-widest mb-4">Transparent Pricing</p>
-            <h2
-              className="font-display font-bold text-[#082B5C] leading-tight mb-5"
-              style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)" }}
-            >
-              What&apos;s your<br />time worth?
-            </h2>
-            <ul className="space-y-3 mb-8">
-              {[
-                "Clear, upfront rates — no surprises",
-                "Flat rates, hourly, and fixed-fee engagements",
-                "Free 15-minute consultation to scope your needs",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-sm text-[#1F2937]">
-                  <CheckCircle size={16} className="text-[#F59E0B] flex-shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 bg-[#082B5C] hover:bg-[#0d3d7a] text-white font-semibold px-7 py-3.5 rounded-full text-sm transition-all shadow-lg"
-            >
-              View Pricing
-            </Link>
-          </AnimatedSection>
+      {/* =========================================================
+          LIGHT OVERLAYS
+          Reduced from the previous version so the image is visible.
+          ========================================================= */}
 
-          {/* Right — stacked cards */}
-          <AnimatedSection direction="right">
-            <div className="flex flex-col items-center">
-              <div className="relative w-full" style={{ paddingTop: "42px", paddingBottom: "0px" }}>
-                <CardStack />
+      {/* Overall white wash */}
+      <div className="absolute inset-0 bg-white/45" />
+
+      {/* Subtle CPA blue tint */}
+      <div className="absolute inset-0 bg-[#DCEBFA]/20" />
+
+      {/* Keep left side clean for text while revealing image toward right */}
+      <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/45 to-white/20" />
+
+      {/* Soft white glow around content */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_48%,rgba(255,255,255,0.72),transparent_42%)]" />
+
+      {/* Bottom fade */}
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/55 to-transparent" />
+
+      {/* =========================================================
+          DECORATIVE FLOATING ELEMENTS
+          ========================================================= */}
+      <FloatCircle size={300} left="-100px" top="8%" opacity={0.16} />
+      <FloatCircle size={220} left="47%" top="8%" opacity={0.12} />
+      <FloatCircle size={280} left="80%" top="58%" opacity={0.13} />
+
+      {/* Main content */}
+      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10">
+        <div className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+          {/* =====================================================
+              LEFT CONTENT
+              ===================================================== */}
+          <div className="max-w-[590px]">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6 }}
+            >
+              <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.18em] text-[#D97706]">
+                Transparent Pricing
+              </p>
+
+              <h2 className="max-w-[540px] text-[clamp(2.5rem,4vw,4.2rem)] font-bold leading-[0.98] tracking-[-0.04em] text-[#082B5C]">
+                What's your
+                <br />
+                time worth?
+              </h2>
+
+              <div className="mt-8 space-y-4">
+                {[
+                  "Clear, upfront rates – no surprises",
+                  "Flat rates, hourly, and fixed-fee engagements",
+                  "Free 15-minute consultation to scope your needs",
+                ].map((item) => (
+                  <motion.div
+                    key={item}
+                    initial={{ opacity: 0, x: -12 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="flex items-center gap-3"
+                  >
+                    <CheckCircle2
+                      size={18}
+                      strokeWidth={2.5}
+                      className="shrink-0 text-[#F59E0B]"
+                    />
+
+                    <span className="text-[15px] font-medium text-[#27364A] lg:text-[16px]">
+                      {item}
+                    </span>
+                  </motion.div>
+                ))}
               </div>
-              {/* <p className="text-center text-[11px] text-[#9CA3AF] mt-4 tracking-wide select-none">
-                Auto-cycling · Click to advance
-              </p> */}
-            </div>
-          </AnimatedSection>
 
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                className="mt-9"
+              >
+                <Link
+                  href="/pricing"
+                  className="group inline-flex items-center gap-3 rounded-full bg-[#082B5C] px-7 py-4 text-[13px] font-bold text-white shadow-[0_14px_28px_rgba(8,43,92,0.22)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#0D3D7A] hover:shadow-[0_18px_35px_rgba(8,43,92,0.28)]"
+                >
+                  View Pricing
+
+                  <ArrowRight
+                    size={17}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </Link>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* =====================================================
+              RIGHT CARD STACK
+              ===================================================== */}
+          <motion.div
+            initial={{ opacity: 0, x: 35 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{
+              duration: 0.8,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="relative"
+          >
+            <CardStack />
+          </motion.div>
         </div>
       </div>
     </section>

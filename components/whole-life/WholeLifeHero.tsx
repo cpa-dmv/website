@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   BriefcaseBusiness,
@@ -20,123 +24,370 @@ const lifeStages = [
   { label: "Stability", icon: ShieldCheck },
 ];
 
-function LifeTree() {
-  return (
-    <div className="relative mx-auto aspect-square w-full max-w-[520px]" aria-hidden="true">
-      <div className="absolute inset-[8%] rounded-full border border-[#d9b98e]/35" />
-      <div className="absolute inset-[17%] rounded-full border border-[#d9b98e]/20" />
-      <div className="absolute inset-[2%] rounded-full bg-[radial-gradient(circle,rgba(255,246,232,0.95)_0%,rgba(255,246,232,0.35)_55%,transparent_72%)]" />
+/*
+  Add your Whole Life hero photos here.
 
-      <svg viewBox="0 0 520 520" className="absolute inset-0 h-full w-full">
-        <defs>
-          <linearGradient id="whole-life-trunk" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#263f57" />
-            <stop offset="1" stopColor="#527b75" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M258 417c1-72 1-117-2-161m2 70c-42-24-72-54-90-92m89 61c41-27 68-60 83-98m-84 69c-24-53-24-94-3-130m5 112c29-42 62-68 101-78"
-          fill="none"
-          stroke="url(#whole-life-trunk)"
-          strokeWidth="12"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        {([
-          [145, 213, 42, "#d89176"], [174, 165, 36, "#e9aa68"], [224, 121, 39, "#839d8c"],
-          [287, 111, 42, "#d89176"], [344, 143, 38, "#e9aa68"], [382, 191, 40, "#527b75"],
-          [355, 246, 34, "#839d8c"], [298, 210, 31, "#e9aa68"], [205, 247, 34, "#527b75"],
-          [150, 278, 31, "#e9aa68"], [317, 284, 28, "#d89176"], [216, 190, 27, "#839d8c"],
-        ] as const).map(([cx, cy, r, fill], index) => (
-          <circle key={index} cx={cx} cy={cy} r={r} fill={fill} opacity="0.92" />
-        ))}
-        <path d="M205 427c26-16 83-16 109 0" fill="none" stroke="#d4a15f" strokeWidth="5" strokeLinecap="round" />
-        <path d="M226 445c18-10 50-10 68 0" fill="none" stroke="#d4a15f" strokeWidth="3" strokeLinecap="round" opacity="0.55" />
-      </svg>
+  Recommended:
+  01 — counselling / family consultation
+  02 — education / young person planning future
+  03 — career / professional consultation
+  04 — marriage / couple
+  05 — family / family planning
+  06 — retirement / older couple
 
-      <div className="absolute left-[3%] top-[18%] rounded-2xl border border-white/80 bg-white/80 px-4 py-3 shadow-[0_14px_45px_rgba(38,63,87,0.1)] backdrop-blur-md">
-        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#a66f4e]">Start early</p>
-        <p className="mt-0.5 text-sm font-semibold text-[#263f57]">Build with intention</p>
-      </div>
-      <div className="absolute bottom-[15%] right-[1%] rounded-2xl border border-white/80 bg-white/80 px-4 py-3 shadow-[0_14px_45px_rgba(38,63,87,0.1)] backdrop-blur-md">
-        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#527b75]">For every stage</p>
-        <p className="mt-0.5 text-sm font-semibold text-[#263f57]">One trusted system</p>
-      </div>
-    </div>
-  );
-}
+  Put the images inside:
+
+  public/images/whole-life/
+
+  Example:
+  /images/whole-life/hero-1.jpg
+  /images/whole-life/hero-2.jpg
+  etc.
+*/
+
+const heroImages = [
+  "/images/whole-life/hero-1.jpg",
+  "/images/whole-life/hero-2.jpg",
+  "/images/whole-life/hero-3.jpg",
+  "/images/whole-life/hero-4.jpg",
+  "/images/whole-life/hero-5.jpg",
+  "/images/whole-life/hero-6.jpg",
+];
 
 export default function WholeLifeHero() {
+  const [activeImage, setActiveImage] = useState(0);
+
+  /*
+    Automatic photo rotation.
+    No visible controls.
+  */
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveImage((current) => (current + 1) % heroImages.length);
+    }, 5500);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
   return (
-    <section className="relative isolate overflow-hidden bg-[#fbf7f0] pt-[70px]">
-      <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_12%_16%,rgba(216,145,118,0.14),transparent_28%),radial-gradient(circle_at_86%_72%,rgba(82,123,117,0.15),transparent_28%)]" />
-      <div className="absolute inset-0 -z-10 opacity-45 [background-image:linear-gradient(rgba(38,63,87,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(38,63,87,0.035)_1px,transparent_1px)] [background-size:52px_52px]" />
+    <section className="relative isolate min-h-[calc(100vh-70px)] overflow-hidden bg-[#263f57]">
+      {/* =========================================================
+          AUTOMATIC CINEMATIC PHOTO BACKGROUND
+          ========================================================= */}
 
-      <div className="mx-auto grid min-h-[calc(100vh-70px)] max-w-[1280px] items-center gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:gap-6 lg:px-8 lg:py-16">
-        <div className="relative z-10 max-w-[720px]">
-          <div className="mb-5 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-5">
+      <div className="absolute inset-0 -z-30 overflow-hidden">
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={heroImages[activeImage]}
+            initial={{
+              opacity: 0,
+              scale: 1.02,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1.07,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+            transition={{
+              opacity: {
+                duration: 1.4,
+                ease: "easeInOut",
+              },
+              scale: {
+                duration: 6.2,
+                ease: "easeOut",
+              },
+            }}
+            className="absolute inset-0"
+          >
             <Image
-              src="/images/whole-life-logo-transparent.png"
-              alt="Whole Life — Guidance, Commitment, Perseverance"
-              width={112}
-              height={112}
-              priority
-              className="h-auto w-[96px] shrink-0 sm:w-[108px]"
+              src={heroImages[activeImage]}
+              alt=""
+              fill
+              priority={activeImage === 0}
+              sizes="100vw"
+              className="object-cover object-center"
             />
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#d4a15f]/30 bg-white/65 px-4 py-2 text-xs font-semibold text-[#6c5244] shadow-sm backdrop-blur-sm">
-              <Sparkles size={14} className="text-[#c27d55]" />
-              A lifetime partnership, not a one-time service
-            </div>
-          </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
-          <h1 className="max-w-[700px] font-display text-[clamp(2.85rem,5.5vw,5.35rem)] font-bold leading-[0.98] tracking-[-0.045em] text-[#263f57]">
-            One system for your
-            <span className="block bg-gradient-to-r from-[#c46f57] via-[#d39155] to-[#527b75] bg-clip-text text-transparent">
-              whole life.
-            </span>
-          </h1>
+      {/* =========================================================
+          DARK CINEMATIC OVERLAY
+          ========================================================= */}
 
-          <p className="mt-6 max-w-[650px] text-base leading-7 text-[#5f6060] sm:text-lg sm:leading-8">
-            Continuous, thoughtful counseling through the decisions that shape your future—from education and career to finances, marriage, family, and long-term stability.
-          </p>
+      <div className="absolute inset-0 -z-20 bg-[#071624]/55" />
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/contact"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#263f57] px-6 py-3.5 text-sm font-bold text-white shadow-[0_12px_30px_rgba(38,63,87,0.22)] transition-all hover:-translate-y-0.5 hover:bg-[#1c3144]"
+      {/* Left-side darker gradient for text readability */}
+
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#071624]/90 via-[#071624]/65 to-[#071624]/25" />
+
+      {/* Bottom cinematic gradient */}
+
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-[45%] bg-gradient-to-t from-[#071624]/75 via-[#071624]/20 to-transparent" />
+
+      {/* Warm highlight */}
+
+      <div className="pointer-events-none absolute right-[8%] top-[12%] -z-10 h-[420px] w-[420px] rounded-full bg-[#d4a15f]/10 blur-3xl" />
+
+      {/* =========================================================
+          MAIN CONTENT
+          ========================================================= */}
+
+      <div className="mx-auto flex min-h-[calc(100vh-70px)] max-w-[1380px] items-start px-5 py-8 sm:px-7 sm:py-9 lg:px-10 lg:py-10">
+        <div className="grid w-full items-start lg:grid-cols-[1.05fr_0.95fr]">
+          {/* =====================================================
+              LEFT CONTENT
+              ===================================================== */}
+
+          <motion.div
+            initial={{ opacity: 0, x: -35 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 0.8,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="relative z-10 max-w-[760px] pt-1"
+          >
+            {/* =================================================
+                LOGO + BADGE
+                ================================================= */}
+
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.65,
+                delay: 0.1,
+              }}
+              className="mb-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center"
             >
-              Start the conversation
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-            </Link>
-            <a
-              href="#life-journey"
-              className="inline-flex items-center justify-center rounded-full border border-[#263f57]/20 bg-white/55 px-6 py-3.5 text-sm font-bold text-[#263f57] transition-colors hover:bg-white"
+              <motion.div
+                animate={{
+                  y: [0, -4],
+                }}
+                transition={{
+                  duration: 3.5,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut",
+                }}
+                className="relative z-20 shrink-0 translate-y-7"
+              >
+                <div className="absolute inset-0 rounded-full bg-[#d89176]/20 blur-xl" />
+
+                <Image
+                  src="/images/whole-life-logo-transparent.png"
+                  alt="Whole Life — Guidance, Commitment, Perseverance"
+                  width={120}
+                  height={120}
+                  priority
+                  className="relative h-auto w-[92px] sm:w-[105px]"
+                />
+              </motion.div>
+
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2.5 text-xs font-semibold text-white shadow-lg backdrop-blur-xl">
+                <Sparkles
+                  size={14}
+                  className="text-[#e9aa68]"
+                />
+
+                A lifetime partnership, not a one-time service
+              </div>
+            </motion.div>
+
+            {/* =================================================
+                EXACT ORIGINAL HEADLINE
+                ================================================= */}
+
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.2,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="max-w-[760px] font-display text-[clamp(3rem,6vw,5.8rem)] font-bold leading-[0.94] tracking-[-0.055em] text-white"
             >
-              Explore the journey
-            </a>
-          </div>
+              One system for your
 
-          <ol className="mt-10 grid grid-cols-3 gap-x-3 gap-y-4 border-t border-[#263f57]/10 pt-6 sm:grid-cols-6">
-            {lifeStages.map(({ label, icon: Icon }, index) => (
-              <li key={label} className="relative flex flex-col gap-2">
-                <span className="flex items-center gap-2">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#527b75] shadow-sm ring-1 ring-[#263f57]/8">
-                    <Icon size={15} strokeWidth={1.8} />
-                  </span>
-                  {index < lifeStages.length - 1 && <span className="hidden h-px flex-1 bg-[#d4a15f]/45 sm:block" />}
-                </span>
-                <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#6d6a65]">{label}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
+              <span className="mt-2 block bg-gradient-to-r from-[#e9a06f] via-[#e9aa68] to-[#d89176] bg-clip-text text-transparent">
+                whole life.
+              </span>
+            </motion.h1>
 
-        <div className="relative hidden lg:block">
-          <LifeTree />
+            {/* =================================================
+                EXACT ORIGINAL PARAGRAPH
+                ================================================= */}
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.65,
+                delay: 0.35,
+              }}
+              className="mt-7 max-w-[690px] text-base leading-7 text-white/85 sm:text-lg sm:leading-8"
+            >
+              Continuous, thoughtful counseling through the decisions that
+              shape your future—from education and career to finances,
+              marriage, family, and long-term stability.
+            </motion.p>
+
+            {/* =================================================
+                CTA BUTTONS
+                ================================================= */}
+
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.65,
+                delay: 0.48,
+              }}
+              className="mt-8 flex flex-col gap-3 sm:flex-row"
+            >
+              <Link
+                href="/contact"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-[#0d4f91] px-7 py-4 text-sm font-bold text-white shadow-[0_14px_35px_rgba(0,0,0,0.28)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#1263b4] hover:shadow-[0_18px_40px_rgba(0,0,0,0.35)]"
+              >
+                Start the conversation
+
+                <ArrowRight
+                  size={17}
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
+              </Link>
+
+              <a
+                href="#life-journey"
+                className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/35 bg-white/10 px-7 py-4 text-sm font-bold text-white shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-white/20"
+              >
+                Explore the journey
+
+                <ArrowRight
+                  size={15}
+                  className="opacity-70 transition-transform duration-300 group-hover:translate-x-1"
+                />
+              </a>
+            </motion.div>
+
+            {/* =================================================
+                LIFE STAGE NAVIGATION
+                Same content, but no interaction required.
+                Active stage automatically moves with photos.
+                ================================================= */}
+
+            <motion.ol
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.7,
+                delay: 0.62,
+              }}
+              className="mt-10 grid grid-cols-3 gap-x-3 gap-y-5 border-t border-white/20 pt-6 sm:grid-cols-6"
+            >
+              {lifeStages.map(
+                ({ label, icon: Icon }, index) => {
+                  /*
+                    Map the six photos to the six existing
+                    life-stage labels.
+                  */
+                  const isActive =
+                    index === activeImage % lifeStages.length;
+
+                  return (
+                    <li
+                      key={label}
+                      className="relative flex flex-col gap-2"
+                    >
+                      <span className="flex items-center gap-2">
+                        <motion.span
+                          animate={{
+                            scale: isActive ? 1.1 : 1,
+                            y: isActive ? -2 : 0,
+                          }}
+                          transition={{
+                            duration: 0.35,
+                            ease: "easeOut",
+                          }}
+                          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-500 ${
+                            isActive
+                              ? "border-[#e9aa68] bg-[#e9aa68]/20 text-[#e9aa68]"
+                              : "border-white/25 bg-white/10 text-white/75"
+                          }`}
+                        >
+                          <Icon
+                            size={14}
+                            strokeWidth={1.8}
+                          />
+                        </motion.span>
+
+                        {index < lifeStages.length - 1 && (
+                          <span
+                            className={`hidden h-px flex-1 transition-all duration-700 sm:block ${
+                              isActive
+                                ? "bg-[#e9aa68]/80"
+                                : "bg-white/20"
+                            }`}
+                          />
+                        )}
+                      </span>
+
+                      <span
+                        className={`text-[10px] font-bold uppercase tracking-[0.07em] transition-all duration-500 ${
+                          isActive
+                            ? "text-white"
+                            : "text-white/55"
+                        }`}
+                      >
+                        {label}
+                      </span>
+                    </li>
+                  );
+                }
+              )}
+            </motion.ol>
+          </motion.div>
+
+          {/* =====================================================
+              RIGHT SIDE — EMPTY INTENTIONALLY
+
+              The photograph itself is the visual storytelling.
+              We don't put cards/trees/controls over it.
+              ===================================================== */}
+
+          <div className="hidden lg:block" />
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a15f]/45 to-transparent" />
+      {/* =========================================================
+          SUBTLE PHOTO TRANSITION GLOW
+          ========================================================= */}
+
+      <motion.div
+        key={`glow-${activeImage}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 0.12, 0] }}
+        transition={{
+          duration: 1.8,
+          ease: "easeInOut",
+        }}
+        className="pointer-events-none absolute inset-0 -z-5 bg-[#e9aa68]"
+      />
+
+      {/* =========================================================
+          MOBILE PHOTO OVERLAY
+          ========================================================= */}
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#071624]/60 to-transparent lg:hidden" />
+
+      {/* Bottom edge */}
+
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#e9aa68]/60 to-transparent" />
     </section>
   );
 }
