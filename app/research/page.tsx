@@ -70,7 +70,7 @@ export default function ResearchPage() {
                 </p>
 
                 <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-[#263f57]/55">
-                  <span>17-page publication</span>
+                  <span>9-page publication</span>
                   <span>WholeLife</span>
                   <span>Research Article</span>
                 </div>

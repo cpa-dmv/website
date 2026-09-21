@@ -226,7 +226,7 @@ export default function ResearchArticlesPage() {
 
           <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-white/15 pt-6 text-sm text-white/60">
             <span>Research Publication</span>
-            <span>17-page publication</span>
+            <span>9-page publication</span>
             <span>WholeLife</span>
           </div>
         </div>
