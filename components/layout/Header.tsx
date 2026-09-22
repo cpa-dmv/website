@@ -23,7 +23,7 @@ const serviceLinks = [
 
 const researchLinks = [
   { name: "Newsletter",        slug: "newsletter",         desc: "WholeLife Insights, delivered to your inbox" },
-  { name: "Research Articles", slug: "research/articles",  desc: "Papers and publications from our team" },
+  { name: "Research Articles", slug: "research",  desc: "Papers and publications from our team" },
 ];
 
 export default function Header() {

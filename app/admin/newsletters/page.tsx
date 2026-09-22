@@ -26,13 +26,13 @@ export default function NewsletterAdminPage() {
     if (!title.trim() || !sections.some((section) => section.paragraphs.trim())) { setStatus("Add a title and at least one paragraph."); return; }
     setStatus("Saving…");
     const item: Newsletter = { slug: slugify(title), series: "WholeLife Insights", issue: issue || `Issue ${String(newsletters.length + 1).padStart(2, "0")}`, title, excerpt, audience, readTime, featured: true, sections: sections.filter((section) => section.paragraphs.trim()).map((section, index) => ({ type: index === 0 && !section.heading ? "lead" : "section", heading: section.heading || undefined, paragraphs: section.paragraphs.split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean) })), researchNote: researchNote || undefined };
-    const response = await fetch("/api/newsletters.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(item) });
+    const response = await fetch("/admin/api/newsletters.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(item) });
     if (!response.ok) { setStatus("The newsletter could not be saved."); return; }
     setStatus("Newsletter published successfully."); reset(); await load();
   };
   const remove = async (slug: string) => {
     if (!window.confirm("Delete this newsletter permanently?")) return;
-    const response = await fetch(`/api/newsletters.php?slug=${encodeURIComponent(slug)}`, { method: "DELETE" });
+    const response = await fetch(`/admin/api/newsletters.php?slug=${encodeURIComponent(slug)}`, { method: "DELETE" });
     if (response.ok) { setStatus("Newsletter deleted."); await load(); } else setStatus("The newsletter could not be deleted.");
   };
   const input = "mt-1.5 w-full rounded-xl border border-[#263f57]/15 px-4 py-3 text-sm outline-none focus:border-[#c87568] focus:ring-2 focus:ring-[#c87568]/15";
