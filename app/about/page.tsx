@@ -36,6 +36,29 @@ const PRAVEEN = {
   ],
 };
 
+const SACHIT = {
+  name: "Sachit Garg",
+  photo: "/images/sachit.png",
+  role: "Director of Operations",
+  cert: "BD",
+  certFull: "Business Development",
+  certColor: "#0D9488",
+  certBg: "#F0FDFA",
+  affiliation: "CPA-DMV Team",
+  specialties: [
+    { icon: Handshake, text: "Client Acquisition & Partnerships" },
+    { icon: TrendingUp, text: "Business Growth Strategy" },
+    { icon: Users,     text: "Stakeholder & Relationship Management" },
+  ],
+  highlights: [
+    "Leads business development initiatives and strategic partnerships for CPA-DMV.",
+    "Drives client acquisition across accounting, audit, and advisory service lines.",
+    "Manages key stakeholder relationships and identifies new market opportunities.",
+    "Develops outreach strategies targeting small businesses, non-profits, and professional services.",
+    "Coordinates between clients and the CPA team to ensure seamless onboarding and service delivery.",
+  ],
+};
+
 const HIMANSHU = {
   name: "Himanshu Kalra",
   photo: "/images/himanshu.png",
@@ -57,29 +80,6 @@ const HIMANSHU = {
     "Prepared audit working papers and supported statutory audits, GST, and TDS compliance.",
     "Built automation tools using Excel & Outlook to improve workflows and reduce manual effort.",
     "Experienced with QuickBooks, ERP systems, and advanced Excel for efficient and reliable reporting.",
-  ],
-};
-
-const SACHIT = {
-  name: "Sachit Garg",
-  photo: "/images/sachit.png",
-  role: "Director of BD",
-  cert: "BD",
-  certFull: "Business Development",
-  certColor: "#0D9488",
-  certBg: "#F0FDFA",
-  affiliation: "CPA-DMV Team",
-  specialties: [
-    { icon: Handshake, text: "Client Acquisition & Partnerships" },
-    { icon: TrendingUp, text: "Business Growth Strategy" },
-    { icon: Users,     text: "Stakeholder & Relationship Management" },
-  ],
-  highlights: [
-    "Leads business development initiatives and strategic partnerships for CPA-DMV.",
-    "Drives client acquisition across accounting, audit, and advisory service lines.",
-    "Manages key stakeholder relationships and identifies new market opportunities.",
-    "Develops outreach strategies targeting small businesses, non-profits, and professional services.",
-    "Coordinates between clients and the CPA team to ensure seamless onboarding and service delivery.",
   ],
 };
 
@@ -495,14 +495,14 @@ export default function AboutPage() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
-            <FounderCard person={PRAVEEN} index={0} />
-            <FounderCard person={HIMANSHU} index={1} />
-            <FounderCard person={SACHIT} index={2} />
-            <FounderCard person={VARDAN} index={3} />
-            <FounderCard person={TUSHITA} index={4} />
-            <FounderCard person={SAHIL} index={5} />
-          </div>
+          <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
+  <FounderCard person={PRAVEEN} index={0} />
+  <FounderCard person={SACHIT} index={1} />
+  <FounderCard person={HIMANSHU} index={2} />
+  <FounderCard person={VARDAN} index={3} />
+  <FounderCard person={TUSHITA} index={4} />
+  <FounderCard person={SAHIL} index={5} />
+</div>
         </div>
 </section>
 
