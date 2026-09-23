@@ -111,9 +111,7 @@ export default function WholeLifeTeam() {
           transition={{ duration: 0.55 }}
           className="mx-auto max-w-3xl text-center"
         >
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#66897f]/15 bg-white/75 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.19em] text-[#557d75] shadow-sm">
-            <Sparkles size={14} /> Six perspectives · one team
-          </div>
+          
           <h2 className="font-display text-[clamp(2.15rem,3.6vw,3.5rem)] font-bold leading-[1.05] tracking-[-0.04em] text-[#263f57]">
             Your life is connected.
             <span className="block text-[#c87568]">So is the expertise behind you.</span>

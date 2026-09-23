@@ -1,32 +1,93 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import LogoMark from "@/components/icons/LogoMark";
 
 const serviceLinks = [
-  { name: "Divorce Financial Analysis", slug: "cdfa-services",         desc: "Certified Divorce Financial Analyst" },
-  { name: "Audits & Attestations",      slug: "specialized-audit",    desc: "Credit unions, non-profits, ALFs" },
-  { name: "Forensics Audits",           slug: "forensics-accounting", desc: "Investigation & expert testimony" },
-  { name: "Business Valuation",         slug: "business-valuation",   desc: "Know what your business is worth" },
-  { name: "QuickBooks Setup",           slug: "quickbooks",           desc: "ProAdvisor setup and training" },
-  { name: "Financial Accounting & Reporting", slug: "accounting",     desc: "Accurate books, clear reports" },
-  { name: "Payroll",                    slug: "payroll",              desc: "Accurate payroll every cycle" },
-  { name: "Business Registration",      slug: "business-registration",desc: "Start on the right foundation" },
-  { name: "AP / AR",                    slug: "ap-ar",                desc: "Cash flow management" },
-  { name: "HR Advisory",                slug: "hr-advisory",          desc: "HR guidance without the overhead" },
-  { name: "Taxation",                   slug: "taxation",             desc: "Individual and business returns" },
-  { name: "Bookkeeping",                slug: "bookkeeping",          desc: "Clean records every month" },
+  {
+    name: "Divorce Financial Analysis",
+    slug: "cdfa-services",
+    desc: "Certified Divorce Financial Analyst",
+  },
+  {
+    name: "Audits & Attestations",
+    slug: "specialized-audit",
+    desc: "Credit unions, non-profits, ALFs",
+  },
+  {
+    name: "Forensics Audits",
+    slug: "forensics-accounting",
+    desc: "Investigation & expert testimony",
+  },
+  {
+    name: "Business Valuation",
+    slug: "business-valuation",
+    desc: "Know what your business is worth",
+  },
+  {
+    name: "QuickBooks Setup",
+    slug: "quickbooks",
+    desc: "ProAdvisor setup and training",
+  },
+  {
+    name: "Financial Accounting & Reporting",
+    slug: "accounting",
+    desc: "Accurate books, clear reports",
+  },
+  {
+    name: "Payroll",
+    slug: "payroll",
+    desc: "Accurate payroll every cycle",
+  },
+  {
+    name: "Business Registration",
+    slug: "business-registration",
+    desc: "Start on the right foundation",
+  },
+  {
+    name: "AP / AR",
+    slug: "ap-ar",
+    desc: "Cash flow management",
+  },
+  {
+    name: "HR Advisory",
+    slug: "hr-advisory",
+    desc: "HR guidance without the overhead",
+  },
+  {
+    name: "Taxation",
+    slug: "taxation",
+    desc: "Individual and business returns",
+  },
+  {
+    name: "Bookkeeping",
+    slug: "bookkeeping",
+    desc: "Clean records every month",
+  },
 ];
 
 const researchLinks = [
-  { name: "Newsletter",        slug: "newsletter",         desc: "WholeLife Insights, delivered to your inbox" },
-  { name: "Research Articles", slug: "research",  desc: "Papers and publications from our team" },
+  {
+    name: "Newsletter",
+    slug: "newsletter",
+    desc: "WholeLife Insights, delivered to your inbox",
+  },
+  {
+    name: "Research Articles",
+    slug: "research",
+    desc: "Papers and publications from our team",
+  },
 ];
 
 export default function Header() {
+  const pathname = usePathname();
+
+  const isWholeLife = pathname.startsWith("/whole-life");
+
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
@@ -35,13 +96,15 @@ export default function Header() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
+
     window.addEventListener("scroll", onScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
-      {/* Main nav — frosted glass */}
+      {/* Main navigation */}
       <nav
         className={`transition-all duration-300 ${
           scrolled
@@ -50,21 +113,51 @@ export default function Header() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-[70px]">
+          {/* Logo / Brand */}
+          <Link
+            href="/"
+            className="flex items-center gap-3 flex-shrink-0"
+          >
+            {isWholeLife ? (
+              <>
+                {/* Whole Life emblem */}
+                <img
+  src="/images/whole-life/icon.png"
+  alt="Whole Life"
+  className="h-[48px] w-[48px] object-contain"
+/>
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0">
-            <LogoMark size={38} />
-            <div>
-              <span className="font-display text-[22px] font-bold text-[#082B5C] tracking-tight leading-none block">
-                CPA-DMV
-              </span>
-              <span className="text-[9px] text-[#9CA3AF] uppercase tracking-widest leading-none block mt-0.5">
-                Certified Public Accountant
-              </span>
-            </div>
+                {/* Whole Life name + tagline */}
+                <div className="leading-none">
+                  <span className="font-display text-[22px] font-bold tracking-tight block whitespace-nowrap">
+                    <span className="text-[#082B5C]">Whole</span>{" "}
+                    <span className="text-[#E77A78]">Life</span>
+                  </span>
+
+                  <span className="mt-1 block text-[7px] sm:text-[8px] font-semibold uppercase tracking-[0.13em] text-[#082B5C] whitespace-nowrap">
+                    Guidance · Commitment · Perseverance
+                  </span>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* CPA-DMV branding */}
+                <LogoMark size={38} />
+
+                <div>
+                  <span className="font-display text-[22px] font-bold text-[#082B5C] tracking-tight leading-none block">
+                    CPA-DMV
+                  </span>
+
+                  <span className="text-[9px] text-[#9CA3AF] uppercase tracking-widest leading-none block mt-0.5">
+                    Certified Public Accountant
+                  </span>
+                </div>
+              </>
+            )}
           </Link>
 
-          {/* Desktop nav — shifted right with ml-auto on left spacer */}
+          {/* Desktop navigation */}
           <div className="hidden lg:flex items-center gap-0.5 ml-auto mr-6">
             {/* Services dropdown */}
             <div
@@ -74,8 +167,15 @@ export default function Header() {
             >
               <button className="flex items-center gap-1 px-3.5 py-2 text-[15px] font-medium text-[#374151] hover:text-[#082B5C] transition-colors rounded-lg hover:bg-gray-50/80">
                 Services
-                <ChevronDown size={12} className={`transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`} />
+
+                <ChevronDown
+                  size={12}
+                  className={`transition-transform duration-200 ${
+                    servicesOpen ? "rotate-180" : ""
+                  }`}
+                />
               </button>
+
               <AnimatePresence>
                 {servicesOpen && (
                   <motion.div
@@ -86,9 +186,14 @@ export default function Header() {
                     className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 w-[600px] bg-white/98 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100 p-3.5 grid grid-cols-2 gap-1"
                   >
                     {serviceLinks.map((s) => (
-                      <Link key={s.slug} href={`/${s.slug}`}
-                        className="px-3 py-2 rounded-xl hover:bg-[#F7F8FA] transition-colors group">
-                        <span className="text-[14px] font-medium text-[#1F2937] group-hover:text-[#082B5C]">{s.name}</span>
+                      <Link
+                        key={s.slug}
+                        href={`/${s.slug}`}
+                        className="px-3 py-2 rounded-xl hover:bg-[#F7F8FA] transition-colors group"
+                      >
+                        <span className="text-[14px] font-medium text-[#1F2937] group-hover:text-[#082B5C]">
+                          {s.name}
+                        </span>
                       </Link>
                     ))}
                   </motion.div>
@@ -112,8 +217,15 @@ export default function Header() {
             >
               <button className="flex items-center gap-1 px-3.5 py-2 text-[15px] font-medium text-[#374151] hover:text-[#082B5C] transition-colors rounded-lg hover:bg-gray-50/80">
                 Research
-                <ChevronDown size={12} className={`transition-transform duration-200 ${researchOpen ? "rotate-180" : ""}`} />
+
+                <ChevronDown
+                  size={12}
+                  className={`transition-transform duration-200 ${
+                    researchOpen ? "rotate-180" : ""
+                  }`}
+                />
               </button>
+
               <AnimatePresence>
                 {researchOpen && (
                   <motion.div
@@ -124,9 +236,14 @@ export default function Header() {
                     className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 w-[240px] bg-white/98 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100 p-3.5"
                   >
                     {researchLinks.map((r) => (
-                      <Link key={r.slug} href={`/${r.slug}`}
-                        className="px-3 py-2 rounded-xl hover:bg-[#F7F8FA] transition-colors group block">
-                        <span className="text-[14px] font-medium text-[#1F2937] group-hover:text-[#082B5C]">{r.name}</span>
+                      <Link
+                        key={r.slug}
+                        href={`/${r.slug}`}
+                        className="px-3 py-2 rounded-xl hover:bg-[#F7F8FA] transition-colors group block"
+                      >
+                        <span className="text-[14px] font-medium text-[#1F2937] group-hover:text-[#082B5C]">
+                          {r.name}
+                        </span>
                       </Link>
                     ))}
                   </motion.div>
@@ -134,6 +251,7 @@ export default function Header() {
               </AnimatePresence>
             </div>
 
+            {/* Other navigation */}
             {[
               { label: "Teachings", href: "/teachings" },
               { label: "Our Responsibility", href: "/csr" },
@@ -178,21 +296,41 @@ export default function Header() {
               className="lg:hidden overflow-hidden border-t border-gray-100/60"
             >
               <div className="px-4 py-4 space-y-1 bg-white/95 backdrop-blur-md">
+                {/* Mobile Services */}
                 <div>
                   <button
                     className="w-full flex items-center justify-between px-3 py-2.5 text-[#374151] font-medium text-sm rounded-lg hover:bg-[#F7F8FA] transition-colors"
-                    onClick={() => setMobileSub(mobileSub === "services" ? null : "services")}
+                    onClick={() =>
+                      setMobileSub(
+                        mobileSub === "services" ? null : "services"
+                      )
+                    }
                   >
                     Services
-                    <ChevronDown size={13} className={`transition-transform ${mobileSub === "services" ? "rotate-180" : ""}`} />
+
+                    <ChevronDown
+                      size={13}
+                      className={`transition-transform ${
+                        mobileSub === "services" ? "rotate-180" : ""
+                      }`}
+                    />
                   </button>
+
                   <AnimatePresence>
                     {mobileSub === "services" && (
-                      <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden pl-4">
+                      <motion.div
+                        initial={{ height: 0 }}
+                        animate={{ height: "auto" }}
+                        exit={{ height: 0 }}
+                        className="overflow-hidden pl-4"
+                      >
                         {serviceLinks.map((s) => (
-                          <Link key={s.slug} href={`/${s.slug}`}
+                          <Link
+                            key={s.slug}
+                            href={`/${s.slug}`}
                             className="block px-3 py-2 text-sm text-[#6B7280] hover:text-[#082B5C] transition-colors"
-                            onClick={() => setMobileOpen(false)}>
+                            onClick={() => setMobileOpen(false)}
+                          >
                             {s.name}
                           </Link>
                         ))}
@@ -201,27 +339,50 @@ export default function Header() {
                   </AnimatePresence>
                 </div>
 
-                <Link href="/whole-life"
+                {/* Mobile Whole Life */}
+                <Link
+                  href="/whole-life"
                   className="block px-3 py-2.5 text-[#374151] font-medium text-sm rounded-lg hover:bg-[#F7F8FA]"
-                  onClick={() => setMobileOpen(false)}>
+                  onClick={() => setMobileOpen(false)}
+                >
                   Whole Life
                 </Link>
 
+                {/* Mobile Research */}
                 <div>
                   <button
                     className="w-full flex items-center justify-between px-3 py-2.5 text-[#374151] font-medium text-sm rounded-lg hover:bg-[#F7F8FA] transition-colors"
-                    onClick={() => setMobileSub(mobileSub === "research" ? null : "research")}
+                    onClick={() =>
+                      setMobileSub(
+                        mobileSub === "research" ? null : "research"
+                      )
+                    }
                   >
                     Research
-                    <ChevronDown size={13} className={`transition-transform ${mobileSub === "research" ? "rotate-180" : ""}`} />
+
+                    <ChevronDown
+                      size={13}
+                      className={`transition-transform ${
+                        mobileSub === "research" ? "rotate-180" : ""
+                      }`}
+                    />
                   </button>
+
                   <AnimatePresence>
                     {mobileSub === "research" && (
-                      <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden pl-4">
+                      <motion.div
+                        initial={{ height: 0 }}
+                        animate={{ height: "auto" }}
+                        exit={{ height: 0 }}
+                        className="overflow-hidden pl-4"
+                      >
                         {researchLinks.map((r) => (
-                          <Link key={r.slug} href={`/${r.slug}`}
+                          <Link
+                            key={r.slug}
+                            href={`/${r.slug}`}
                             className="block px-3 py-2 text-sm text-[#6B7280] hover:text-[#082B5C] transition-colors"
-                            onClick={() => setMobileOpen(false)}>
+                            onClick={() => setMobileOpen(false)}
+                          >
                             {r.name}
                           </Link>
                         ))}
@@ -230,23 +391,30 @@ export default function Header() {
                   </AnimatePresence>
                 </div>
 
+                {/* Mobile other links */}
                 {[
                   { label: "Teachings", href: "/teachings" },
                   { label: "CSR", href: "/csr" },
                   { label: "About", href: "/about" },
                   { label: "Contact", href: "/contact" },
                 ].map((l) => (
-                  <Link key={l.href} href={l.href}
+                  <Link
+                    key={l.href}
+                    href={l.href}
                     className="block px-3 py-2.5 text-[#374151] font-medium text-sm rounded-lg hover:bg-[#F7F8FA]"
-                    onClick={() => setMobileOpen(false)}>
+                    onClick={() => setMobileOpen(false)}
+                  >
                     {l.label}
                   </Link>
                 ))}
 
+                {/* Mobile CTA */}
                 <div className="pt-2">
-                  <Link href="/contact"
+                  <Link
+                    href="/contact"
                     className="block w-full text-center bg-[#082B5C] hover:bg-[#0d3d7a] text-white font-semibold text-sm px-5 py-2.5 rounded-full"
-                    onClick={() => setMobileOpen(false)}>
+                    onClick={() => setMobileOpen(false)}
+                  >
                     Free Consultation
                   </Link>
                 </div>

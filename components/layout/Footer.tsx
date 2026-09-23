@@ -32,35 +32,6 @@ const badges = [
   "VA CPA Society",
 ];
 
-function ColHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h4 className="text-[13px] font-bold uppercase tracking-widest text-white mb-4">
-      {children}
-    </h4>
-  );
-}
-
-function ColLinks({
-  links,
-}: {
-  links: { name: string; href: string }[];
-}) {
-  return (
-    <ul className="space-y-2">
-      {links.map((l) => (
-        <li key={l.name}>
-          <Link
-            href={l.href}
-            className="text-white/50 hover:text-white text-[15px] transition-colors"
-          >
-            {l.name}
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 export default function Footer() {
   const pathname = usePathname();
 
@@ -76,46 +47,106 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#041830] text-white">
-      {/* ── Main columns ── */}
+      {/* Main columns */}
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-10">
           {/* Col 1 — Brand */}
           <div>
-            <Link href="/" className="inline-flex items-center gap-3 mb-5">
-              <LogoMark size={36} />
+            <Link
+              href="/"
+              className="inline-flex items-center gap-3 mb-5"
+            >
+              {isWholeLife ? (
+                <>
+                  {/* Whole Life emblem */}
+                  <img
+  src="/images/whole-life/icon.png"
+  alt="Whole Life"
+  className="h-14 w-14 object-contain"
+/>
 
-              <div>
-                <span className="font-display text-[19px] font-bold text-white tracking-tight leading-none block">
-                  CPA-DMV
-                </span>
+                  {/* Whole Life name + tagline */}
+                  <div className="leading-none">
+                    <span className="font-display text-[22px] font-bold tracking-tight block whitespace-nowrap">
+                      <span className="text-white">Whole</span>{" "}
+                      <span className="text-[#E77A78]">Life</span>
+                    </span>
 
-                <span className="text-[9px] text-white/40 uppercase tracking-widest block mt-0.5">
-                  Certified Public Accountant
-                </span>
-              </div>
+                    <span className="mt-1 block text-[7px] sm:text-[8px] font-semibold uppercase tracking-[0.12em] text-white/65 whitespace-nowrap">
+                      Guidance · Commitment · Perseverance
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* CPA-DMV branding */}
+                  <LogoMark size={36} />
+
+                  <div>
+                    <span className="font-display text-[19px] font-bold text-white tracking-tight leading-none block">
+                      CPA-DMV
+                    </span>
+
+                    <span className="text-[9px] text-white/40 uppercase tracking-widest block mt-0.5">
+                      Certified Public Accountant
+                    </span>
+                  </div>
+                </>
+              )}
             </Link>
 
             <p className="text-white/45 text-[14px] leading-relaxed max-w-[240px]">
-              Professional accounting, tax, audit, advisory, and financial
-              analysis support for businesses and individuals.
+              {isWholeLife
+                ? "Thoughtful guidance for every stage of life — from education and career to finances, marriage, family, and long-term stability."
+                : "Professional accounting, tax, audit, advisory, and financial analysis support for businesses and individuals."}
             </p>
           </div>
 
           {/* Col 2 — Business Support */}
           <div>
-            <ColHeading>Business Support</ColHeading>
-            <ColLinks links={bizSupport} />
+            <h4 className="text-[13px] font-bold uppercase tracking-widest text-white mb-4">
+              Business Support
+            </h4>
+
+            <ul className="space-y-2">
+              {bizSupport.map((l) => (
+                <li key={l.name}>
+                  <Link
+                    href={l.href}
+                    className="text-white/50 hover:text-white text-[15px] transition-colors"
+                  >
+                    {l.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Col 3 — The Company */}
           <div>
-            <ColHeading>The Company</ColHeading>
-            <ColLinks links={company} />
+            <h4 className="text-[13px] font-bold uppercase tracking-widest text-white mb-4">
+              The Company
+            </h4>
+
+            <ul className="space-y-2">
+              {company.map((l) => (
+                <li key={l.name}>
+                  <Link
+                    href={l.href}
+                    className="text-white/50 hover:text-white text-[15px] transition-colors"
+                  >
+                    {l.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Col 4 — Support */}
           <div>
-            <ColHeading>Support</ColHeading>
+            <h4 className="text-[13px] font-bold uppercase tracking-widest text-white mb-4">
+              Support
+            </h4>
 
             <ul className="space-y-4">
               <li className="flex items-start gap-2.5">
@@ -160,7 +191,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ── Bottom bar ── */}
+      {/* Bottom bar */}
       <div className="border-t border-white/[0.16]">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-5">
@@ -186,7 +217,7 @@ export default function Footer() {
                   </svg>
                 </a>
 
-                {/* WholeLife DMV social links */}
+                {/* WholeLife social links */}
                 {isWholeLife && (
                   <>
                     {/* Instagram */}
@@ -208,7 +239,13 @@ export default function Footer() {
                         strokeLinejoin="round"
                         aria-hidden="true"
                       >
-                        <rect x="3" y="3" width="18" height="18" rx="5" />
+                        <rect
+                          x="3"
+                          y="3"
+                          width="18"
+                          height="18"
+                          rx="5"
+                        />
                         <circle cx="12" cy="12" r="4" />
                         <circle
                           cx="17.5"
@@ -220,7 +257,7 @@ export default function Footer() {
                       </svg>
                     </a>
 
-                    {/* X / Twitter */}
+                    {/* X */}
                     <a
                       href="https://x.com/WholeLifeDMV"
                       target="_blank"
@@ -280,8 +317,10 @@ export default function Footer() {
                 )}
               </div>
 
+              {/* Copyright */}
               <p className="text-[13px] text-white/30">
-                © {new Date().getFullYear()} CPA-DMV. All rights reserved.
+                © {new Date().getFullYear()}{" "}
+                {isWholeLife ? "Whole Life" : "CPA-DMV"}. All rights reserved.
               </p>
             </div>
 
