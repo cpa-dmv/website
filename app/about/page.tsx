@@ -41,7 +41,7 @@ const SACHIT = {
   photo: "/images/sachit.png",
   role: "Director of Operations",
   cert: "BD",
-  certFull: "Business Development",
+  certFull: "Operations Management",
   certColor: "#0D9488",
   certBg: "#F0FDFA",
   affiliation: "CPA-DMV Team",

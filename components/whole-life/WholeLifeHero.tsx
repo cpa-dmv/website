@@ -213,17 +213,7 @@ export default function WholeLifeHero() {
                   className="transition-transform duration-300 group-hover:translate-x-1"
                 />
               </a>
-
-              <a
-                href="#whole-life-journey"
-                className="group inline-flex items-center gap-3 rounded-full border border-white/40 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15"
-              >
-                <span>Explore the journey</span>
-                <ArrowRight
-                  size={17}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </a>
+              
             </motion.div>
           </div>
         </div>
