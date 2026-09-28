@@ -50,6 +50,7 @@ export default function Footer() {
       {/* Main columns */}
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-10">
+
           {/* Col 1 — Brand */}
           <div>
             <Link
@@ -60,10 +61,10 @@ export default function Footer() {
                 <>
                   {/* Whole Life emblem */}
                   <img
-  src="/images/whole-life/icon.png"
-  alt="Whole Life"
-  className="h-14 w-14 object-contain"
-/>
+                    src="/images/whole-life/icon.png"
+                    alt="Whole Life"
+                    className="h-14 w-14 object-contain"
+                  />
 
                   {/* Whole Life name + tagline */}
                   <div className="leading-none">
@@ -195,9 +196,11 @@ export default function Footer() {
       <div className="border-t border-white/[0.16]">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-5">
+
             {/* Left — socials + copyright */}
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <div className="flex items-center gap-1.5">
+
                 {/* LinkedIn */}
                 <a
                   href={linkedInUrl}
@@ -311,6 +314,31 @@ export default function Footer() {
                         aria-hidden="true"
                       >
                         <path d="M23.498 6.186a2.997 2.997 0 0 0-2.109-2.12C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.389.566a2.997 2.997 0 0 0-2.109 2.12C0 8.073 0 12 0 12s0 3.927.502 5.814a2.997 2.997 0 0 0 2.109 2.12c1.884.566 9.389.566 9.389.566s7.505 0 9.389-.566a2.997 2.997 0 0 0 2.109-2.12C24 15.927 24 12 24 12s0-3.927-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                      </svg>
+                    </a>
+
+                    {/* Substack */}
+                    <a
+                      href="https://substack.com/@wholelifedmv"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="WholeLife DMV on Substack"
+                      className="w-8 h-8 rounded-lg bg-white/6 hover:bg-[#FF6719] text-white/45 hover:text-white flex items-center justify-center transition-all"
+                    >
+                      <svg
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M5 5.25h14M5 9h14M6.5 12.5h11v6.25L12 16l-5.5 2.75V12.5Z"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </a>
                   </>
