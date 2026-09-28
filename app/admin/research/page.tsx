@@ -2,40 +2,36 @@
 
 import { useEffect, useState } from "react";
 import {
-  ExternalLink,
   FileText,
   Plus,
   Save,
   Trash2,
-  Upload,
 } from "lucide-react";
+import {
+  fetchResearch,
+  type ResearchPublication,
+} from "@/lib/research";
 
-type ResearchArticle = {
-  slug: string;
-  title: string;
-  shortTitle: string;
-  description: string;
-  series: string;
-  category: string;
-  pages: string;
-  author: string;
-  publishedDate: string;
-  featured: boolean;
-  pdf: string;
+type DraftSection = {
+  heading: string;
+  paragraphs: string;
 };
 
-const emptyArticle = (): ResearchArticle => ({
-  slug: "",
+type DraftReference = {
+  title: string;
+  source: string;
+  year: string;
+};
+
+const blankSection = (): DraftSection => ({
+  heading: "",
+  paragraphs: "",
+});
+
+const blankReference = (): DraftReference => ({
   title: "",
-  shortTitle: "",
-  description: "",
-  series: "",
-  category: "Research Article",
-  pages: "",
-  author: "",
-  publishedDate: "",
-  featured: true,
-  pdf: "",
+  source: "",
+  year: "",
 });
 
 const slugify = (value: string) =>
@@ -46,182 +42,165 @@ const slugify = (value: string) =>
     .replace(/(^-|-$)/g, "");
 
 export default function ResearchAdminPage() {
-  const [article, setArticle] = useState<ResearchArticle>(emptyArticle());
-  const [articles, setArticles] = useState<ResearchArticle[]>([]);
-  const [selectedPdf, setSelectedPdf] = useState<File | null>(null);
-  const [editing, setEditing] = useState(false);
+  const [title, setTitle] = useState("");
+  const [shortTitle, setShortTitle] = useState("");
+  const [series, setSeries] = useState("");
+  const [category, setCategory] = useState("Research Article");
+  const [author, setAuthor] = useState("");
+  const [publishedDate, setPublishedDate] = useState("");
+  const [description, setDescription] = useState("");
+  const [researchNote, setResearchNote] = useState("");
+  const [featured, setFeatured] = useState(true);
+
+  const [sections, setSections] = useState<DraftSection[]>([
+    blankSection(),
+  ]);
+
+  const [references, setReferences] = useState<DraftReference[]>([]);
+
+  const [research, setResearch] = useState<ResearchPublication[]>([]);
   const [status, setStatus] = useState("");
 
-  const load = async () => {
-    try {
-      const response = await fetch("/admin/api/research.php", {
-        cache: "no-store",
-      });
-
-      if (!response.ok) {
-        throw new Error();
-      }
-
-      const data = await response.json();
-
-      if (Array.isArray(data)) {
-        setArticles(data);
-      } else {
-        setArticles([]);
-      }
-    } catch {
-      /*
-       * Local Next.js development does not execute PHP.
-       * Fall back to the static research JSON.
-       */
-      try {
-        const response = await fetch("/data/research.json", {
-          cache: "no-store",
-        });
-
-        if (!response.ok) {
-          throw new Error();
-        }
-
-        const data = await response.json();
-
-        if (Array.isArray(data)) {
-          setArticles(data);
-        } else {
-          setArticles([]);
-        }
-      } catch {
-        setStatus("Could not load research publications.");
-      }
-    }
+  const load = () => {
+    fetchResearch()
+      .then(setResearch)
+      .catch(() =>
+        setStatus("Could not connect to the research service.")
+      );
   };
 
   useEffect(() => {
     load();
   }, []);
 
-  const update = (
-    field: keyof ResearchArticle,
-    value: string | boolean
+  const updateSection = (
+    index: number,
+    field: keyof DraftSection,
+    value: string
   ) => {
-    setArticle((current) => ({
-      ...current,
-      [field]: value,
-    }));
+    setSections((current) =>
+      current.map((section, position) =>
+        position === index
+          ? { ...section, [field]: value }
+          : section
+      )
+    );
+  };
+
+  const updateReference = (
+    index: number,
+    field: keyof DraftReference,
+    value: string
+  ) => {
+    setReferences((current) =>
+      current.map((reference, position) =>
+        position === index
+          ? { ...reference, [field]: value }
+          : reference
+      )
+    );
   };
 
   const reset = () => {
-    setArticle(emptyArticle());
-    setSelectedPdf(null);
-    setEditing(false);
-    setStatus("");
-  };
-
-  const editArticle = (item: ResearchArticle) => {
-    setArticle({
-      ...item,
-    });
-
-    setSelectedPdf(null);
-    setEditing(true);
-    setStatus("");
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    setTitle("");
+    setShortTitle("");
+    setSeries("");
+    setCategory("Research Article");
+    setAuthor("");
+    setPublishedDate("");
+    setDescription("");
+    setResearchNote("");
+    setFeatured(true);
+    setSections([blankSection()]);
+    setReferences([]);
   };
 
   const save = async () => {
-    if (!article.title.trim()) {
+    if (!title.trim()) {
       setStatus("Add a research title.");
       return;
     }
 
-    if (!article.description.trim()) {
+    if (!description.trim()) {
       setStatus("Add a research description.");
       return;
     }
 
-    if (!editing && !selectedPdf) {
-      setStatus("Please upload a PDF for the research paper.");
+    if (!sections.some((section) => section.paragraphs.trim())) {
+      setStatus("Add at least one research section.");
       return;
     }
 
     setStatus("Saving…");
 
+    const slug = slugify(title);
+
+    const item = {
+      slug,
+      title: title.trim(),
+      shortTitle: shortTitle.trim() || title.trim(),
+      description: description.trim(),
+      series: series.trim() || "Research",
+      category: category.trim() || "Research Article",
+      author: author.trim(),
+      publishedDate: publishedDate.trim(),
+      featured,
+
+      sections: sections
+        .filter((section) => section.paragraphs.trim())
+        .map((section, index) => ({
+          type:
+            index === 0 && !section.heading
+              ? "lead"
+              : "section",
+          heading: section.heading.trim() || undefined,
+          paragraphs: section.paragraphs
+            .split(/\n\s*\n/)
+            .map((paragraph) => paragraph.trim())
+            .filter(Boolean),
+        })),
+
+      researchNote:
+        researchNote.trim() || undefined,
+
+      references: references
+        .filter(
+          (reference) =>
+            reference.title.trim() ||
+            reference.source.trim() ||
+            reference.year.trim()
+        )
+        .map((reference) => ({
+          title: reference.title.trim(),
+          source: reference.source.trim(),
+          year: reference.year.trim(),
+        })),
+    };
+
     try {
-      const slug = article.slug || slugify(article.title);
-
-      const metadata: ResearchArticle = {
-        ...article,
-        slug,
-      };
-
-      /*
-       * Save metadata.
-       */
-      const response = await fetch("/admin/api/research.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(metadata),
-      });
+      const response = await fetch(
+        "/admin/api/research.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(item),
+        }
+      );
 
       const data = await response.json().catch(() => null);
 
       if (!response.ok) {
         throw new Error(
-          data?.error || "The research publication could not be saved."
+          data?.error ||
+            "The research publication could not be saved."
         );
       }
 
-      /*
-       * Upload PDF when a new file was selected.
-       */
-      if (selectedPdf) {
-        setStatus("Uploading research PDF…");
+      setStatus("Research publication published successfully.");
 
-        const formData = new FormData();
-
-        formData.append("pdf", selectedPdf);
-        formData.append("slug", slug);
-
-        const uploadResponse = await fetch(
-          "/admin/api/research.php",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const uploadData = await uploadResponse.json().catch(() => null);
-
-        if (!uploadResponse.ok) {
-          throw new Error(
-            uploadData?.error || "The research PDF could not be uploaded."
-          );
-        }
-      }
-
-      setStatus(
-        editing
-          ? "Research publication updated successfully."
-          : "Research publication published successfully."
-      );
-
-      setArticle({
-        ...metadata,
-        pdf:
-          selectedPdf && data?.article?.pdf
-            ? data.article.pdf
-            : article.pdf,
-      });
-
-      setSelectedPdf(null);
-      setEditing(false);
-
+      reset();
       await load();
     } catch (error) {
       setStatus(
@@ -255,12 +234,9 @@ export default function ResearchAdminPage() {
 
       if (!response.ok) {
         throw new Error(
-          data?.error || "The research publication could not be deleted."
+          data?.error ||
+            "The research publication could not be deleted."
         );
-      }
-
-      if (article.slug === slug) {
-        reset();
       }
 
       setStatus("Research publication deleted.");
@@ -281,6 +257,7 @@ export default function ResearchAdminPage() {
     <main className="min-h-screen bg-[#f7f5f1] pb-20 pt-[100px]">
       <div className="mx-auto max-w-[1100px] px-4 sm:px-6">
 
+        {/* Header */}
         <div className="mb-8">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#c87568]">
             Admin
@@ -297,43 +274,31 @@ export default function ResearchAdminPage() {
 
         <div className="grid gap-7 lg:grid-cols-[1.15fr_0.85fr]">
 
-          {/* Editor */}
+          {/* CREATE */}
           <section className="rounded-[24px] bg-white p-6 shadow-sm sm:p-8">
 
-            <div className="mb-6 flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <FileText
-                  size={20}
-                  className="text-[#c87568]"
-                />
+            <div className="mb-6 flex items-center gap-3">
+              <FileText
+                size={20}
+                className="text-[#c87568]"
+              />
 
-                <h2 className="text-xl font-bold text-[#263f57]">
-                  {editing
-                    ? "Edit research publication"
-                    : "Create research publication"}
-                </h2>
-              </div>
-
-              {editing && (
-                <button
-                  onClick={reset}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#263f57]/15 px-4 py-2 text-xs font-bold text-[#263f57]"
-                >
-                  <Plus size={14} />
-                  New research
-                </button>
-              )}
+              <h2 className="text-xl font-bold text-[#263f57]">
+                Create research publication
+              </h2>
             </div>
 
+            {/* Metadata */}
             <div className="grid gap-5 sm:grid-cols-2">
 
               <label className="text-sm font-semibold text-[#263f57] sm:col-span-2">
                 Title
+
                 <input
                   className={input}
-                  value={article.title}
+                  value={title}
                   onChange={(e) =>
-                    update("title", e.target.value)
+                    setTitle(e.target.value)
                   }
                   placeholder="Research paper title"
                 />
@@ -341,79 +306,77 @@ export default function ResearchAdminPage() {
 
               <label className="text-sm font-semibold text-[#263f57]">
                 Short title
+
                 <input
                   className={input}
-                  value={article.shortTitle}
+                  value={shortTitle}
                   onChange={(e) =>
-                    update("shortTitle", e.target.value)
+                    setShortTitle(e.target.value)
                   }
+                  placeholder="Short title"
                 />
               </label>
 
               <label className="text-sm font-semibold text-[#263f57]">
                 Series
+
                 <input
                   className={input}
-                  value={article.series}
+                  value={series}
                   onChange={(e) =>
-                    update("series", e.target.value)
+                    setSeries(e.target.value)
                   }
+                  placeholder="WholeLife"
                 />
               </label>
 
               <label className="text-sm font-semibold text-[#263f57]">
                 Category
-                <input
-                  className={input}
-                  value={article.category}
-                  onChange={(e) =>
-                    update("category", e.target.value)
-                  }
-                />
-              </label>
 
-              <label className="text-sm font-semibold text-[#263f57]">
-                Pages
                 <input
                   className={input}
-                  value={article.pages}
+                  value={category}
                   onChange={(e) =>
-                    update("pages", e.target.value)
+                    setCategory(e.target.value)
                   }
-                  placeholder="9-page publication"
                 />
               </label>
 
               <label className="text-sm font-semibold text-[#263f57]">
                 Author
+
                 <input
                   className={input}
-                  value={article.author}
+                  value={author}
                   onChange={(e) =>
-                    update("author", e.target.value)
+                    setAuthor(e.target.value)
                   }
+                  placeholder="WholeLife Research"
                 />
               </label>
 
-              <label className="text-sm font-semibold text-[#263f57]">
+              <label className="text-sm font-semibold text-[#263f57] sm:col-span-2">
                 Published date
+
                 <input
                   className={input}
-                  value={article.publishedDate}
+                  value={publishedDate}
                   onChange={(e) =>
-                    update("publishedDate", e.target.value)
+                    setPublishedDate(e.target.value)
                   }
+                  placeholder="2026"
                 />
               </label>
 
               <label className="text-sm font-semibold text-[#263f57] sm:col-span-2">
                 Description
+
                 <textarea
                   rows={4}
                   className={input}
-                  value={article.description}
+                  value={description}
                   onChange={(e) =>
-                    update("description", e.target.value)
+                    setDescription(e.target.value)
                   }
                   placeholder="Short description of the research publication."
                 />
@@ -421,140 +384,259 @@ export default function ResearchAdminPage() {
 
             </div>
 
-            {/* PDF */}
-            <div className="mt-7 border-t border-[#263f57]/10 pt-7">
+            <div className="my-7 border-t border-[#263f57]/10" />
 
-              <div className="rounded-2xl border border-[#263f57]/10 bg-[#faf9f7] p-5">
+            {/* Sections */}
+            <div className="space-y-5">
 
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#c87568]/10 text-[#c87568]">
-                    <FileText size={18} />
+              {sections.map((section, index) => (
+                <div
+                  key={index}
+                  className="rounded-2xl border border-[#263f57]/10 bg-[#faf9f7] p-5"
+                >
+
+                  <div className="mb-3 flex items-center justify-between">
+                    <h2 className="font-bold text-[#263f57]">
+                      Section {index + 1}
+                    </h2>
+
+                    {sections.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setSections((current) =>
+                            current.filter(
+                              (_, position) =>
+                                position !== index
+                            )
+                          )
+                        }
+                        className="text-[#b85f58]"
+                        aria-label={`Remove section ${index + 1}`}
+                      >
+                        <Trash2 size={17} />
+                      </button>
+                    )}
                   </div>
 
-                  <div>
-                    <h3 className="text-sm font-bold text-[#263f57]">
-                      Research PDF
-                    </h3>
+                  <label className="text-sm font-semibold text-[#263f57]">
+                    Section heading{" "}
+                    <span className="font-normal text-[#7a8388]">
+                      (optional)
+                    </span>
 
-                    <p className="text-xs text-[#6d777c]">
-                      Upload the PDF for this publication.
-                    </p>
-                  </div>
+                    <input
+                      className={input}
+                      value={section.heading}
+                      onChange={(e) =>
+                        updateSection(
+                          index,
+                          "heading",
+                          e.target.value
+                        )
+                      }
+                      placeholder="The New Definition of Success"
+                    />
+                  </label>
+
+                  <label className="mt-4 block text-sm font-semibold text-[#263f57]">
+                    Paragraphs
+
+                    <textarea
+                      rows={7}
+                      className={input}
+                      value={section.paragraphs}
+                      onChange={(e) =>
+                        updateSection(
+                          index,
+                          "paragraphs",
+                          e.target.value
+                        )
+                      }
+                      placeholder="Write the research content here. Separate multiple paragraphs with a blank line."
+                    />
+                  </label>
+
                 </div>
+              ))}
 
-                {article.pdf && (
-                  <a
-                    href={article.pdf}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#263f57] hover:text-[#c87568]"
-                  >
-                    <FileText size={16} />
-                    {article.pdf.split("/").pop()}
-                    <ExternalLink size={14} />
-                  </a>
-                )}
-
-                <label className="mt-4 inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#263f57] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#1d3145]">
-                  <Upload size={16} />
-                  {selectedPdf ? "Change PDF" : "Choose PDF"}
-
-                  <input
-                    type="file"
-                    accept="application/pdf,.pdf"
-                    className="hidden"
-                    onChange={(e) => {
-                      const file =
-                        e.target.files?.[0] || null;
-
-                      if (!file) {
-                        setSelectedPdf(null);
-                        return;
-                      }
-
-                      if (
-                        file.type !== "application/pdf" &&
-                        !file.name
-                          .toLowerCase()
-                          .endsWith(".pdf")
-                      ) {
-                        setStatus(
-                          "Please select a PDF file."
-                        );
-                        e.target.value = "";
-                        setSelectedPdf(null);
-                        return;
-                      }
-
-                      if (
-                        file.size >
-                        25 * 1024 * 1024
-                      ) {
-                        setStatus(
-                          "PDF is too large. Maximum size is 25 MB."
-                        );
-                        e.target.value = "";
-                        setSelectedPdf(null);
-                        return;
-                      }
-
-                      setSelectedPdf(file);
-                      setStatus("");
-                    }}
-                  />
-                </label>
-
-                {selectedPdf && (
-                  <div className="mt-3 rounded-xl bg-white px-4 py-3">
-                    <p className="text-xs font-bold uppercase tracking-widest text-[#6d777c]">
-                      Selected PDF
-                    </p>
-
-                    <p className="mt-1 text-sm font-semibold text-[#263f57]">
-                      {selectedPdf.name}
-                    </p>
-
-                    <p className="mt-1 text-xs text-[#6d777c]">
-                      {(
-                        selectedPdf.size /
-                        (1024 * 1024)
-                      ).toFixed(2)}{" "}
-                      MB
-                    </p>
-                  </div>
-                )}
-
-                <p className="mt-3 text-xs text-[#6d777c]">
-                  PDF only • Maximum 25 MB
-                </p>
-
-              </div>
             </div>
 
-            <label className="mt-6 flex items-center gap-3 text-sm font-semibold text-[#263f57]">
+            <button
+              type="button"
+              onClick={() =>
+                setSections((current) => [
+                  ...current,
+                  blankSection(),
+                ])
+              }
+              className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#263f57]/15 px-5 py-2.5 text-sm font-bold text-[#263f57]"
+            >
+              <Plus size={16} />
+              Add another section
+            </button>
+
+            {/* Research note */}
+            <label className="mt-6 block text-sm font-semibold text-[#263f57]">
+              Research note{" "}
+              <span className="font-normal text-[#7a8388]">
+                (optional)
+              </span>
+
+              <textarea
+                rows={4}
+                className={input}
+                value={researchNote}
+                onChange={(e) =>
+                  setResearchNote(e.target.value)
+                }
+                placeholder="Optional closing research note or perspective."
+              />
+            </label>
+
+            {/* References */}
+            <div className="mt-7 border-t border-[#263f57]/10 pt-7">
+
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <h2 className="font-bold text-[#263f57]">
+                    References
+                  </h2>
+
+                  <p className="mt-1 text-xs text-[#7a8388]">
+                    Add sources used in the research article.
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+
+                {references.map((reference, index) => (
+                  <div
+                    key={index}
+                    className="rounded-2xl border border-[#263f57]/10 bg-[#faf9f7] p-5"
+                  >
+
+                    <div className="mb-3 flex items-center justify-between">
+                      <p className="text-sm font-bold text-[#263f57]">
+                        Reference {index + 1}
+                      </p>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setReferences((current) =>
+                            current.filter(
+                              (_, position) =>
+                                position !== index
+                            )
+                          )
+                        }
+                        className="text-[#b85f58]"
+                        aria-label={`Remove reference ${index + 1}`}
+                      >
+                        <Trash2 size={17} />
+                      </button>
+                    </div>
+
+                    <label className="text-sm font-semibold text-[#263f57]">
+                      Reference title
+
+                      <input
+                        className={input}
+                        value={reference.title}
+                        onChange={(e) =>
+                          updateReference(
+                            index,
+                            "title",
+                            e.target.value
+                          )
+                        }
+                        placeholder="Economic Well-Being of U.S. Households in 2025"
+                      />
+                    </label>
+
+                    <div className="mt-4 grid gap-4 sm:grid-cols-[1fr_120px]">
+
+                      <label className="text-sm font-semibold text-[#263f57]">
+                        Source
+
+                        <input
+                          className={input}
+                          value={reference.source}
+                          onChange={(e) =>
+                            updateReference(
+                              index,
+                              "source",
+                              e.target.value
+                            )
+                          }
+                          placeholder="Federal Reserve"
+                        />
+                      </label>
+
+                      <label className="text-sm font-semibold text-[#263f57]">
+                        Year
+
+                        <input
+                          className={input}
+                          value={reference.year}
+                          onChange={(e) =>
+                            updateReference(
+                              index,
+                              "year",
+                              e.target.value
+                            )
+                          }
+                          placeholder="2026"
+                        />
+                      </label>
+
+                    </div>
+
+                  </div>
+                ))}
+
+              </div>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setReferences((current) => [
+                    ...current,
+                    blankReference(),
+                  ])
+                }
+                className="mt-4 inline-flex items-center gap-2 rounded-full border border-[#263f57]/15 px-5 py-2.5 text-sm font-bold text-[#263f57]"
+              >
+                <Plus size={16} />
+                Add reference
+              </button>
+
+            </div>
+
+            {/* Featured */}
+            <label className="mt-7 flex items-center gap-3 text-sm font-semibold text-[#263f57]">
               <input
                 type="checkbox"
-                checked={article.featured}
+                checked={featured}
                 onChange={(e) =>
-                  update(
-                    "featured",
-                    e.target.checked
-                  )
+                  setFeatured(e.target.checked)
                 }
                 className="h-4 w-4"
               />
+
               Featured publication
             </label>
 
+            {/* Save */}
             <button
+              type="button"
               onClick={save}
               className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#c87568] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#b8655b]"
             >
               <Save size={16} />
-
-              {editing
-                ? "Save changes"
-                : "Save and publish"}
+              Save and publish
             </button>
 
             {status && (
@@ -565,7 +647,7 @@ export default function ResearchAdminPage() {
 
           </section>
 
-          {/* Published research */}
+          {/* PUBLISHED */}
           <aside className="rounded-[24px] bg-[#263f57] p-6 text-white sm:p-7">
 
             <div className="mb-6 flex items-center gap-2">
@@ -581,13 +663,16 @@ export default function ResearchAdminPage() {
 
             <div className="space-y-3">
 
-              {articles.map((item) => (
+              {research.map((item) => (
                 <div
                   key={item.slug}
                   className="rounded-2xl bg-white/8 p-4"
                 >
+
                   <p className="text-[10px] font-bold uppercase tracking-widest text-[#efb2a8]">
-                    {item.series || item.category || "Research"}
+                    {item.series ||
+                      item.category ||
+                      "Research"}
                   </p>
 
                   <p className="mt-2 text-sm font-semibold leading-5">
@@ -596,35 +681,12 @@ export default function ResearchAdminPage() {
 
                   <p className="mt-1 text-xs text-white/55">
                     {item.publishedDate}
-                    {item.pages
-                      ? ` • ${item.pages}`
-                      : ""}
                   </p>
 
-                  <div className="mt-4 flex items-center gap-2">
+                  <div className="mt-4 flex items-center">
 
                     <button
-                      onClick={() =>
-                        editArticle(item)
-                      }
-                      className="rounded-lg bg-white/10 px-3 py-2 text-xs font-bold text-white/80 hover:bg-white/20 hover:text-white"
-                    >
-                      Edit
-                    </button>
-
-                    {item.pdf && (
-                      <a
-                        href={item.pdf}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 rounded-lg bg-white/10 px-3 py-2 text-xs font-bold text-white/80 hover:bg-white/20 hover:text-white"
-                      >
-                        View PDF
-                        <ExternalLink size={12} />
-                      </a>
-                    )}
-
-                    <button
+                      type="button"
                       onClick={() =>
                         remove(item.slug)
                       }
@@ -635,10 +697,11 @@ export default function ResearchAdminPage() {
                     </button>
 
                   </div>
+
                 </div>
               ))}
 
-              {!articles.length && (
+              {!research.length && (
                 <p className="text-sm text-white/55">
                   No research publications published.
                 </p>
