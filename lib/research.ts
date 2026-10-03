@@ -1,3 +1,14 @@
+export type ResearchSection = {
+  heading: string;
+  paragraphs: string[];
+};
+
+export type ResearchReference = {
+  title: string;
+  source: string;
+  year: string;
+};
+
 export type ResearchPublication = {
   slug: string;
   title: string;
@@ -10,20 +21,27 @@ export type ResearchPublication = {
   publishedDate: string;
   featured: boolean;
   pdf: string;
+
+  sections?: ResearchSection[];
+  researchNote?: string;
+  references?: ResearchReference[];
 };
 
-export async function fetchResearch(): Promise<ResearchPublication[]> {
-  // Try the live PHP API first.
+export async function fetchResearch(): Promise<
+  ResearchPublication[]
+> {
   try {
-    const response = await fetch("/api/research.php", {
-      cache: "no-store",
-    });
+    const response = await fetch(
+      "https://cpa-dmv.com/api/research.php",
+      {
+        cache: "no-store",
+      },
+    );
 
     if (response.ok) {
       const contentType =
         response.headers.get("content-type") || "";
 
-      // PHP API should return JSON.
       if (contentType.includes("application/json")) {
         const data = await response.json();
 
@@ -32,8 +50,6 @@ export async function fetchResearch(): Promise<ResearchPublication[]> {
         }
       }
 
-      // Some hosting configurations may not send
-      // the correct content-type, so try parsing JSON anyway.
       const text = await response.text();
 
       try {
@@ -43,17 +59,21 @@ export async function fetchResearch(): Promise<ResearchPublication[]> {
           return data;
         }
       } catch {
-        // Not valid JSON — continue to fallback.
+        // Continue to static fallback.
       }
     }
   } catch {
-    // PHP API unavailable locally — use static fallback.
+    console.warn(
+      "Remote research API unavailable.",
+    );
   }
 
-  // Static fallback used during local Next.js development.
-  const fallback = await fetch("/data/research.json", {
-    cache: "no-store",
-  });
+  const fallback = await fetch(
+    "/data/research.json",
+    {
+      cache: "no-store",
+    },
+  );
 
   if (!fallback.ok) {
     throw new Error(

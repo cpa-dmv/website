@@ -3,14 +3,17 @@
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, FileText } from "lucide-react";
 import { useEffect, useState } from "react";
-import { fetchResearch, type ResearchPublication } from "@/lib/research";
+import {
+  fetchResearch,
+  type ResearchPublication,
+} from "@/lib/research";
 
 type ArticleSection = {
   heading: string;
   paragraphs: string[];
 };
 
-const sections: ArticleSection[] = [
+const legacySections: ArticleSection[] = [
   {
     heading: "The New Definition of Success",
     paragraphs: [
@@ -102,16 +105,14 @@ const sections: ArticleSection[] = [
   },
 ];
 
-const references = [
+const legacyReferences = [
   {
-    title:
-      "Economic Well-Being of U.S. Households in 2025",
+    title: "Economic Well-Being of U.S. Households in 2025",
     source: "Federal Reserve",
     year: "2026",
   },
   {
-    title:
-      "Milestones: Young Adults and the Transition to Adulthood",
+    title: "Milestones: Young Adults and the Transition to Adulthood",
     source: "Pew Research Center",
     year: "2024",
   },
@@ -126,8 +127,7 @@ const references = [
     year: "2026",
   },
   {
-    title:
-      "Young Adult Milestones and Family Formation",
+    title: "Young Adult Milestones and Family Formation",
     source: "U.S. Census Bureau",
     year: "2025",
   },
@@ -140,26 +140,56 @@ export default function ResearchArticlesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const requestedSlug = params.get("paper");
+  const loadPublication = async () => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const requestedSlug = params.get("paper");
 
-    fetchResearch()
-      .then((items) => {
-        const selected =
-          items.find((item) => item.slug === requestedSlug) ??
-          items.find((item) => item.slug === "beyond-the-degree") ??
-          items[0] ??
-          null;
+      console.log("REQUESTED SLUG:", requestedSlug);
 
-        setPublication(selected);
-      })
-      .catch(() => {
-        setPublication(null);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+      const items = await fetchResearch();
+
+      console.log("RESEARCH ITEMS:", items);
+      console.log(
+        "AVAILABLE SLUGS:",
+        items.map((item) => item.slug)
+      );
+
+      const selected =
+        (requestedSlug
+          ? items.find((item) => item.slug === requestedSlug)
+          : undefined) ??
+        items.find(
+          (item) => item.slug === "beyond-the-degree"
+        ) ??
+        items[0] ??
+        null;
+
+      console.log("SELECTED PUBLICATION:", selected);
+      console.log(
+        "SELECTED SECTIONS:",
+        selected?.sections
+      );
+      console.log(
+        "SELECTED SECTION COUNT:",
+        selected?.sections?.length ?? 0
+      );
+
+      setPublication(selected);
+    } catch (error) {
+      console.error(
+        "FAILED TO LOAD RESEARCH:",
+        error
+      );
+
+      setPublication(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadPublication();
+}, []);
 
   if (loading) {
     return (
@@ -179,6 +209,7 @@ export default function ResearchArticlesPage() {
     return (
       <main className="min-h-screen bg-[#f7f5f1] px-5 py-24">
         <div className="mx-auto max-w-[900px] rounded-[28px] bg-white p-10 text-center shadow-sm">
+
           <FileText
             size={42}
             className="mx-auto text-[#c87568]"
@@ -200,6 +231,7 @@ export default function ResearchArticlesPage() {
             <ArrowLeft size={16} />
             Back to Research
           </Link>
+
         </div>
       </main>
     );
@@ -208,13 +240,33 @@ export default function ResearchArticlesPage() {
   const isBeyondTheDegree =
     publication.slug === "beyond-the-degree";
 
+  /*
+   * For the legacy Beyond the Degree article we keep
+   * the existing custom article content.
+   *
+   * Every NEW article created from the admin dashboard
+   * uses the dynamic content stored in the API.
+   */
+
+  const dynamicSections =
+    publication.sections ?? [];
+
+  const dynamicReferences =
+    publication.references ?? [];
+
   return (
     <main className="min-h-screen bg-[#f7f5f1]">
-      {/* HERO */}
+
+      {/* =====================================================
+          HERO
+          ===================================================== */}
+
       <section className="relative overflow-hidden bg-[#263f57]">
+
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(200,117,104,0.22),transparent_38%)]" />
 
         <div className="relative mx-auto max-w-[1200px] px-5 pb-20 pt-16 sm:px-8 sm:pb-24 sm:pt-20">
+
           <Link
             href="/research"
             className="inline-flex items-center gap-2 text-sm font-semibold text-white/75 transition hover:text-white"
@@ -224,6 +276,7 @@ export default function ResearchArticlesPage() {
           </Link>
 
           <div className="mt-14 max-w-[950px]">
+
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#e49a8e]">
               {publication.series}
             </p>
@@ -237,6 +290,7 @@ export default function ResearchArticlesPage() {
             </p>
 
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-4 text-sm text-white/65">
+
               <span>
                 <strong className="text-white">
                   Category:
@@ -248,7 +302,7 @@ export default function ResearchArticlesPage() {
                 <strong className="text-white">
                   Pages:
                 </strong>{" "}
-                {publication.pages}
+                {publication.pages || "—"}
               </span>
 
               <span>
@@ -264,18 +318,31 @@ export default function ResearchArticlesPage() {
                 </strong>{" "}
                 {publication.publishedDate}
               </span>
+
             </div>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* CONTENT */}
+      {/* =====================================================
+          CONTENT
+          ===================================================== */}
+
       <section className="mx-auto max-w-[1000px] px-5 py-14 sm:px-8 sm:py-20">
-        {/* BEYOND THE DEGREE — CUSTOM ARTICLE */}
+
+        {/* =================================================
+            LEGACY BEYOND THE DEGREE ARTICLE
+            ================================================= */}
+
         {isBeyondTheDegree && (
           <>
             <article className="rounded-[30px] bg-white p-7 shadow-sm sm:p-10 lg:p-14">
+
               <div className="mb-12 border-b border-[#263f57]/10 pb-10">
+
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#c87568]">
                   Research Article
                 </p>
@@ -288,34 +355,49 @@ export default function ResearchArticlesPage() {
                 <p className="mt-6 text-lg leading-8 text-[#536573]">
                   {publication.description}
                 </p>
+
               </div>
 
               <div className="space-y-12">
-                {sections.map((section) => (
-                  <section key={section.heading}>
-                    <h2 className="text-2xl font-bold leading-tight text-[#263f57] sm:text-3xl">
-                      {section.heading}
-                    </h2>
 
-                    <div className="mt-5 space-y-5">
-                      {section.paragraphs.map(
-                        (paragraph, index) => (
-                          <p
-                            key={`${section.heading}-${index}`}
-                            className="text-base leading-8 text-[#536573]"
-                          >
-                            {paragraph}
-                          </p>
-                        ),
-                      )}
-                    </div>
-                  </section>
-                ))}
+                {legacySections.map(
+                  (section) => (
+                    <section key={section.heading}>
+
+                      <h2 className="text-2xl font-bold leading-tight text-[#263f57] sm:text-3xl">
+                        {section.heading}
+                      </h2>
+
+                      <div className="mt-5 space-y-5">
+
+                        {section.paragraphs.map(
+                          (
+                            paragraph,
+                            index,
+                          ) => (
+                            <p
+                              key={`${section.heading}-${index}`}
+                              className="text-base leading-8 text-[#536573]"
+                            >
+                              {paragraph}
+                            </p>
+                          ),
+                        )}
+
+                      </div>
+
+                    </section>
+                  ),
+                )}
+
               </div>
+
             </article>
 
             {/* WHOLELIFE CLOSING */}
+
             <section className="mt-8 overflow-hidden rounded-[30px] bg-[#263f57] p-8 text-white sm:p-12">
+
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#e49a8e]">
                 WholeLife Perspective
               </p>
@@ -331,11 +413,15 @@ export default function ResearchArticlesPage() {
                 and career to finances, marriage, family, and
                 long-term stability.
               </p>
+
             </section>
 
             {/* REFERENCES */}
+
             <section className="mt-8 rounded-[30px] bg-white p-8 shadow-sm sm:p-10">
+
               <div className="flex items-center gap-3">
+
                 <FileText
                   size={20}
                   className="text-[#c87568]"
@@ -344,39 +430,59 @@ export default function ResearchArticlesPage() {
                 <h2 className="text-2xl font-bold text-[#263f57]">
                   References
                 </h2>
+
               </div>
 
               <div className="mt-7 divide-y divide-[#263f57]/10">
-                {references.map((reference, index) => (
-                  <div
-                    key={reference.title}
-                    className="flex gap-5 py-5"
-                  >
-                    <span className="shrink-0 text-sm font-bold text-[#c87568]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
 
-                    <div>
-                      <p className="font-semibold text-[#263f57]">
-                        {reference.title}
-                      </p>
+                {legacyReferences.map(
+                  (reference, index) => (
+                    <div
+                      key={reference.title}
+                      className="flex gap-5 py-5"
+                    >
 
-                      <p className="mt-1 text-sm text-[#7a8388]">
-                        {reference.source} ·{" "}
-                        {reference.year}
-                      </p>
+                      <span className="shrink-0 text-sm font-bold text-[#c87568]">
+                        {String(index + 1).padStart(
+                          2,
+                          "0",
+                        )}
+                      </span>
+
+                      <div>
+
+                        <p className="font-semibold text-[#263f57]">
+                          {reference.title}
+                        </p>
+
+                        <p className="mt-1 text-sm text-[#7a8388]">
+                          {reference.source} ·{" "}
+                          {reference.year}
+                        </p>
+
+                      </div>
+
                     </div>
-                  </div>
-                ))}
+                  ),
+                )}
+
               </div>
+
             </section>
           </>
         )}
 
-        {/* OTHER RESEARCH PAPERS — PDF BASED */}
+        {/* =================================================
+            DYNAMIC ADMIN-CREATED RESEARCH ARTICLES
+            ================================================= */}
+
         {!isBeyondTheDegree && (
-          <section className="rounded-[30px] bg-white p-7 shadow-sm sm:p-10 lg:p-12">
-            <div className="border-b border-[#263f57]/10 pb-8">
+          <article className="rounded-[30px] bg-white p-7 shadow-sm sm:p-10 lg:p-14">
+
+            {/* ARTICLE HEADER */}
+
+            <div className="mb-12 border-b border-[#263f57]/10 pb-10">
+
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#c87568]">
                 Research Publication
               </p>
@@ -386,12 +492,16 @@ export default function ResearchArticlesPage() {
                   publication.title}
               </h2>
 
-              <p className="mt-5 max-w-3xl text-base leading-8 text-[#536573]">
+              <p className="mt-6 text-lg leading-8 text-[#536573]">
                 {publication.description}
               </p>
+
             </div>
 
+            {/* PUBLICATION DETAILS */}
+
             <div className="grid gap-6 border-b border-[#263f57]/10 py-8 sm:grid-cols-2">
+
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#7a8388]">
                   Author
@@ -424,71 +534,232 @@ export default function ResearchArticlesPage() {
 
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#7a8388]">
-                  Publication
+                  Category
                 </p>
 
                 <p className="mt-2 font-semibold text-[#263f57]">
-                  {publication.pages}
+                  {publication.category}
                 </p>
               </div>
+
             </div>
 
-            {publication.pdf && (
-              <div className="mt-8 rounded-2xl bg-[#f7f5f1] p-6">
-                <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#263f57] text-white">
-                      <FileText size={21} />
-                    </div>
+            {/* =================================================
+                DYNAMIC SECTIONS FROM ADMIN
+                ================================================= */}
 
-                    <div>
-                      <p className="font-bold text-[#263f57]">
-                        Full Research Publication
-                      </p>
+            {dynamicSections.length > 0 && (
+              <div className="mt-12 space-y-12">
 
-                      <p className="mt-1 text-sm text-[#7a8388]">
-                        The complete publication is
-                        available as a PDF document.
-                      </p>
-                    </div>
-                  </div>
+                {dynamicSections.map(
+                  (section, index) => (
+                    <section
+                      key={`${section.heading}-${index}`}
+                    >
 
-                  <a
-                    href={publication.pdf}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#263f57] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#1c3044]"
-                  >
-                    Open Research Paper
-                    <ExternalLink size={16} />
-                  </a>
-                </div>
+                      {section.heading && (
+                        <h2 className="text-2xl font-bold leading-tight text-[#263f57] sm:text-3xl">
+                          {section.heading}
+                        </h2>
+                      )}
+
+                      {section.paragraphs &&
+                        section.paragraphs.length >
+                          0 && (
+                          <div className="mt-5 space-y-5">
+
+                            {section.paragraphs.map(
+                              (
+                                paragraph,
+                                paragraphIndex,
+                              ) => (
+                                <p
+                                  key={`${index}-${paragraphIndex}`}
+                                  className="text-base leading-8 text-[#536573]"
+                                >
+                                  {paragraph}
+                                </p>
+                              ),
+                            )}
+
+                          </div>
+                        )}
+
+                    </section>
+                  ),
+                )}
+
               </div>
             )}
 
-            {!publication.pdf && (
-              <div className="mt-8 rounded-2xl border border-dashed border-[#263f57]/15 bg-[#f7f5f1] p-8 text-center">
+            {/* EMPTY CONTENT MESSAGE */}
+
+            {dynamicSections.length === 0 && (
+              <div className="mt-12 rounded-2xl border border-dashed border-[#263f57]/15 bg-[#f7f5f1] p-8 text-center">
+
                 <FileText
                   size={30}
                   className="mx-auto text-[#c87568]"
                 />
 
                 <p className="mt-4 font-semibold text-[#263f57]">
-                  Publication document coming soon
+                  Research content coming soon
                 </p>
 
-                <p className="mt-2 text-sm text-[#7a8388]">
-                  The research information has been
-                  published, but the full PDF has not yet
-                  been uploaded.
+                <p className="mt-2 text-sm leading-6 text-[#7a8388]">
+                  The publication has been created,
+                  but no research sections have been
+                  added yet.
                 </p>
+
               </div>
             )}
-          </section>
+
+            {/* =================================================
+                RESEARCH NOTE
+                ================================================= */}
+
+            {publication.researchNote &&
+              publication.researchNote.trim() && (
+                <section className="mt-12 rounded-[24px] bg-[#f7f5f1] p-7 sm:p-8">
+
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#c87568]">
+                    Research Note
+                  </p>
+
+                  <p className="mt-4 text-base leading-8 text-[#536573]">
+                    {publication.researchNote}
+                  </p>
+
+                </section>
+              )}
+
+            {/* =================================================
+                REFERENCES
+                ================================================= */}
+
+            {dynamicReferences.length > 0 && (
+              <section className="mt-12 border-t border-[#263f57]/10 pt-10">
+
+                <div className="flex items-center gap-3">
+
+                  <FileText
+                    size={20}
+                    className="text-[#c87568]"
+                  />
+
+                  <h2 className="text-2xl font-bold text-[#263f57]">
+                    References
+                  </h2>
+
+                </div>
+
+                <div className="mt-7 divide-y divide-[#263f57]/10">
+
+                  {dynamicReferences.map(
+                    (reference, index) => (
+                      <div
+                        key={`${reference.title}-${index}`}
+                        className="flex gap-5 py-5"
+                      >
+
+                        <span className="shrink-0 text-sm font-bold text-[#c87568]">
+                          {String(index + 1).padStart(
+                            2,
+                            "0",
+                          )}
+                        </span>
+
+                        <div>
+
+                          {reference.title && (
+                            <p className="font-semibold text-[#263f57]">
+                              {reference.title}
+                            </p>
+                          )}
+
+                          {(reference.source ||
+                            reference.year) && (
+                            <p className="mt-1 text-sm text-[#7a8388]">
+                              {[
+                                reference.source,
+                                reference.year,
+                              ]
+                                .filter(Boolean)
+                                .join(" · ")}
+                            </p>
+                          )}
+
+                        </div>
+
+                      </div>
+                    ),
+                  )}
+
+                </div>
+
+              </section>
+            )}
+
+            {/* =================================================
+                OPTIONAL PDF
+                ================================================= */}
+
+            {publication.pdf &&
+              publication.pdf.trim() && (
+                <section className="mt-12 border-t border-[#263f57]/10 pt-10">
+
+                  <div className="rounded-2xl bg-[#f7f5f1] p-6">
+
+                    <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+
+                      <div className="flex items-start gap-4">
+
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#263f57] text-white">
+                          <FileText size={21} />
+                        </div>
+
+                        <div>
+
+                          <p className="font-bold text-[#263f57]">
+                            Full Research Publication
+                          </p>
+
+                          <p className="mt-1 text-sm text-[#7a8388]">
+                            The complete publication is
+                            available as a PDF document.
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                      <a
+                        href={publication.pdf}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#263f57] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#1c3044]"
+                      >
+                        Open Research Paper
+                        <ExternalLink size={16} />
+                      </a>
+
+                    </div>
+
+                  </div>
+
+                </section>
+              )}
+
+          </article>
         )}
 
-        {/* FOOTER CTA */}
+        {/* =================================================
+            FOOTER CTA
+            ================================================= */}
+
         <section className="mt-10 rounded-[30px] border border-[#263f57]/10 bg-white p-8 text-center shadow-sm sm:p-10">
+
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#c87568]">
             Continue Exploring
           </p>
@@ -511,8 +782,11 @@ export default function ResearchArticlesPage() {
             View All Research
             <ExternalLink size={16} />
           </Link>
+
         </section>
+
       </section>
+
     </main>
   );
 }

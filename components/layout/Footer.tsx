@@ -225,7 +225,7 @@ export default function Footer() {
                   <>
                     {/* Instagram */}
                     <a
-                      href="https://www.instagram.com/wholelife.dmv/"
+                      href="https://www.instagram.com/wholelifedmv_/"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="WholeLife DMV on Instagram"
