@@ -10,6 +10,18 @@ $prefix = "<?php exit; ?>\n";
 
 /*
 |--------------------------------------------------------------------------
+| Google Calendar integration
+|--------------------------------------------------------------------------
+*/
+
+$calendarWebhookUrl =
+    'https://script.google.com/macros/s/AKfycbz8E3w74IXGF9zZ6dFjTzCo9tiifeNt2Od74PkL6Is1Q0ei55MttSSrjDe7wWSnvekM/exec';
+
+$calendarSecret = 'CPA-DMV-BOOKING-2026';
+
+
+/*
+|--------------------------------------------------------------------------
 | Booking configuration
 |--------------------------------------------------------------------------
 |
@@ -23,7 +35,11 @@ $prefix = "<?php exit; ?>\n";
 
 $times = [];
 
-for ($minutes = 11 * 60; $minutes < 19 * 60; $minutes += 15) {
+for (
+    $minutes = 11 * 60;
+    $minutes < 19 * 60;
+    $minutes += 15
+) {
     $times[] = sprintf(
         '%02d:%02d',
         intdiv($minutes, 60),
@@ -51,10 +67,16 @@ function read_bookings($file, $prefix)
     }
 
     if (str_starts_with($content, $prefix)) {
-        $content = substr($content, strlen($prefix));
+        $content = substr(
+            $content,
+            strlen($prefix)
+        );
     }
 
-    $items = json_decode($content, true);
+    $items = json_decode(
+        $content,
+        true
+    );
 
     return is_array($items) ? $items : [];
 }
@@ -68,7 +90,9 @@ function read_bookings($file, $prefix)
 
 function valid_date($date)
 {
-    $timezone = new DateTimeZone('America/New_York');
+    $timezone = new DateTimeZone(
+        'America/New_York'
+    );
 
     $parsed = DateTimeImmutable::createFromFormat(
         '!Y-m-d',
@@ -76,11 +100,17 @@ function valid_date($date)
         $timezone
     );
 
-    if (!$parsed || $parsed->format('Y-m-d') !== $date) {
+    if (
+        !$parsed ||
+        $parsed->format('Y-m-d') !== $date
+    ) {
         return false;
     }
 
-    $today = new DateTimeImmutable('today', $timezone);
+    $today = new DateTimeImmutable(
+        'today',
+        $timezone
+    );
 
     return (
         $parsed >= $today &&
@@ -103,7 +133,118 @@ function format_time($time)
         new DateTimeZone('America/New_York')
     );
 
-    return $parsed ? $parsed->format('g:i A') : $time;
+    return $parsed
+        ? $parsed->format('g:i A')
+        : $time;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Google Calendar event creation
+|--------------------------------------------------------------------------
+|
+| Sends the booking information to Google Apps Script.
+|
+*/
+
+function create_calendar_event(
+    $webhookUrl,
+    $secret,
+    $name,
+    $email,
+    $date,
+    $time
+) {
+    $payload = [
+        'secret' => $secret,
+        'name'   => $name,
+        'email'  => $email,
+        'date'   => $date,
+        'time'   => $time
+    ];
+
+    $ch = curl_init($webhookUrl);
+
+    curl_setopt_array(
+        $ch,
+        [
+            CURLOPT_POST => true,
+
+            CURLOPT_POSTFIELDS =>
+                json_encode($payload),
+
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json',
+                'Accept: application/json'
+            ],
+
+            CURLOPT_RETURNTRANSFER => true,
+
+            CURLOPT_CONNECTTIMEOUT => 10,
+
+            CURLOPT_TIMEOUT => 20,
+
+            CURLOPT_FOLLOWLOCATION => true
+        ]
+    );
+
+    $response = curl_exec($ch);
+
+    $curlError = curl_error($ch);
+
+    $httpCode = curl_getinfo(
+        $ch,
+        CURLINFO_HTTP_CODE
+    );
+
+    curl_close($ch);
+
+
+    if ($response === false) {
+        return [
+            'success' => false,
+            'error' =>
+                'Calendar request failed: ' .
+                $curlError
+        ];
+    }
+
+
+    $result = json_decode(
+        $response,
+        true
+    );
+
+
+    if (!is_array($result)) {
+        return [
+            'success' => false,
+            'error' =>
+                'Invalid response from Google Calendar service.'
+        ];
+    }
+
+
+    if (
+        $httpCode < 200 ||
+        $httpCode >= 300 ||
+        empty($result['success'])
+    ) {
+        return [
+            'success' => false,
+            'error' =>
+                $result['error'] ??
+                'Google Calendar event creation failed.'
+        ];
+    }
+
+
+    return [
+        'success' => true,
+        'eventId' =>
+            $result['eventId'] ?? null
+    ];
 }
 
 
@@ -130,29 +271,39 @@ function get_demo_blocked_times($date, $times)
         return [];
     }
 
+
     /*
      * Decide whether this date gets 2 or 3 blocked slots.
      * The result is based on the date, so it stays stable.
      */
+
     $countSeed = crc32(
         $date . '|cpa-dmv-demo-count-v2'
     );
 
-    $blockedCount = 2 + ($countSeed % 2);
+    $blockedCount =
+        2 + ($countSeed % 2);
 
 
     /*
      * Give every slot a deterministic score.
      *
-     * We then sort the slots by that score and take the first
-     * 2 or 3 slots.
+     * We then sort the slots by that score and take
+     * the first 2 or 3 slots.
      */
+
     $scoredSlots = [];
 
+
     foreach ($times as $time) {
+
         $score = crc32(
-            $date . '|' . $time . '|cpa-dmv-demo-slot-v2'
+            $date .
+            '|' .
+            $time .
+            '|cpa-dmv-demo-slot-v2'
         );
+
 
         $scoredSlots[] = [
             'time' => $time,
@@ -164,20 +315,37 @@ function get_demo_blocked_times($date, $times)
     usort(
         $scoredSlots,
         function ($a, $b) {
-            if ($a['score'] === $b['score']) {
-                return strcmp($a['time'], $b['time']);
+
+            if (
+                $a['score'] ===
+                $b['score']
+            ) {
+                return strcmp(
+                    $a['time'],
+                    $b['time']
+                );
             }
 
-            return $a['score'] <=> $b['score'];
+
+            return
+                $a['score'] <=>
+                $b['score'];
         }
     );
 
 
     $blocked = [];
 
-    for ($index = 0; $index < $blockedCount; $index++) {
-        $blocked[] = $scoredSlots[$index]['time'];
+
+    for (
+        $index = 0;
+        $index < $blockedCount;
+        $index++
+    ) {
+        $blocked[] =
+            $scoredSlots[$index]['time'];
     }
+
 
     return $blocked;
 }
@@ -189,11 +357,22 @@ function get_demo_blocked_times($date, $times)
 |--------------------------------------------------------------------------
 */
 
-function is_demo_blocked($date, $time, $times)
-{
-    $blocked = get_demo_blocked_times($date, $times);
+function is_demo_blocked(
+    $date,
+    $time,
+    $times
+) {
+    $blocked =
+        get_demo_blocked_times(
+            $date,
+            $times
+        );
 
-    return in_array($time, $blocked, true);
+    return in_array(
+        $time,
+        $blocked,
+        true
+    );
 }
 
 
@@ -203,9 +382,13 @@ function is_demo_blocked($date, $time, $times)
 |--------------------------------------------------------------------------
 */
 
-function is_real_booking_blocked($bookings, $date, $time)
-{
+function is_real_booking_blocked(
+    $bookings,
+    $date,
+    $time
+) {
     foreach ($bookings as $booking) {
+
         if (
             ($booking['date'] ?? '') === $date &&
             ($booking['time'] ?? '') === $time
@@ -227,15 +410,21 @@ function is_real_booking_blocked($bookings, $date, $time)
 |
 */
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if (
+    $_SERVER['REQUEST_METHOD'] === 'GET'
+) {
 
-    $date = $_GET['date'] ?? '';
+    $date =
+        $_GET['date'] ?? '';
+
 
     if (!valid_date($date)) {
+
         http_response_code(422);
 
         echo json_encode([
-            'error' => 'Choose a valid date within the next 90 days.'
+            'error' =>
+                'Choose a valid date within the next 90 days.'
         ]);
 
         exit;
@@ -248,10 +437,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     );
 
 
-    $demoBlockedTimes = get_demo_blocked_times(
-        $date,
-        $times
-    );
+    $demoBlockedTimes =
+        get_demo_blocked_times(
+            $date,
+            $times
+        );
 
 
     $slots = [];
@@ -259,18 +449,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     foreach ($times as $time) {
 
-        $realBooking = is_real_booking_blocked(
-            $bookings,
-            $date,
-            $time
-        );
+        $realBooking =
+            is_real_booking_blocked(
+                $bookings,
+                $date,
+                $time
+            );
 
 
-        $demoBlocked = in_array(
-            $time,
-            $demoBlockedTimes,
-            true
-        );
+        $demoBlocked =
+            in_array(
+                $time,
+                $demoBlockedTimes,
+                true
+            );
 
 
         /*
@@ -279,20 +471,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
          * - it isn't one of our 2-3 placeholder blocked slots
          * - it hasn't already been booked by a real customer
          */
-        $available = !$demoBlocked && !$realBooking;
+
+        $available =
+            !$demoBlocked &&
+            !$realBooking;
 
 
         $slots[] = [
-            'time' => $time,
-            'label' => format_time($time),
-            'available' => $available
+            'time' =>
+                $time,
+
+            'label' =>
+                format_time($time),
+
+            'available' =>
+                $available
         ];
     }
 
 
     echo json_encode([
-        'date' => $date,
-        'slots' => $slots
+        'date' =>
+            $date,
+
+        'slots' =>
+            $slots
     ]);
 
     exit;
@@ -308,7 +511,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 |
 */
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (
+    $_SERVER['REQUEST_METHOD'] === 'POST'
+) {
 
     $input = json_decode(
         file_get_contents('php://input'),
@@ -317,10 +522,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if (!is_array($input)) {
+
         http_response_code(400);
 
         echo json_encode([
-            'error' => 'Invalid booking request.'
+            'error' =>
+                'Invalid booking request.'
         ]);
 
         exit;
@@ -333,13 +540,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     $email = filter_var(
-        trim($input['email'] ?? ''),
+        trim(
+            $input['email'] ?? ''
+        ),
         FILTER_VALIDATE_EMAIL
     );
 
 
-    $date = $input['date'] ?? '';
-    $time = $input['time'] ?? '';
+    $date =
+        $input['date'] ?? '';
+
+    $time =
+        $input['time'] ?? '';
 
 
     /*
@@ -350,13 +562,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name === '' ||
         !$email ||
         !valid_date($date) ||
-        !in_array($time, $times, true)
+        !in_array(
+            $time,
+            $times,
+            true
+        )
     ) {
 
         http_response_code(422);
 
         echo json_encode([
-            'error' => 'Please choose an available slot and enter a valid name and email.'
+            'error' =>
+                'Please choose an available slot and enter a valid name and email.'
         ]);
 
         exit;
@@ -379,7 +596,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         http_response_code(409);
 
         echo json_encode([
-            'error' => 'That slot is no longer available. Please choose another time.'
+            'error' =>
+                'That slot is no longer available. Please choose another time.'
         ]);
 
         exit;
@@ -398,13 +616,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (
         !$handle ||
-        !flock($handle, LOCK_EX)
+        !flock(
+            $handle,
+            LOCK_EX
+        )
     ) {
 
         http_response_code(500);
 
         echo json_encode([
-            'error' => 'Booking service is temporarily unavailable.'
+            'error' =>
+                'Booking service is temporarily unavailable.'
         ]);
 
         exit;
@@ -417,27 +639,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     rewind($handle);
 
-    $content = stream_get_contents($handle);
+
+    $content =
+        stream_get_contents($handle);
+
 
     if ($content === false) {
         $content = '';
     }
 
 
-    if (str_starts_with($content, $prefix)) {
-        $json = substr(
+    if (
+        str_starts_with(
             $content,
-            strlen($prefix)
-        );
+            $prefix
+        )
+    ) {
+
+        $json =
+            substr(
+                $content,
+                strlen($prefix)
+            );
+
     } else {
-        $json = $content;
+
+        $json =
+            $content;
     }
 
 
-    $bookings = json_decode(
-        $json,
-        true
-    );
+    $bookings =
+        json_decode(
+            $json,
+            true
+        );
 
 
     if (!is_array($bookings)) {
@@ -456,13 +692,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ($booking['time'] ?? '') === $time
         ) {
 
-            flock($handle, LOCK_UN);
+            flock(
+                $handle,
+                LOCK_UN
+            );
+
             fclose($handle);
+
 
             http_response_code(409);
 
             echo json_encode([
-                'error' => 'That slot was just booked. Please choose another.'
+                'error' =>
+                    'That slot was just booked. Please choose another.'
             ]);
 
             exit;
@@ -475,25 +717,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      */
 
     $booking = [
-        'id' => bin2hex(
-            random_bytes(8)
-        ),
 
-        'name' => $name,
+        'id' =>
+            bin2hex(
+                random_bytes(8)
+            ),
 
-        'email' => $email,
+        'name' =>
+            $name,
 
-        'date' => $date,
+        'email' =>
+            $email,
 
-        'time' => $time,
+        'date' =>
+            $date,
 
-        'createdAt' => date(
-            DATE_ATOM
-        )
+        'time' =>
+            $time,
+
+        'createdAt' =>
+            date(
+                DATE_ATOM
+            )
     ];
 
 
-    $bookings[] = $booking;
+    $bookings[] =
+        $booking;
 
 
     /*
@@ -514,19 +764,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         0
     );
 
+
     rewind($handle);
+
 
     fwrite(
         $handle,
         $newContent
     );
 
+
     fflush($handle);
+
 
     flock(
         $handle,
         LOCK_UN
     );
+
 
     fclose($handle);
 
@@ -538,11 +793,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $when = (
         new DateTimeImmutable(
             $date . ' ' . $time,
-            new DateTimeZone('America/New_York')
+            new DateTimeZone(
+                'America/New_York'
+            )
         )
     )->format(
         'l, F j, Y \a\t g:i A T'
     );
+
+
+    /*
+     * Create Google Calendar event.
+     *
+     * IMPORTANT:
+     * This happens after the booking is saved.
+     *
+     * Even if Google Calendar fails,
+     * the customer's booking remains saved.
+     */
+
+    $calendarResult =
+        create_calendar_event(
+            $calendarWebhookUrl,
+            $calendarSecret,
+            $name,
+            $email,
+            $date,
+            $time
+        );
+
+
+    if (
+        $calendarResult['success']
+    ) {
+
+        $calendarStatus =
+            'Google Calendar event created successfully.';
+
+    } else {
+
+        $calendarStatus =
+            'Google Calendar event FAILED: ' .
+            $calendarResult['error'];
+    }
 
 
     /*
@@ -557,12 +850,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     mail(
         $email,
+
         'Your CPA-DMV consultation is booked',
+
         "Hello {$name},\n\n" .
+
         "Your 15-minute consultation is booked for {$when}.\n\n" .
+
         "You will receive the meeting link shortly.\n\n" .
+
         "If you need to make a change, reply to this email.\n\n" .
+
         "CPA-DMV",
+
         $headers
     );
 
@@ -579,10 +879,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     mail(
         'support@cpa-dmv.com',
+
         'New 15-minute consultation booking',
+
         "Name: {$name}\n" .
         "Email: {$email}\n" .
-        "Appointment: {$when}\n",
+        "Appointment: {$when}\n\n" .
+        "Calendar: {$calendarStatus}\n",
+
         $adminHeaders
     );
 
@@ -592,9 +896,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      */
 
     echo json_encode([
-        'booked' => true,
-        'when' => $when
+
+        'booked' =>
+            true,
+
+        'when' =>
+            $when,
+
+        'calendar' =>
+            $calendarResult['success']
+                ? true
+                : false
     ]);
+
 
     exit;
 }
@@ -608,6 +922,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 http_response_code(405);
 
+
 echo json_encode([
-    'error' => 'Method not allowed.'
+    'error' =>
+        'Method not allowed.'
 ]);
