@@ -91,7 +91,7 @@ const VARDAN = {
   certFull: "AI Expert & Web Developer",
   certColor: "#2563EB",
   certBg: "#EFF6FF",
-  affiliation: "Simple Solution",
+  affiliation: "CPA-DMV Team",
   specialties: [
     { icon: Monitor, text: "AI & Emerging Technologies" },
     { icon: FileText, text: "Full-Stack Web Development" },
@@ -114,7 +114,7 @@ const TUSHITA = {
   certFull: "Doctor of Philosophy",
   certColor: "#7C3AED",
   certBg: "#F5F3FF",
-  affiliation: "Simple Solution",
+  affiliation: "CPA-DMV Team",
   specialties: [
     { icon: Search, text: "Research & Analysis" },
     { icon: Users, text: "Organizational Development" },
@@ -136,7 +136,7 @@ const SAHIL = {
   certFull: "Technical Support",
   certColor: "#0F766E",
   certBg: "#F0FDFA",
-  affiliation: "Simple Solution",
+  affiliation: "CPA-DMV Team",
   specialties: [
     { icon: Monitor, text: "L1/L2 Technical Support" },
     { icon: Shield, text: "Windows & Hardware Troubleshooting" },
@@ -147,6 +147,28 @@ const SAHIL = {
     "Provides L1/L2 technical assistance and troubleshoots Windows, hardware, software, network, and Office 365 issues.",
     "Manages support tickets, user access, and day-to-day technical service requests.",
     "Uses PowerShell and Python scripting to automate routine IT support tasks while ensuring timely, professional service.",
+  ],
+};
+
+const ABHIMANYU = {
+  name: "Abhimanyu Mishra",
+  photo: "/images/abhimanyu.png",
+  role: "Talent Acquisition & Recruitment",
+  cert: "HR",
+  certFull: "Senior IT Recruiter",
+  certColor: "#2563EB",
+  certBg: "#EFF6FF",
+  affiliation: "CPA-DMV Team",
+  specialties: [
+    { icon: Search, text: "US IT Staffing & Recruitment" },
+    { icon: Users, text: "Executive Search & Talent Acquisition" },
+    { icon: TrendingUp, text: "Candidate Sourcing & Pipeline Management" },
+    { icon: Handshake, text: "Team Leadership & Client Engagement" },
+  ],
+  highlights: [
+    "10+ years of experience in IT recruitment, US staffing, executive search, and talent acquisition.",
+    "Experienced in end-to-end recruitment including sourcing, screening, interviews, negotiation, and onboarding.",
+    "Experienced in managing recruitment teams, client requirements, and high-volume hiring pipelines.",
   ],
 };
 
@@ -497,11 +519,12 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
   <FounderCard person={PRAVEEN} index={0} />
-  <FounderCard person={SACHIT} index={1} />
-  <FounderCard person={HIMANSHU} index={2} />
-  <FounderCard person={VARDAN} index={3} />
-  <FounderCard person={TUSHITA} index={4} />
-  <FounderCard person={SAHIL} index={5} />
+<FounderCard person={SACHIT} index={1} />
+<FounderCard person={HIMANSHU} index={2} />
+<FounderCard person={VARDAN} index={3} />
+<FounderCard person={TUSHITA} index={4} />
+<FounderCard person={SAHIL} index={5} />
+<FounderCard person={ABHIMANYU} index={6} />
 </div>
         </div>
 </section>

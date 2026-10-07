@@ -420,11 +420,11 @@ export default function PricingTeaser() {
                 transition={{ duration: 0.6, delay: 0.15 }}
                 className="mt-9"
               >
-                <Link
-                  href="/pricing"
-                  className="group inline-flex items-center gap-3 rounded-full bg-[#082B5C] px-7 py-4 text-[13px] font-bold text-white shadow-[0_14px_28px_rgba(8,43,92,0.22)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#0D3D7A] hover:shadow-[0_18px_35px_rgba(8,43,92,0.28)]"
-                >
-                  View Pricing
+   <Link
+  href="/contact#booking"
+  className="group inline-flex items-center gap-3 rounded-full bg-[#082B5C] px-7 py-4 text-[13px] font-bold text-white shadow-[0_14px_28px_rgba(8,43,92,0.22)] transition"
+>
+  Book Consultation
 
                   <ArrowRight
                     size={17}
