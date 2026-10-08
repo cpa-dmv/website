@@ -111,9 +111,14 @@ export default function CareersAdminPage() {
         throw new Error(data.error || "Unable to load applications.");
       }
 
-      const items: Application[] = data.applications || [];
+      const items: Application[] = (data.applications || []).map(
+  (item: any) => ({
+    ...item,
+    name: item.name ?? item.fullName ?? "Unknown Applicant",
+  })
+);
 
-      setApplications(items);
+setApplications(items);
 
       setStats({
         total: items.length,
@@ -619,12 +624,13 @@ export default function CareersAdminPage() {
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#eaf0f7] text-sm font-bold text-[#082B5C]">
-                            {application.name
-                              .split(" ")
-                              .map((part) => part[0])
-                              .join("")
-                              .slice(0, 2)
-                              .toUpperCase()}
+                            {(application.name || "Unknown Applicant")
+  .trim()
+  .split(/\s+/)
+  .map((part) => part[0] || "")
+  .join("")
+  .slice(0, 2)
+  .toUpperCase()}
                           </div>
 
                           <div className="min-w-0">

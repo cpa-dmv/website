@@ -38,9 +38,9 @@ date_default_timezone_set('America/New_York');
 |
 */
 
-const ADMIN_USERNAME = 'careersadmin';
+const ADMIN_USERNAME = 'admin_careers2026';
 
-const ADMIN_PASSWORD = 'CPA-DMV-Careers@2026!';
+const ADMIN_PASSWORD = 'CPA-DMV@careers2026';
 
 /*
 |--------------------------------------------------------------------------

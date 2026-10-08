@@ -22,6 +22,7 @@ const company = [
   { name: "Events", href: "/events" },
   { name: "CSR", href: "/csr" },
   { name: "Contact", href: "/contact" },
+  { name: "Careers", href: "/careers" }, 
 ];
 
 const badges = [
