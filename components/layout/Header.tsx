@@ -59,6 +59,11 @@ const serviceLinks = [
     desc: "HR guidance without the overhead",
   },
   {
+    name: "Staff Augmentation",
+    slug: "staff-augmentation",
+    desc: "Flexible talent for growing teams",
+  },
+  {
     name: "Taxation",
     slug: "taxation",
     desc: "Individual and business returns",
@@ -113,6 +118,7 @@ export default function Header() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-[70px]">
+
           {/* Logo / Brand */}
           <Link
             href="/"
@@ -122,10 +128,10 @@ export default function Header() {
               <>
                 {/* Whole Life emblem */}
                 <img
-  src="/images/whole-life/icon.png"
-  alt="Whole Life"
-  className="h-[48px] w-[48px] object-contain"
-/>
+                  src="/images/whole-life/icon.png"
+                  alt="Whole Life"
+                  className="h-[48px] w-[48px] object-contain"
+                />
 
                 {/* Whole Life name + tagline */}
                 <div className="leading-none">
@@ -159,6 +165,7 @@ export default function Header() {
 
           {/* Desktop navigation */}
           <div className="hidden lg:flex items-center gap-0.5 ml-auto mr-6">
+
             {/* Services dropdown */}
             <div
               className="relative"
@@ -296,6 +303,7 @@ export default function Header() {
               className="lg:hidden overflow-hidden border-t border-gray-100/60"
             >
               <div className="px-4 py-4 space-y-1 bg-white/95 backdrop-blur-md">
+
                 {/* Mobile Services */}
                 <div>
                   <button
@@ -418,6 +426,7 @@ export default function Header() {
                     Free Consultation
                   </Link>
                 </div>
+
               </div>
             </motion.div>
           )}
