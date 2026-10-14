@@ -7,6 +7,9 @@ import { useRef } from "react";
 import {
   Shield, CheckCircle, ArrowRight,
   BookOpen, Search, Scale, BarChart3, Monitor, FileText, Handshake, TrendingUp, Users,
+  Workflow,
+  Target,
+  ClipboardList
 } from "lucide-react";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -169,6 +172,29 @@ const ABHIMANYU = {
     "10+ years of experience in IT recruitment, US staffing, executive search, and talent acquisition.",
     "Experienced in end-to-end recruitment including sourcing, screening, interviews, negotiation, and onboarding.",
     "Experienced in managing recruitment teams, client requirements, and high-volume hiring pipelines.",
+  ],
+};
+
+const SARIF = {
+  name: "Sarif Malik",
+  photo: "/images/sarif.png",
+  role: "Senior Manager",
+  cert: "IT",
+  certFull: "Senior Manager & Project Management",
+  certColor: "#2563EB",
+  certBg: "#EFF6FF",
+  affiliation: "CPA-DMV Team",
+  specialties: [
+    { icon: ClipboardList, text: "Strategic IT Planning & Project Delivery" },
+    { icon: Users, text: "Cross-Functional Team Leadership" },
+    { icon: Workflow, text: "Operational Excellence & Process Optimization" },
+    { icon: Target, text: "Stakeholder & Client Management" },
+  ],
+  highlights: [
+    "Oversees IT project planning, execution, and delivery to align technical initiatives with organizational priorities and business objectives.",
+    "Coordinates cross-functional teams, stakeholders, and clients to strengthen collaboration, accountability, and project delivery.",
+    "Supports resource planning, risk assessment, project tracking, and process optimization to improve operational efficiency and service quality.",
+    "Promotes continuous improvement through performance monitoring, clear reporting, and proactive issue resolution to ensure consistent project outcomes.",
   ],
 };
 
@@ -520,11 +546,12 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
   <FounderCard person={PRAVEEN} index={0} />
 <FounderCard person={SACHIT} index={1} />
-<FounderCard person={HIMANSHU} index={2} />
-<FounderCard person={VARDAN} index={3} />
-<FounderCard person={TUSHITA} index={4} />
-<FounderCard person={SAHIL} index={5} />
-<FounderCard person={ABHIMANYU} index={6} />
+<FounderCard person={SARIF} index={2} />
+<FounderCard person={HIMANSHU} index={3} />
+<FounderCard person={VARDAN} index={4} />
+<FounderCard person={TUSHITA} index={5} />
+<FounderCard person={SAHIL} index={6} />
+<FounderCard person={ABHIMANYU} index={7} />
 </div>
         </div>
 </section>

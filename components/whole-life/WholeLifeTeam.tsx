@@ -9,6 +9,7 @@ import {
   MonitorCog,
   Scale,
   Stethoscope,
+  Target,
   TrendingUp,
   UserRound,
 } from "lucide-react";
@@ -43,6 +44,16 @@ const team = [
     photo: "/images/sachit.png",
     accent: "#687b98",
     tint: "#e9edf3",
+  },
+   {
+    name: "Sarif Malik",
+    role: "Senior Manager",
+    credential: "PROJECT MANAGEMENT",
+    group: "Senior Management",
+    icon: Target,
+    photo: "/images/sarif.png",
+    accent: "#5B6FA6",
+    tint: "#EEF1F8",
   },
   {
     name: "Himanshu Kalra",
