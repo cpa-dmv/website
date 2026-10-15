@@ -13,16 +13,34 @@ const roboto = Roboto({
   weight: ["400", "500", "700"],
 });
 
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://cpa-dmv.com"),
+
   title: {
-    default: "CPA-DMV | Certified Public Accountant — Fairfax, VA",
+    default: "CPA-DMV | Tax, Accounting & Bookkeeping Services",
     template: "%s | CPA-DMV",
   },
+
   description:
-    "CPA-DMV offers expert accounting, tax, bookkeeping, payroll, CDFA divorce financial analysis, and audit services in Fairfax, VA and the DMV area.",
-  openGraph: { type: "website", locale: "en_US", siteName: "CPA-DMV" },
-  metadataBase: new URL("https://cpa-dmv.com"),
+    "CPA-DMV provides tax preparation, accounting, bookkeeping, payroll, audit, and business advisory services in Fairfax, Virginia, and the DC, Maryland, and Virginia (DMV) area.",
+
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "CPA-DMV",
+    title: "CPA-DMV | Tax, Accounting & Bookkeeping Services",
+    description:
+      "Professional tax, accounting, bookkeeping, payroll, and business advisory services in Fairfax, Virginia, and the DMV area.",
+    url: "https://cpa-dmv.com/",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
+
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
