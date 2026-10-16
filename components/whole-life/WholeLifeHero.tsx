@@ -18,7 +18,7 @@ const SLIDE_DURATION_MS = 3500; // 3.5 seconds
 
 const slides = [
   {
-    image: "/images/whole-life/hero-1.jpg",
+    image: "/images/whole-life/hero-1.jpg?v=20261016",
     stageLabel: "The Reality",
     icon: CloudRain,
     eyebrow: "Relationship challenges are more common than you think",
@@ -29,7 +29,7 @@ const slides = [
       "Source: National Center for Family & Marriage Research analysis of U.S. Census Bureau data (2024-2026). This is a count, not the percentage of marriages that end in divorce.",
   },
   {
-    image: "/images/whole-life/hero-2.jpg",
+    image: "/images/whole-life/hero-2.jpg?v=20261016",
     stageLabel: "The Challenge",
     icon: MessageCircle,
     eyebrow: "When communication starts to break down",
@@ -38,7 +38,7 @@ const slides = [
       "Repeated arguments, feeling unheard, unresolved hurt, and uncertainty about trust can leave couples feeling far apart. Naming the challenge is not about assigning blame—it is a first step toward understanding what is happening.",
   },
   {
-    image: "/images/whole-life/hero-3.jpg",
+    image: "/images/whole-life/hero-3.jpg?v=20261016",
     stageLabel: "Support",
     icon: Compass,
     eyebrow: "You do not have to navigate it alone",
@@ -47,7 +47,7 @@ const slides = [
       "WholeLife marital counselling offers couples a supportive place to explore concerns, hear each other more clearly, and consider constructive ways forward. Every relationship is different, and outcomes cannot be guaranteed—but support can help you approach the next step with care.",
   },
   {
-    image: "/images/whole-life/hero-4.jpg",
+    image: "/images/whole-life/hero-4.jpg?v=20261016",
     stageLabel: "Communication",
     icon: HeartHandshake,
     eyebrow: "Make room for honest conversations",
@@ -56,7 +56,7 @@ const slides = [
       "Work toward expressing needs more clearly, listening with greater care, and approaching difficult conversations with mutual respect. Meaningful change often begins when both people have room to be heard.",
   },
   {
-    image: "/images/whole-life/hero-5.jpg",
+    image: "/images/whole-life/hero-5.jpg?v=20261016",
     stageLabel: "Rebuild Trust",
     icon: ShieldCheck,
     eyebrow: "Progress takes time—and support",
@@ -65,7 +65,7 @@ const slides = [
       "Trust can take time, honesty, and consistent effort to rebuild. Guided conversations may help couples understand concerns, discuss boundaries, and decide what a healthier path forward could look like.",
   },
   {
-    image: "/images/whole-life/hero-6.jpg",
+    image: "/images/whole-life/hero-6.jpg?v=20261016",
     stageLabel: "Take a Step",
     icon: Users,
     eyebrow: "A conversation can be a beginning",

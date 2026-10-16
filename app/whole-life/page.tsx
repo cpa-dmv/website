@@ -12,6 +12,7 @@ import WholeLifeTeam from "@/components/whole-life/WholeLifeTeam";
 import NewsletterFeature from "@/components/newsletter/NewsletterFeature";
 import ResearchpaperFeature from "@/components/researchpaper/ResearchpaperFeature";
 import WholeLifeTestimonials from "@/components/whole-life/WholeLifeTestimonials";
+import WholeLifeCounsellor from "@/components/whole-life/WholeLifeCounsellor";
 
 export const metadata: Metadata = {
   title: "Whole Life Counseling | Guidance for Every Life Stage",
@@ -24,6 +25,7 @@ export default function WholeLifePage() {
     <>
       <WholeLifeHero />
       <WholeLifeTestimonials />
+      <WholeLifeCounsellor />
       <WholeLifeCrossroads />
       <WholeLifeMarriageValue />
       <WholeLifePartnership />
