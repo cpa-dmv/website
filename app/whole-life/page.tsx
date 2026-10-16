@@ -26,12 +26,12 @@ export default function WholeLifePage() {
       <WholeLifeHero />
       <WholeLifeTestimonials />
       <WholeLifeCounsellor />
+      <WholeLifeTeam />
       <WholeLifeCrossroads />
       <WholeLifeMarriageValue />
       <WholeLifePartnership />
       <WholeLifeBridePartnership />
       <WholeLifeChallenges />
-      <WholeLifeTeam />
       <WholeLifeChildrenFuture />
       <WholeLifeLongevity />
       <NewsletterFeature theme="whole-life" />
