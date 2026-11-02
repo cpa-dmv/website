@@ -18,20 +18,20 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://cpa-dmv.com"),
 
   title: {
-    default: "CPA-DMV | Tax, Accounting & Bookkeeping Services",
+    default: "CPA-DMV | Accounting, Tax & Whole Life Services",
     template: "%s | CPA-DMV",
   },
-
   description:
-    "CPA-DMV provides tax preparation, accounting, bookkeeping, payroll, audit, and business advisory services in Fairfax, Virginia, and the DC, Maryland, and Virginia (DMV) area.",
+    "Accounting, tax, bookkeeping, payroll, business advisory, counselling, conflict resolution and mediation services for clients across the United States.",
+
 
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: "CPA-DMV",
-    title: "CPA-DMV | Tax, Accounting & Bookkeeping Services",
+    title: "CPA-DMV | Accounting, Tax & Whole Life Services",
     description:
-      "Professional tax, accounting, bookkeeping, payroll, and business advisory services in Fairfax, Virginia, and the DMV area.",
+      "Accounting, tax, bookkeeping, payroll, business advisory, counselling, conflict resolution and mediation services for clients across the United States.",
     url: "https://cpa-dmv.com/",
   },
 

@@ -198,6 +198,30 @@ const SARIF = {
   ],
 };
 
+const SAHIL_SAGAR = {
+  name: "Sahil Sagar",
+  photo: "/images/sahil-sagar.png",
+  role: "Civil Engineer",
+  cert: "CAD",
+  certFull: "Civil Engineer (AutoCAD)",
+  certColor: "#D97706",
+  certBg: "#FFF8EC",
+  affiliation: "CPA-DMV Team",
+  specialties: [
+    { icon: Monitor, text: "AutoCAD Drafting & Design" },
+    { icon: Target, text: "Civil Design & Site Planning" },
+    { icon: FileText, text: "Construction Drawings (2D/3D)" },
+    { icon: ClipboardList, text: "Project Documentation & Estimation" },
+  ],
+  highlights: [
+    "Civil engineering professional specializing in AutoCAD-based drafting and design.",
+    "Prepares detailed civil drawings, layouts, and construction plans.",
+    "Supports project planning, technical documentation, and quantity estimation.",
+    "Coordinates with project teams to maintain drawing accuracy and project standards.",
+  ],
+};
+
+
 
 const TRUST_VALUES = [
   { icon: "🎯", label: "Accurate & Reliable",      desc: "We focus on quality, accuracy, and detail." },
@@ -552,6 +576,7 @@ export default function AboutPage() {
 <FounderCard person={TUSHITA} index={5} />
 <FounderCard person={SAHIL} index={6} />
 <FounderCard person={ABHIMANYU} index={7} />
+<FounderCard person={SAHIL_SAGAR} index={8} />
 </div>
         </div>
 </section>

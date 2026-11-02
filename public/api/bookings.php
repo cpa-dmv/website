@@ -867,28 +867,38 @@ if (
     );
 
 
-    /*
-     * Email admin.
-     */
+    
+/*
+ * Email all administrators.
+ */
 
-    $adminHeaders =
-        "From: CPA-DMV Website <no-reply@cpa-dmv.com>\r\n" .
-        "Reply-To: {$email}\r\n" .
-        "Content-Type: text/plain; charset=UTF-8";
+$adminRecipients = [
+    'support@cpa-dmv.com',
+    'sachit@cpa-dmv.com',
+    'pravsingh710@gmail.com'
+];
 
+$adminHeaders =
+    "From: CPA-DMV Website <no-reply@cpa-dmv.com>\r\n" .
+    "Reply-To: {$email}\r\n" .
+    "Content-Type: text/plain; charset=UTF-8";
 
+$adminMessage =
+    "A new consultation has been booked.\n\n" .
+    "Name: {$name}\n" .
+    "Email: {$email}\n" .
+    "Appointment: {$when}\n\n" .
+    "Calendar: {$calendarStatus}\n";
+
+foreach ($adminRecipients as $recipient) {
     mail(
-        'support@cpa-dmv.com',
-
+        $recipient,
         'New 15-minute consultation booking',
-
-        "Name: {$name}\n" .
-        "Email: {$email}\n" .
-        "Appointment: {$when}\n\n" .
-        "Calendar: {$calendarStatus}\n",
-
+        $adminMessage,
         $adminHeaders
     );
+}
+
 
 
     /*

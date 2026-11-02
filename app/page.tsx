@@ -12,9 +12,12 @@ import BookingSection from "@/components/home/BookingSection";
 import NewsletterFeature from "@/components/newsletter/NewsletterFeature";
 
 export const metadata: Metadata = {
-  title: "CPA-DMV | Certified Public Accountant — Fairfax, VA",
-  description:
-    "Expert accounting, tax, CDFA divorce financial analysis, audits, bookkeeping, and payroll services in Fairfax, VA. CPA and CDFA certified. Free consultation.",
+title: "CPA-DMV | Accounting, Tax & Whole Life Services",
+description:
+  "Accounting, tax, bookkeeping, payroll, business advisory, counselling, conflict resolution and mediation services for clients across the United States.",
+alternates: {
+  canonical: "/",
+},
 };
 
 export default function HomePage() {

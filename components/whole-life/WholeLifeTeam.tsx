@@ -36,7 +36,7 @@ const team = [
     credential: "Mediation",
     group: "Conflict resolution",
     icon: Scale,
-    photo: "/images/dipika-ji.png",
+    photo: "/images/dipika.png",
     accent: "#b67278",
     tint: "#f6e8eb",
     points: [
@@ -66,7 +66,7 @@ const team = [
     credential: "CPA",
     group: "Financial strategy",
     icon: BriefcaseBusiness,
-    photo: "/images/himanshu-kalra.png",
+    photo: "/images/himanshu.png",
     accent: "#b3874d",
     tint: "#f5eee3",
     points: [
@@ -81,7 +81,7 @@ const team = [
     credential: "PhD",
     group: "Life guidance",
     icon: Stethoscope,
-    photo: "/images/tushita-bhandari.jpg",
+    photo: "/images/tushita.png",
     accent: "#66897f",
     tint: "#e7f0ed",
     points: [
@@ -111,7 +111,7 @@ const team = [
     credential: "Technology",
     group: "Client support",
     icon: MonitorCog,
-    photo: "/images/sahil-singh.png",
+    photo: "/images/sahil.png",
     accent: "#56889a",
     tint: "#e7f0f3",
     points: [

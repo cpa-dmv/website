@@ -3,9 +3,12 @@ import { getServiceBySlug } from "@/lib/services";
 import ServicePageTemplate from "@/components/service-page/ServicePageTemplate";
 
 export const metadata: Metadata = {
-  title: "Bookkeeping Services in Fairfax, VA",
-  description:
-    "Reliable bookkeeping services for small businesses in Fairfax, Northern Virginia, and the DMV. Get organized financial records, monthly reconciliations, and QuickBooks support from CPA-DMV.",
+  title: "Bookkeeping Services for US Businesses | CPA-DMV",
+description:
+  "Reliable bookkeeping services for small businesses across the United States, including organized financial records, monthly reconciliations and QuickBooks support.",
+alternates: {
+  canonical: "/bookkeeping/",
+},
 };
 
 export default function BookkeepingPage() {
