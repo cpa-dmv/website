@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { getServiceBySlug } from "@/lib/services";
 import ServicePageTemplate from "@/components/service-page/ServicePageTemplate";
 
-export const metadata: Metadata = {
-  title: "Accounting Services in Fairfax, VA",
+export const metadata: Metadata = pageMetadata({
+  path: "/accounting/",
+  title: "Small Business Accounting Services in Fairfax, VA",
   description:
-    "GAAP-compliant financial accounting and reporting for businesses, nonprofits, and credit unions. Monthly close, audited statements, and board-ready reports.",
-};
+    "Accounting for businesses, non-profits and credit unions in Fairfax, VA: GAAP-compliant financial statements, monthly close and board-ready reports.",
+});
 
 export default function AccountingPage() {
   const service = getServiceBySlug("accounting")!;

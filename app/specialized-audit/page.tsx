@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { getServiceBySlug } from "@/lib/services";
 import ServicePageTemplate from "@/components/service-page/ServicePageTemplate";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 
-export const metadata: Metadata = {
-  title: "Audits & Attestations | CPA-DMV — Fairfax, VA",
+export const metadata: Metadata = pageMetadata({
+  path: "/specialized-audit/",
+  title: "CPA Audit & Attestation Services in VA",
   description:
-    "Specialized audit and attestation services for credit unions (NCUA), non-profits, ALFs, and educational institutions. AICPA affiliated CPA in Fairfax, VA.",
-};
+    "CPA audit and attestation for credit unions (NCUA), non-profits, ALFs and schools in Fairfax, VA: supervisory committee and single audits.",
+});
 
 const tiers = [
   { name: "Hourly", price: "Contact for pricing", desc: "Flexible hourly engagement for smaller or exploratory engagements.", tag: "" },

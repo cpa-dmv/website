@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import ContactForm from "@/components/shared/ContactForm";
 import BookingScheduler from "@/components/contact/BookingScheduler";
 import ContactHero from "@/components/contact/ContactHero";
 import { Mail, MapPin, ExternalLink } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Contact | CPA-DMV — Schedule a Free Consultation",
+export const metadata: Metadata = pageMetadata({
+  path: "/contact/",
+  title: "Contact Us – Free CPA Consultation, Fairfax VA",
   description:
-    "Schedule a free consultation with CPA-DMV in Fairfax, VA. Book online or send a message. No phone — email us at support@cpa-dmv.com.",
-};
+    "Schedule a free consultation with CPA-DMV in Fairfax, VA. Book online or email support@cpa-dmv.com for tax, accounting, bookkeeping and CDFA help.",
+});
 
 export default function ContactPage() {
   return (

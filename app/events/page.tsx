@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { events } from "@/lib/events";
 import EventCard from "@/components/shared/EventCard";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Events | CPA-DMV — Teachings, CPE, Exam Prep",
+export const metadata: Metadata = pageMetadata({
+  path: "/events/",
+  title: "Accounting Events, CPE & CPA Exam Prep",
   description:
-    "Upcoming free accounting events, CPE sessions, and CPA exam prep from CPA-DMV in Fairfax, VA. Register for free.",
-};
+    "Free accounting events, CPE sessions and CPA exam prep (FAR, AUD, REG, BAR) from CPA-DMV in Fairfax, VA. Register for free.",
+});
 
 export default function EventsPage() {
   return (

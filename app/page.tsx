@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import LocalBusinessSchema from "@/components/seo/LocalBusinessSchema";
+import { pageMetadata } from "@/lib/seo";
 import HeroSection from "@/components/home/HeroSection";
 import SpotlightSection from "@/components/home/SpotlightSection";
 import ServicesGrid from "@/components/home/ServicesGrid";
@@ -11,18 +13,18 @@ import TeachingsTeaser from "@/components/home/TeachingsTeaser";
 import BookingSection from "@/components/home/BookingSection";
 import NewsletterFeature from "@/components/newsletter/NewsletterFeature";
 
-export const metadata: Metadata = {
-title: "CPA-DMV | Accounting, Tax & Whole Life Services",
-description:
-  "Accounting, tax, bookkeeping, payroll, business advisory, counselling, conflict resolution and mediation services for clients across the United States.",
-alternates: {
-  canonical: "/",
-},
-};
+export const metadata: Metadata = pageMetadata({
+  path: "/",
+  title: "CPA-DMV | CPA Firm in Fairfax, VA – Tax & Accounting",
+  description:
+    "CPA firm in Fairfax, VA serving Northern Virginia, Maryland and DC: tax, accounting, bookkeeping, payroll, audits and divorce financial analysis.",
+  absoluteTitle: true,
+});
 
 export default function HomePage() {
   return (
     <>
+      <LocalBusinessSchema />
       <HeroSection />
       <SpotlightSection />
       <div style={{ width: "min(1080px, calc(100vw - 32px))", height: "1px", margin: "0 auto", background: "rgba(8, 43, 92, 0.08)" }} />

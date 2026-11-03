@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { getServiceBySlug } from "@/lib/services";
 import ServicePageTemplate from "@/components/service-page/ServicePageTemplate";
 import TaxAccordion from "@/components/service-page/TaxAccordion";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/taxation/",
   title: "Tax Preparation Services in Fairfax, VA",
   description:
-    "Individual and business tax preparation and advisory in Fairfax, Virginia. Federal, state, and local tax expertise with a focus on accurate filing and compliance.",
-};
+    "Individual and business tax preparation, tax planning and IRS support in Fairfax, VA. Federal, state and local returns for S-Corps, LLCs and individuals.",
+});
 
 export default function TaxationPage() {
   const service = getServiceBySlug("taxation")!;

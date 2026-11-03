@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { FileText, Mail, ArrowRight } from "lucide-react";
 
+import type { Metadata } from "next";
+import { privateMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = privateMetadata();
 export default function AdminPage() {
   return (
     <main className="min-h-screen px-4 pb-20 pt-12 sm:px-6">

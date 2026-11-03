@@ -24,7 +24,7 @@ const slides = [
     eyebrow: "Relationship challenges are more common than you think",
     headingLines: ["Nearly 1.87 million", "Americans divorced in 2024-2026."],
     description:
-      "Relationship struggles can affect more than two people—they can shape family life, emotional wellbeing, and the future couples imagined together. Behind every statistic is a personal story, and every situation deserves to be understood.",
+      "Relationship struggles can affect more than two people—they can shape family life, emotional wellbeing, and the future couples imagined together. Whether you are exploring relationship counseling, marriage counseling, or marriage support services, every situation deserves to be understood with care.",
     sourceNote:
       "Source: National Center for Family & Marriage Research analysis of U.S. Census Bureau data (2024-2026). This is a count, not the percentage of marriages that end in divorce.",
   },
@@ -35,7 +35,7 @@ const slides = [
     eyebrow: "When communication starts to break down",
     headingLines: ["Distance can grow", "one conversation at a time."],
     description:
-      "Repeated arguments, feeling unheard, unresolved hurt, and uncertainty about trust can leave couples feeling far apart. Naming the challenge is not about assigning blame—it is a first step toward understanding what is happening.",
+      "Repeated arguments, feeling unheard, unresolved hurt, and uncertainty about trust can leave couples feeling far apart. Couples communication counseling and relationship conflict resolution can provide a space to discuss difficult issues, understand different perspectives, and explore constructive ways forward.",
   },
   {
     image: "/images/whole-life/hero-3.jpg?v=20261016",
@@ -44,7 +44,7 @@ const slides = [
     eyebrow: "You do not have to navigate it alone",
     headingLines: ["A safe space", "to talk things through."],
     description:
-      "WholeLife marital counselling offers couples a supportive place to explore concerns, hear each other more clearly, and consider constructive ways forward. Every relationship is different, and outcomes cannot be guaranteed—but support can help you approach the next step with care.",
+      "WholeLife offers marriage counseling and couples counseling support for partners who want to understand their relationship and work through challenges. Online marriage counseling and online couples therapy options can also make relationship support more accessible to couples across the United States.",
   },
   {
     image: "/images/whole-life/hero-4.jpg?v=20261016",
@@ -53,7 +53,7 @@ const slides = [
     eyebrow: "Make room for honest conversations",
     headingLines: ["Listen better.", "Understand more."],
     description:
-      "Work toward expressing needs more clearly, listening with greater care, and approaching difficult conversations with mutual respect. Meaningful change often begins when both people have room to be heard.",
+      "Build healthier communication by expressing needs more clearly, listening with greater care, and approaching difficult conversations with mutual respect. Couples communication counseling and relationship counseling can help partners explore communication patterns and work toward better understanding.",
   },
   {
     image: "/images/whole-life/hero-5.jpg?v=20261016",
@@ -62,7 +62,7 @@ const slides = [
     eyebrow: "Progress takes time—and support",
     headingLines: ["Rebuild trust", "at your own pace."],
     description:
-      "Trust can take time, honesty, and consistent effort to rebuild. Guided conversations may help couples understand concerns, discuss boundaries, and decide what a healthier path forward could look like.",
+      "Trust can take time, honesty, and consistent effort to rebuild. Marriage support services and relationship conflict resolution provide opportunities for couples to discuss concerns, understand boundaries, and consider a healthier path forward. Support may also be helpful for couples exploring premarital counseling before marriage.",
   },
   {
     image: "/images/whole-life/hero-6.jpg?v=20261016",
@@ -71,7 +71,7 @@ const slides = [
     eyebrow: "A conversation can be a beginning",
     headingLines: ["Take the first step", "toward a way forward."],
     description:
-      "Start with a conversation about what you are facing and what kind of support may fit your relationship and family. There is no one-size-fits-all answer—just a chance to explore the next step with care.",
+      "Start with a conversation about what you are facing and what kind of support may fit your relationship and family. Whether you are looking for marriage counseling, couples counseling, premarital counseling, or online relationship support, WholeLife welcomes individuals and couples seeking guidance across the United States.",
   },
 ];
 
@@ -253,7 +253,6 @@ export default function WholeLifeHero() {
               className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-center"
             >
               
-
               {/*
                 NOTE: "Free 30-Minute Session" is the wording requested.
                 Confirm the free-session offer and its terms before publishing.

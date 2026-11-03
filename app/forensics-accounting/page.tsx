@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { getServiceBySlug } from "@/lib/services";
 import ServicePageTemplate from "@/components/service-page/ServicePageTemplate";
 
-export const metadata: Metadata = {
-  title: "Forensics Accounting + Court Witness | CPA-DMV",
+export const metadata: Metadata = pageMetadata({
+  path: "/forensics-accounting/",
+  title: "Forensic Accounting & Expert Witness Services",
   description:
-    "Forensic accounting investigation and expert court witness testimony services in Fairfax, VA. Financial fraud investigation, litigation support, $180/hr.",
-};
+    "Forensic accounting, financial fraud investigation, litigation support and expert financial witness services in Fairfax, VA and the DMV area. $180/hr.",
+});
 
 export default function ForensicsPage() {
   const service = getServiceBySlug("forensics-accounting")!;

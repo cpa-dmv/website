@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { getServiceBySlug } from "@/lib/services";
 import ServicePageTemplate from "@/components/service-page/ServicePageTemplate";
 
-export const metadata: Metadata = {
-  title: "HR Support & Advisory | CPA-DMV — Fairfax, VA",
-  description: "Practical HR advisory for small businesses. $20/hr. Employee handbooks, onboarding, compliance guidance.",
-};
+export const metadata: Metadata = pageMetadata({
+  path: "/hr-advisory/",
+  title: "HR Consulting for Small Businesses",
+  description:
+    "Practical HR advisory for small businesses in Fairfax, VA: employee handbooks, onboarding, compliance guidance and HR policy support. From $20/hr.",
+});
 
 export default function HRPage() {
   const service = getServiceBySlug("hr-advisory")!;
