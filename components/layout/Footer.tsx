@@ -102,6 +102,24 @@ export default function Footer() {
                 ? "Thoughtful guidance for every stage of life — from education and career to finances, marriage, family, and long-term stability."
                 : "Professional accounting, tax, audit, advisory, and financial analysis support for businesses and individuals."}
             </p>
+            {isWholeLife && (
+  <div className="mt-6 max-w-[260px]">
+    <p className="text-[#E77A78] text-[10px] font-bold uppercase tracking-widest mb-3">
+      Free Relationship Resource
+    </p>
+
+    <Link
+      href="/whole-life/free-relationship-guide/"
+      className="inline-flex items-center justify-center rounded-full bg-[#E77A78] hover:bg-[#d96868] text-white font-bold text-sm px-5 py-3 transition-all shadow-lg"
+    >
+      Get Your FREE Relationship Guide →
+    </Link>
+
+    <p className="text-white/45 text-xs mt-3 leading-relaxed">
+      Take the first step towards a stronger relationship.
+    </p>
+  </div>
+)}
           </div>
 
           {/* Col 2 — Business Support */}
